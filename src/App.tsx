@@ -14,14 +14,14 @@ const mapDispatchToProps = (dispatch : any) => {
 	return {
 		simpleAction: () => dispatch(simpleAction())
 	}
-}
+};
 
 /* 
  * mapStateToProps
 */
 const mapStateToProps = (state :any) => ({
 	...state
-})
+});
 
 /**
  * @class App
