@@ -6,7 +6,7 @@ import logo from './logo.svg';
 import './App.scss';
 
 import { simpleAction } from './actions/simpleAction'
-
+import GoogleMap from "./components/googleMap";
 /* 
  * mapDispatchToProps
 */
@@ -27,13 +27,14 @@ const mapStateToProps = (state :any) => ({
  * @class App
  * @extends {Component}
  */
-class App extends Component<{}, { simpleAction: any }> {
+class App extends Component<any, any> {
+
 	/**
 	 * @memberof App
 	 * @summary handles button click 
 	 */
 	simpleAction(event : any) {
-		//this.props.simpleAction();
+        //this.props.simpleAction();
 	}
 
 	render() {
@@ -45,8 +46,8 @@ class App extends Component<{}, { simpleAction: any }> {
 					<h6 className="App-intro">
 						by the best team ever
 					</h6>
-				</header>
-				{/*
+                </header>
+                {/*
 				<pre>
 					{
 						JSON.stringify(this.props)
@@ -54,6 +55,8 @@ class App extends Component<{}, { simpleAction: any }> {
 				</pre>
 				<button onClick={this.simpleAction}>Test redux action</button>
 				*/}
+
+                <GoogleMap/>
 				
 			</div>
 		);

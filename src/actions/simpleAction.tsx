@@ -1,4 +1,3 @@
-//import { Dispatch } from 'redux';
 
 export const simpleAction = () => (dispatch: any) => {
 	dispatch({
