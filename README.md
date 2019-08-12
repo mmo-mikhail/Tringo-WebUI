@@ -3,13 +3,10 @@ Tringo - Front-End Web Application
 
 
 
-#### Build and tag the Docker image:
-```
-docker build -t tringo:local .
-```
+#### Build and run docker image locally
 
-#### Spin docker file locally
+in terminal (on mac) or GitBash or WSL on Windows execute pipeline.sh from /internals
 
 ```
-docker run -p 3535:3535 --rm tringo:local
+./pipeline.sh
 ```
