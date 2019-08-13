@@ -18,6 +18,7 @@ RUN npm run build
 # production environment
 FROM nginx:1.17.2-alpine
 RUN echo Healthy > /usr/share/nginx/html/status.html
+ENV TZ=Australia/Melbourne
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80

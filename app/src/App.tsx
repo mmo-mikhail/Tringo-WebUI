@@ -42,7 +42,7 @@ class App extends Component<any, any> {
 			<div className="App">
 				<header className="App-header">
 					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
+					<h1 className="App-title">Welcome to Tringo</h1>
 					<h6 className="App-intro">
 						by the best team ever
 					</h6>
