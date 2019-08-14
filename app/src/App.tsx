@@ -44,7 +44,7 @@ class App extends Component<any, any> {
 					<img src={logo} className="App-logo" alt="logo" />
 					<h1 className="App-title">Welcome to Tringo</h1>
 					<h6 className="App-intro">
-						staging end-to-end
+						staging end-to-end on both dev and prod
 					</h6>
                 </header>
                 {/*
