@@ -22,7 +22,7 @@ docker build  -t "${PROJECTNAME}_src":$IMAGETAG .
 check_error_exit
 
 echo "*****************   running tests"
-docker run --rm "${PROJECTNAME}_src":$IMAGETAG npm run test
+docker run --rm "${PROJECTNAME}_src":$IMAGETAG npm run test:ci
 check_error_exit
 
 #delete intermediate image
