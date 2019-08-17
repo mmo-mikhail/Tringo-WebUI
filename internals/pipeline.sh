@@ -16,23 +16,23 @@ function check_error_exit
 PROJECTNAME="tringo-web"
 IMAGETAG="local"
 
-echo "building source image"
+echo "*****************   building source image"
 cd $WORKSPACE/app
 docker build  -t "${PROJECTNAME}_src":$IMAGETAG .
 check_error_exit
 
-# echo "running tests"
-# docker run --rm "${PROJECTNAME}_src":$IMAGETAG npm run test
-# check_error_exit
+echo "*****************   running tests"
+docker run --rm "${PROJECTNAME}_src":$IMAGETAG npm run test:ci
+check_error_exit
 
 #delete intermediate image
 docker rmi "${PROJECTNAME}_src":$IMAGETAG
 
-echo "building release image"
+echo "*****************   building release image"
 cd $WORKSPACE
 docker build -t "${PROJECTNAME}:${IMAGETAG}"  .
 check_error_exit
 
-echo "spinning docker service"
+echo "*****************   spinning docker service"
 docker run -d --rm -p 3535:80 "${PROJECTNAME}":$IMAGETAG
 check_error_exit

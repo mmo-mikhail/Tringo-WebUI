@@ -4,6 +4,9 @@ FROM node:12.8.0-alpine
 # Create a directory where our app will be placed
 RUN mkdir -p /app
 
+# Set Timezone
+ENV TZ=Australia/Melbourne
+
 # Change directory so that our commands run inside this new directory
 WORKDIR /app
 

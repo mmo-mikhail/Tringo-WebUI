@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/google-maps-react": "^2.0.1",
+    "@types/google-map-react": "^0.23.12",
     "@types/jest": "24.0.17",
     "@types/node": "12.7.0",
     "@types/react": "16.8.24",
     "@types/react-dom": "16.8.5",
     "@types/react-redux": "^7.1.1",
-    "google-maps-react": "^2.0.2",
+    "google-map-react": "^1.1.4",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -22,8 +22,18 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
+    "test:ci": "CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage ",
     "eject": "react-scripts eject"
+  },
+  "jest-junit": {
+    "reporters":["jest-junit"],
+    "output": "./junit.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "suiteNameTemplate": "{filename|filepath|ancestorTitles}",
+    "usePathForSuiteName": "true"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +53,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "jest-junit": "^7.0.0"
   }
 }
