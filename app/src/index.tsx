@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 // Required for Redux store setup
 import { Provider } from 'react-redux';
-import configureStore from './store';
+import { configureStore } from './store';
 
 
 ReactDOM.render(
