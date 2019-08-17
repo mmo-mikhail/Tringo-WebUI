@@ -27,7 +27,9 @@
     "eject": "react-scripts eject"
   },
   "jest-junit": {
-    "reporters":["jest-junit"],
+    "reporters": [
+      "jest-junit"
+    ],
     "output": "./junit.xml",
     "classNameTemplate": "{classname}-{title}",
     "titleTemplate": "{classname}-{title}",
