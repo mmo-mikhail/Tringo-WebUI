@@ -1,16 +1,9 @@
-//import { takeEvery, put, call } from "redux-saga/effects";
-import { delay } from "redux-saga/effects";
+import { takeEvery, all } from "redux-saga/effects";
+import { destinationActionType } from "../actions/actionTypes";
+import * as destinationSaga from "./destinationSaga";
 
-//function * getDestinationsAsync(){
-//    try {
-//        const response = yield call(fetch, 'http://localhost:5000/api/v1/flights/GetDestinationPrice');
-//        const responseBody = response.json();
-//        yield put(setDestinations(responseBody.records))
-//    } catch (e) {
-//        yield put(getDestinationsFailed(e));
-//    }
-//};
-
-export function* root() {
-    yield delay(100);
-};
+export function* rootSaga() {
+    yield all([
+        takeEvery(destinationActionType.FETCH_DESTINATION_START, destinationSaga.fetchDestinationsSaga),
+    ]);
+}
