@@ -34,7 +34,6 @@ class SimpleMap extends React.Component<any, any> {
     }
 
     render() {
-        //const { destinations } = this.props;
 
         return (
             <div>
