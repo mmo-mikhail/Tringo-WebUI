@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import GoogleMapReact from 'google-map-react';
-import PriceTagMarker from './priceTagMarker';
+import PriceTagMarker from './marker/priceTagMarker';
 import { IDestination } from './../models/destination';
 import * as destinationActions from './../actions/destinations';
-import Autocomplete from "./Autocomplete";
+import Autocomplete from "./searchWidget/Autocomplete";
 
 class SimpleMap extends React.Component<any, any> {
 
