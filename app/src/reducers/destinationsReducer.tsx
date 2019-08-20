@@ -1,6 +1,9 @@
 import { destinationActionType } from "../actions/actionTypes";
+import { DestinationsState } from "../models/destinations";
 
-const reducer = (state = {}, action: any) => {
+const initialState = new DestinationsState();
+
+const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case destinationActionType.FETCH_DESTINATION_START:
             return fetchDestinationsStart(state, action);
@@ -13,17 +16,17 @@ const reducer = (state = {}, action: any) => {
     }
 };
 
-const fetchDestinationsStart = (state: any, action: any) => {
-    return Object.assign({}, state, { error: null, isLoading: true });;
+const fetchDestinationsStart = (state: DestinationsState, action: any) => {
+	return state.set("error", null).set("isLoading", true);
 };
 
-const fetchDestinationsSuccess = (state: any, action: any) => {
-    let copy = Object.assign({}, state, { destinations: action.destinations, isLoading: false });
-    return copy;
+const fetchDestinationsSuccess = (state: DestinationsState, action: any) => {
+	return state.set("destinations", action.destinations).set("isLoading", false);
+    //return copy;
 };
 
-const fetchDestinationsFail = (state: any, action: any) => {
-    return Object.assign({}, state, { error: action.error, isLoading: false });
+const fetchDestinationsFail = (state: DestinationsState, action: any) => {
+	return state.set("error", action.error).set("isLoading", false);
 };
 
 export default reducer;

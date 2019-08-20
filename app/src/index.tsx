@@ -4,13 +4,18 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import State from 'models/state';
+
 // Required for Redux store setup
 import { Provider } from 'react-redux';
 import { configureStore } from './store';
 
+const initialState = State();
+
+const store = configureStore(initialState);
 
 ReactDOM.render(
-	<Provider store={configureStore()}>
+	<Provider store={store}>
 		<App />
 	</Provider>,
 	document.getElementById('root')
