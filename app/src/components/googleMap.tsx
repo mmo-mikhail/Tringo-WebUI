@@ -4,7 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import PriceTagMarker from './marker/priceTagMarker';
 import { IDestination } from './../models/destination';
 import * as destinationActions from './../actions/destinations';
-import WidgetWrapper from './searchWidget/widgetWrapper';
+import SearchWidgetWrapper from './searchWidget/searchWidgetWrapper';
 
 class SimpleMap extends React.Component<any, any> {
 
@@ -45,7 +45,7 @@ class SimpleMap extends React.Component<any, any> {
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
-                <WidgetWrapper/>
+                <SearchWidgetWrapper/>
             </div>
         );
     }

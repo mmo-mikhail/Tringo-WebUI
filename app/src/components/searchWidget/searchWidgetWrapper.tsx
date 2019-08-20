@@ -2,7 +2,7 @@ import * as React from 'react';
 import Autocomplete from "./Autocomplete";
 
 
-class WidgetWrapper extends React.Component<any, any> {
+class SearchWidgetWrapper extends React.Component<any, any> {
     render() {
         const fetchLocationData = (inputValue: any, callback: any) => {
             // Mock api call
@@ -49,4 +49,4 @@ class WidgetWrapper extends React.Component<any, any> {
     }
 }
 
-export default WidgetWrapper
+export default SearchWidgetWrapper
