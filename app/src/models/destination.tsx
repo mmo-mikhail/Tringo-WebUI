@@ -20,7 +20,7 @@ const defaultValues: IDestinationStore = {
 	error: null,
 };
 
-export default class Destination extends Record(defaultValues) {
+export class Destination extends Record(defaultValues) {
 	constructor(js?: any ) {
 		const additionalFields: IBaseModel = {
 			isLoading: false,
