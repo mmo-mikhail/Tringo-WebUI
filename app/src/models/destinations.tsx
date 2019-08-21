@@ -1,6 +1,6 @@
 import { Record } from "immutable";
 import IBaseModel from "./BaseModelInterface";
-import Destination from "./destination";
+import { Destination } from "./destination";
 import _ from "lodash";
 
 export interface IDestinations {
