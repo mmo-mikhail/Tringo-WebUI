@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import GoogleMapReact from 'google-map-react';
-import PriceTagMarker from './priceTagMarker';
+import PriceTagMarker from './marker/priceTagMarker';
 import { IDestination } from './../models/destination';
 import * as destinationActions from './../actions/destinations';
+import SearchWidgetWrapper from './searchWidget/searchWidgetWrapper';
 
 class SimpleMap extends React.Component<any, any> {
 
@@ -34,8 +35,6 @@ class SimpleMap extends React.Component<any, any> {
     }
 
     render() {
-        //const { destinations } = this.props;
-
         return (
             <div>
                 <GoogleMapReact
@@ -46,6 +45,7 @@ class SimpleMap extends React.Component<any, any> {
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
+                <SearchWidgetWrapper/>
             </div>
         );
     }
