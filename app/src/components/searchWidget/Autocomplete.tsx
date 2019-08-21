@@ -15,7 +15,7 @@ const Control = ({ children, ...props } : any) => {
     return (
         <components.Control {...props}>
             {hasIcon && (
-                <span className={classnames("wj-icon", inputIconClassName)} />
+                <span className={classnames("wj-icon wj-depart", inputIconClassName)} />
             )}
             {children}
         </components.Control>
@@ -83,10 +83,10 @@ Autocomplete.propTypes = {
 
 Autocomplete.defaultProps = {
     className: "",
-    placeholder: "",
+    placeholder: "Sydney International Airport (SYD)",
     minValueLength: 1,
     noOptionsMessage: "",
-    inputIconClassName: ""
+    inputIconClassName: "wj-icon wj-depart"
 };
 
 export default Autocomplete;
