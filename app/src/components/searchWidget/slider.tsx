@@ -5,37 +5,6 @@ import Slider, {Range} from "rc-slider";
 import 'rc-slider/assets/index.css';
 import "./slider.scss"
 
-
-
-
-// const myleftlabelStyles: CSSProperties = {
-//   position: 'absolute',
-//   left:"-15px",
-//   color: "#f5f5f5"
-// }
-
-// const myrightlabelStyles: CSSProperties = {
-//   position: 'absolute',
-//   left:"275px",
-//   color: "#f5f5f5"
-// }
-
-// const mysliderStyles: CSSProperties = {
-//   position: 'relative',
-//   left: "115px",
-//   width: "50%"
-// }
-
-// const myheaderStyles: CSSProperties = {
-//   position: 'absolute',
-//   left: "-95px",
-//   color: "#f5f5f5",
-//   top:"-2px",
-  
-
-// }
-
-
 class RangeSlider extends React.Component<any,any> {
     static defaultProps: { className: string; values: number[]; isRangeSlider: boolean; isBasicSlider: boolean; };
     static propTypes: { 
@@ -81,10 +50,7 @@ class RangeSlider extends React.Component<any,any> {
     });
     
     return (
-      <div    className={sliderClassName}>
-
-      
-        
+      <div    className={sliderClassName}>  
       <div className="budgetlabel">Budget</div>
           
         {isRangeSlider && (
@@ -98,19 +64,14 @@ class RangeSlider extends React.Component<any,any> {
           />
         )}
         {!isRangeSlider && (
-          <Slider
-          
+          <Slider         
             min={min}
             max={max}
             value={values[0]}
             step={step}
             onChange={this.onChange}
           />
-
-        )}
-
-      
-        
+        )} 
         {!isBasicSlider && (
           <div>
             
@@ -118,15 +79,11 @@ class RangeSlider extends React.Component<any,any> {
             <div className="from" >{values[0]}$</div>
             <div className="to" >{values[1]}$</div> 
         </div>
-        )}
-        
-      </div>
+        )}        
+     </div>
     );
   }
 }
-
-
-
 RangeSlider.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,

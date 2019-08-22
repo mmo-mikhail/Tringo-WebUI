@@ -2,10 +2,6 @@ import * as React from 'react';
 import Autocomplete from "./Autocomplete";
 import RangeSlider from "./slider"
 
-
-
-
-
 class SearchWidgetWrapper extends React.Component<any, any,any> {
     constructor(props:any) {
         super(props);
@@ -16,15 +12,8 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
           max: 1000,
           step: 10,
           values: [100, 1000],
-          
-        };
-        
-
-      
+        }; 
       }
-
-     
-     
       onChange(values: any) {
         this.setState({ values: values });
       }
@@ -55,8 +44,6 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
             }, 500);
         };
 
-        
-
         const noOptionsMessage =
             "No cities or airports were found. Please check your spelling.";
         return (
@@ -81,11 +68,6 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
                     className={this.state.className}
                     onChange={this.onChange}
                     />
-
-                    {/* <DatePicker/> */}
-
-                    
-                    
                 </div>
             </div>
         );
