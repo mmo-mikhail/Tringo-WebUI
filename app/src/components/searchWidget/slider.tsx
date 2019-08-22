@@ -1,5 +1,4 @@
 import React, {Requireable } from "react";
-//import { CSSProperties } from "react";
 import classnames from "classnames";
 import PropTypes, {Validator } from "prop-types";
 import Slider, {Range} from "rc-slider";
