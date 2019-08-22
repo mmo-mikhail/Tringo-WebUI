@@ -4,6 +4,7 @@ import classnames from "classnames";
 import { components } from "react-select";
 import { Async as AsyncSelect } from "react-select";
 import './widget.scss';
+import "./slider.scss"
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -83,7 +84,7 @@ Autocomplete.propTypes = {
 
 Autocomplete.defaultProps = {
     className: "",
-    placeholder: "Sydney International Airport (SYD)",
+    placeholder: "",
     minValueLength: 1,
     noOptionsMessage: "",
     inputIconClassName: "wj-icon wj-depart"

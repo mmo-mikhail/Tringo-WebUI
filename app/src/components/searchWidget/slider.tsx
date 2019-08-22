@@ -1,35 +1,40 @@
 import React, {Requireable } from "react";
-import { CSSProperties } from "react";
+//import { CSSProperties } from "react";
 import classnames from "classnames";
 import PropTypes, {Validator } from "prop-types";
 import Slider, {Range} from "rc-slider";
 import 'rc-slider/assets/index.css';
+import "./slider.scss"
 
 
-const myleftlabelStyles: CSSProperties = {
-  position: 'absolute',
-  left:"-15px",
-  color: "#f5f5f5"
-}
 
-const myrightlabelStyles: CSSProperties = {
+
+// const myleftlabelStyles: CSSProperties = {
+//   position: 'absolute',
+//   left:"-15px",
+//   color: "#f5f5f5"
+// }
+
+// const myrightlabelStyles: CSSProperties = {
+//   position: 'absolute',
+//   left:"275px",
+//   color: "#f5f5f5"
+// }
+
+// const mysliderStyles: CSSProperties = {
+//   position: 'relative',
+//   left: "115px",
+//   width: "50%"
+// }
+
+// const myheaderStyles: CSSProperties = {
+//   position: 'absolute',
+//   left: "-95px",
+//   color: "#f5f5f5",
+//   top:"-2px",
   
-  color: "#f5f5f5"
-}
 
-const mysliderStyles: CSSProperties = {
-  position: 'relative',
-  left: "115px",
-}
-
-const myheaderStyles: CSSProperties = {
-  position: 'absolute',
-  left: "-95px",
-  color: "#f5f5f5",
-  top:"-2px",
-  
-
-}
+// }
 
 
 class RangeSlider extends React.Component<any,any> {
@@ -77,9 +82,11 @@ class RangeSlider extends React.Component<any,any> {
     });
     
     return (
-      <div style={mysliderStyles} className={sliderClassName}>
+      <div    className={sliderClassName}>
+
+      
         
-      <div style={myheaderStyles}>Budget</div>
+      {/* <div className="budgetlabel">Budget</div> */}
           
         {isRangeSlider && (
           <Range
@@ -109,8 +116,8 @@ class RangeSlider extends React.Component<any,any> {
           <div>
             
             <br/>
-            <div style={myleftlabelStyles}>{values[0]}$</div>
-            <div style={myrightlabelStyles}>{values[1]}$</div> 
+            <div className="from" >{values[0]}$</div>
+            <div className="to" >{values[1]}$</div> 
         </div>
         )}
         
