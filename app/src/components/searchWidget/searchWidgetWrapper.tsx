@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Autocomplete from "./Autocomplete";
+import Travelseasonfiler from "./Travelseasonfilter";
 
 
 class SearchWidgetWrapper extends React.Component<any, any> {
@@ -43,6 +44,8 @@ class SearchWidgetWrapper extends React.Component<any, any> {
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
                     />
+
+                    <Travelseasonfiler/>
                 </div>
             </div>
         );

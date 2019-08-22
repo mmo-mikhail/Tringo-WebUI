@@ -8,7 +8,7 @@ import './widget.scss';
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
 
-const Control = ({ children, ...props } : any) => {
+const Control = ({ children,...props } : any) => {
     const { inputIconClassName } = props.selectProps;
     const hasIcon = inputIconClassName !== "";
 
@@ -17,7 +17,7 @@ const Control = ({ children, ...props } : any) => {
             {hasIcon && (
                 <span className={classnames("wj-icon", inputIconClassName)} />
             )}
-            {children}
+           {children}         
         </components.Control>
     );
 };
@@ -66,7 +66,7 @@ const Autocomplete = ({
             noOptionsMessage={noOptionsMessageHandler}
             className={classnames("wj-rc-autocomplete", className)}
             classNamePrefix="rc-autocomplete"
-            components={{ Control, Option, LoadingIndicator, Input }}
+            components={{ Control, Option, LoadingIndicator, Input}}
         />
     );
 };
@@ -86,7 +86,7 @@ Autocomplete.defaultProps = {
     placeholder: "",
     minValueLength: 1,
     noOptionsMessage: "",
-    inputIconClassName: ""
+    inputIconClassName: "",
 };
 
 export default Autocomplete;
