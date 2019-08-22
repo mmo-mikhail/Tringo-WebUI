@@ -1,8 +1,22 @@
 import * as React from 'react';
 import Autocomplete from "./Autocomplete";
+import RangeSlider from "./slider"
 
-
-class SearchWidgetWrapper extends React.Component<any, any> {
+class SearchWidgetWrapper extends React.Component<any, any,any> {
+    constructor(props:any) {
+        super(props);
+       
+        this.onChange = this.onChange.bind(this);
+        this.state = {
+          min: 100,
+          max: 1000,
+          step: 10,
+          values: [100, 1000],
+        }; 
+      }
+      onChange(values: any) {
+        this.setState({ values: values });
+      }
     render() {
         const fetchLocationData = (inputValue: any, callback: any) => {
             // Mock api call
@@ -29,6 +43,7 @@ class SearchWidgetWrapper extends React.Component<any, any> {
                 ]);
             }, 500);
         };
+
         const noOptionsMessage =
             "No cities or airports were found. Please check your spelling.";
         return (
@@ -37,11 +52,21 @@ class SearchWidgetWrapper extends React.Component<any, any> {
                     <Autocomplete
                         id="pickup-location"
                         className="pickup-location"
-                        placeholder="Pick up location"
+                        placeholder="Sydney International Airport (SYD)"
                         minValueLength={3}
                         noOptionsMessage={noOptionsMessage}
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
+                    />
+                   
+                    <RangeSlider
+                    
+                    min={this.state.min}
+                    max={this.state.max}
+                    values={this.state.values}
+                    step={this.state.step}
+                    className={this.state.className}
+                    onChange={this.onChange}
                     />
                 </div>
             </div>

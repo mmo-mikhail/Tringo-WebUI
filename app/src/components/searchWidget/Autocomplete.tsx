@@ -4,6 +4,7 @@ import classnames from "classnames";
 import { components } from "react-select";
 import { Async as AsyncSelect } from "react-select";
 import './widget.scss';
+import "./slider.scss"
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -15,7 +16,7 @@ const Control = ({ children, ...props } : any) => {
     return (
         <components.Control {...props}>
             {hasIcon && (
-                <span className={classnames("wj-icon", inputIconClassName)} />
+                <span className={classnames("wj-icon wj-depart", inputIconClassName)} />
             )}
             {children}
         </components.Control>
@@ -86,7 +87,7 @@ Autocomplete.defaultProps = {
     placeholder: "",
     minValueLength: 1,
     noOptionsMessage: "",
-    inputIconClassName: ""
+    inputIconClassName: "wj-icon wj-depart"
 };
 
 export default Autocomplete;
