@@ -86,7 +86,7 @@ class RangeSlider extends React.Component<any,any> {
 
       
         
-      {/* <div className="budgetlabel">Budget</div> */}
+      <div className="budgetlabel">Budget</div>
           
         {isRangeSlider && (
           <Range
