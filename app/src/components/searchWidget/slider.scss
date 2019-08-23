@@ -1,21 +1,27 @@
+@import url("https://services.webjet.com.au/web/ui/uipatternlibrary/Webjet/css/webjet.rc.css");
+@import url("https://devmedia.webjet.com.au/ui/1.4.1/css/webjet.css");
+
 .sliderClassName {
     position: relative;
     left: 115px;
-    width: 50%
+    top: 0px;
+    width: 60%
 }
 .budgetlabel{
     position: absolute;
     left: -95px;
     color: #f5f5f5;
-    top:-2px
+    top:25px
 }
 .from{
     position: absolute;
     left:-15px;
+    top: 70px;
     color: #f5f5f5
 }
 .to{
     position: relative;
-    left:160px;
+    left:180px;
+    top: 0px;
     color: #f5f5f5
 }
