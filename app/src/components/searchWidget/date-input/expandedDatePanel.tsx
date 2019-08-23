@@ -2,6 +2,7 @@ import * as React from 'react';
 import './dateInput.scss';
 import '../../common.scss';
 import Dateunknown from "./dateunknown";
+import DatePicker from "./datepicker"
 
 export enum datePanelTypes {
     SPECIFIC_DATES = "SPECIFIC_DATES",
@@ -11,11 +12,32 @@ export enum datePanelTypes {
 class ExpandedDatePanel extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.state = {
             datePanelType: datePanelTypes.UNKNOWN_DATES // selected by default
         };
+        var today = new Date();
+        this.state = {
+         from: new Date(
+         today.getFullYear(),
+         today.getMonth() + 2,
+            15,
+            11,
+            30,
+            0,
+            0
+         ),
+         to: new Date(today.getFullYear(), today.getMonth() + 2, 20, 16, 30, 0, 0)
+    };
+    this.state = {
+        from: undefined,
+        to: undefined
+      };
     };
 
+    handleDateChange(newDateRange:any) {
+        this.setState({ from: newDateRange.from, to: newDateRange.to });
+      }
     selectPanel(panelType: datePanelTypes) {
         this.setState({
             datePanelType: panelType
@@ -23,6 +45,7 @@ class ExpandedDatePanel extends React.Component<any, any> {
     }
 
     render() {
+        const { from, to } = this.state;
         return (
             <div className='date-panel-expanded' >
                 <div className="top-toogler">
@@ -38,7 +61,8 @@ class ExpandedDatePanel extends React.Component<any, any> {
                 </div>
                 {this.state.datePanelType === datePanelTypes.SPECIFIC_DATES && (
                     <div className="specific-dates-main-area">
-                        specific dates calendar goes here...
+                      <DatePicker from={from} to={to} onDayChanged={this.handleDateChange} />
+                        
                     </div>
                 )}
                 {this.state.datePanelType === datePanelTypes.UNKNOWN_DATES && (
