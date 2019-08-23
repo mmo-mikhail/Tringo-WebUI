@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './dateInput.scss';
 import '../../common.scss';
+import Dateunknown from "./dateunknown";
 
 export enum datePanelTypes {
     SPECIFIC_DATES = "SPECIFIC_DATES",
@@ -42,7 +43,7 @@ class ExpandedDatePanel extends React.Component<any, any> {
                 )}
                 {this.state.datePanelType === datePanelTypes.UNKNOWN_DATES && (
                     <div className="flexible-dates-main-area">
-                        flexible dates selected. do me like on google flights
+                       <Dateunknown/>
                     </div>
                 )}
             </div>

@@ -2,13 +2,13 @@
 .btn-standard
 {
   box-shadow:none;
-  color:#FFFFFF;
+  color:#333333;
   background:inherit;
 }
 
   .hr { 
     display: block;
-    margin-top: 10%;
+    margin-top: 2%;
     margin-bottom: 7%;
     margin-left: auto;
     margin-right: auto;
@@ -19,8 +19,8 @@
 
 .dateContainer {
     position:relative;
-    width: 600px;
-    min-height: 300px;
+    width: 400px;
+    min-height: 240px;
     margin: 15px;
     background-color: #333;
     opacity: 0.85;
