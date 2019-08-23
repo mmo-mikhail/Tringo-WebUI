@@ -26,17 +26,22 @@ class DatePanel extends React.Component<any, any> {
         document.removeEventListener('click', this.bindHandleOutsideClick, false);
     }
 
-    toggleHidden(event:any) {
+    toggleHidden(event: React.MouseEvent<HTMLInputElement>) {
         event.preventDefault();
         this.setState({
             isHidden: !this.state.isHidden
         });
     };
 
-    handleOutsideClick(event: any) {
+    handleOutsideClick(event: React.ChangeEvent<HTMLInputElement>) {
         if (!this.state.isHidden &&
             this.datePanelWrapper && this.datePanelWrapper.current
-            && !this.datePanelWrapper.current.contains(event.target)) {
+            && !this.datePanelWrapper.current.contains(event.target)
+            // prevent closing on month select in date-picker:
+            && event.target.className.indexOf("rc-select") === -1 
+            && event.target.id.indexOf("react-select-") === -1) {
+
+            console.log(event.target);
 
             event.preventDefault();
             event.stopPropagation();
