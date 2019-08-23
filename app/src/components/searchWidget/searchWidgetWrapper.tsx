@@ -8,6 +8,7 @@ import {
     FlightDestinationRequest,
     Budget
 } from './../../models/request/flightDestinationRequest';
+import { DatesInput } from '../../models/request/dateInput';
 
 interface StateChangedProps {
     onChange: (model: FlightDestinationRequest) => void;
@@ -18,8 +19,9 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
     constructor(props: StateChangedProps) {
         super(props);
 
-        this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.state = {
+            datesState: this.props.initialModel.dates,
+
             budgetMin: this.props.initialModel.budget.from,
             budgetMax: this.props.initialModel.budget.to,
             budgetStep: 10,
@@ -28,6 +30,8 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                 this.props.initialModel.budget.to
             ]
         };
+        this.onBudgetChanged = this.onBudgetChanged.bind(this);
+        this.onDatesChanged = this.onDatesChanged.bind(this);
     }
 
     onBudgetChanged(values: number[]) {
@@ -39,6 +43,15 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
         this.setState({ budgetValues: values });
 
         this.props.initialModel.budget = new Budget(values[0], values[1]);
+        this.props.onChange(this.props.initialModel);
+    }
+
+    onDatesChanged(datedModel: DatesInput) {
+        this.setState({
+            datesState: datedModel
+        });
+
+        this.props.initialModel.dates = datedModel;
         this.props.onChange(this.props.initialModel);
     }
 
@@ -93,7 +106,10 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                         onChange={this.onBudgetChanged}
                     />
 
-                    <DatePanel />
+                    <DatePanel
+                        onChange={this.onDatesChanged}
+                        initialModel={this.state.datesState}
+                    />
                 </div>
             </div>
         );
