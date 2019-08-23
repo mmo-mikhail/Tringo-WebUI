@@ -25,7 +25,7 @@
                 "MemberExpression": "off"
             }],
         "curly": ["error", "multi-line"],
-        "max-len": 0,
+        "max-len": ["error", { "code": 120 }],
         "newline-per-chained-call": 0,
         "no-console": 1,
         "no-use-before-define": 0,
@@ -48,6 +48,6 @@
         "react/jsx-indent": [2, 4],
         "react/jsx-indent-props": [2, 4],
         "react/forbid-prop-types": 0,
-        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "never" }]
+        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }]
     }
 }

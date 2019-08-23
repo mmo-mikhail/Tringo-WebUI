@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './App.scss';
+import './tringo.scss';
 
 import SimpleMap from './components/googleMap';
 
@@ -8,7 +8,7 @@ import SimpleMap from './components/googleMap';
  * @class App
  * @extends {Component}
  */
-class App extends React.Component<any, any> {
+class Tringo extends React.Component<any, any> {
     render() {
         return (
             <div className="App">
@@ -21,5 +21,4 @@ class App extends React.Component<any, any> {
     }
 }
 
-// @ts-ignore
-export default App;
+export default Tringo;
