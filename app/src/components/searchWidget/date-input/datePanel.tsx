@@ -1,8 +1,12 @@
 import * as React from 'react';
 import './styles/dateInput.scss';
-import { ExpandedDatePanel, StateChangedProps } from './expandedDatePanel'
-import { DatesInput, UncertainDates, Duration } from '../../../models/request/dateInput';
-import { monthNames } from "./dateunknown";
+import { ExpandedDatePanel, StateChangedProps } from './expandedDatePanel';
+import {
+    DatesInput,
+    Duration,
+    UncertainDates
+} from '../../../models/request/dateInput';
+import { monthNames } from './dateunknown';
 
 interface DatePanelState {
     isHidden: boolean;
@@ -10,10 +14,9 @@ interface DatePanelState {
 }
 
 class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
-
     private datePanelWrapper: React.RefObject<HTMLInputElement> | undefined;
 
-    bindHandleOutsideClick(event: any) { }
+    bindHandleOutsideClick(event: any) {}
 
     constructor(props: StateChangedProps) {
         super(props);
@@ -25,7 +28,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         this.datePanelWrapper = React.createRef();
         this.bindHandleOutsideClick = this.handleOutsideClick.bind(this);
-    };
+    }
 
     onChange(dateModel: DatesInput) {
         this.setState({
@@ -37,38 +40,58 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     render() {
         return (
             <div>
-                <div className='date-panel-wrapper' ref={this.datePanelWrapper}>
-                    <div className='date-panel-collapsed' onClick={this.toggleHidden.bind(this)}>
-                        {this.state.currentModel && this.state.currentModel.uncertainDates && (
-                            <div>{this.getUncertainDatesText(this.state.currentModel.uncertainDates)}</div>
-                        )}
-                        {this.state.currentModel && this.state.currentModel.dateFrom && (
-                            <div>{this.getSpecificDatesText(this.state.currentModel)}</div>
-                        )}
+                <div className="date-panel-wrapper" ref={this.datePanelWrapper}>
+                    <div
+                        className="date-panel-collapsed"
+                        onClick={this.toggleHidden.bind(this)}
+                    >
+                        {this.state.currentModel &&
+                            this.state.currentModel.uncertainDates && (
+                                <div>
+                                    {this.getUncertainDatesText(
+                                        this.state.currentModel.uncertainDates
+                                    )}
+                                </div>
+                            )}
+                        {this.state.currentModel &&
+                            this.state.currentModel.dateFrom && (
+                                <div>
+                                    {this.getSpecificDatesText(
+                                        this.state.currentModel
+                                    )}
+                                </div>
+                            )}
                     </div>
                     {!this.state.isHidden && (
                         <ExpandedDatePanel
                             onChange={this.onChange}
                             initialModel={this.state.currentModel}
-                         />
+                        />
                     )}
                 </div>
             </div>
         );
-    };
+    }
 
     // Helpers:
 
     getUncertainDatesText(uncertainDates: UncertainDates) {
-        let durationText = "";
+        let durationText = '';
         switch (uncertainDates.duration) {
-            case Duration.Weekend: durationText = "Weekend"; break;
-            case Duration.Week: durationText = "Week"; break;
-            case Duration.TwoWeek: durationText = "Two Weeks"; break;
+            case Duration.Weekend:
+                durationText = 'Weekend';
+                break;
+            case Duration.Week:
+                durationText = 'Week';
+                break;
+            case Duration.TwoWeek:
+                durationText = 'Two Weeks';
+                break;
         }
-        const monthName = uncertainDates.monthIdx === -1
-            ? "any month"
-            : monthNames[uncertainDates.monthIdx];
+        const monthName =
+            uncertainDates.monthIdx === -1
+                ? 'any month'
+                : monthNames[uncertainDates.monthIdx];
         return (
             <span>
                 {durationText} in {monthName}
@@ -81,19 +104,24 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         return (
             <span>
-                from {datesModel.dateFrom.toDateString()} to {datesModel.dateUntil.toDateString()}
+                from {datesModel.dateFrom.toDateString()} to{' '}
+                {datesModel.dateUntil.toDateString()}
             </span>
         );
     }
 
     // Handle expand/collapse
-    
+
     componentWillMount() {
         document.addEventListener('click', this.bindHandleOutsideClick, false);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.bindHandleOutsideClick, false);
+        document.removeEventListener(
+            'click',
+            this.bindHandleOutsideClick,
+            false
+        );
     }
 
     toggleHidden(event: React.MouseEvent<HTMLInputElement>) {
@@ -101,16 +129,18 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         this.setState({
             isHidden: !this.state.isHidden
         });
-    };
+    }
 
     handleOutsideClick(event: React.ChangeEvent<HTMLInputElement>) {
-        if (!this.state.isHidden &&
-            this.datePanelWrapper && this.datePanelWrapper.current
-            && !this.datePanelWrapper.current.contains(event.target)
+        if (
+            !this.state.isHidden &&
+            this.datePanelWrapper &&
+            this.datePanelWrapper.current &&
+            !this.datePanelWrapper.current.contains(event.target) &&
             // prevent closing on month select in date-picker:
-            && event.target.className.indexOf("rc-select") === -1
-            && event.target.id.indexOf("react-select-") === -1) {
-
+            event.target.className.indexOf('rc-select') === -1 &&
+            event.target.id.indexOf('react-select-') === -1
+        ) {
             event.preventDefault();
             event.stopPropagation();
 
@@ -121,4 +151,4 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     }
 }
 
-export default DatePanel
+export default DatePanel;

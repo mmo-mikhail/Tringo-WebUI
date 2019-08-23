@@ -1,4 +1,4 @@
 export default interface IBaseModel {
-	isLoading: boolean;
-	error: string | null;
+    isLoading: boolean;
+    error: string | null;
 }

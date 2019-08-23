@@ -1,5 +1,4 @@
-
-import { DatesInput } from "./dateInput";
+import { DatesInput } from './dateInput';
 
 export class FlightDestinationRequest {
     constructor(
@@ -7,14 +6,11 @@ export class FlightDestinationRequest {
         public areaToRequest: MapArea,
         public budget: Budget,
         public dates: DatesInput
-    ) { }
+    ) {}
 }
 
 export class Budget {
-    constructor(
-        public from: number,
-        public to: number
-    ) { }
+    constructor(public from: number, public to: number) {}
 }
 
 export class MapArea {
@@ -22,5 +18,5 @@ export class MapArea {
         public lat: number,
         public lng: number,
         public radius: number
-    ) { }
+    ) {}
 }

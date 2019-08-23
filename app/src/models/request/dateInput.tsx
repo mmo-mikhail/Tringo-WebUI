@@ -3,14 +3,11 @@ export class DatesInput {
         public dateFrom: Date | null,
         public dateUntil: Date | null,
         public uncertainDates: UncertainDates | null
-    ) { }
+    ) {}
 }
 
 export class UncertainDates {
-    constructor(
-        public monthIdx: number,
-        public duration: Duration
-    ) { }
+    constructor(public monthIdx: number, public duration: Duration) {}
 }
 
 export enum Duration {

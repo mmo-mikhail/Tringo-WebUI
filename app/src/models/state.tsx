@@ -1,7 +1,7 @@
-import { Record } from "immutable";
+import { Record } from 'immutable';
 
 const State = Record({
-	destinations: undefined
+    destinations: undefined
 });
 
 export default State;
