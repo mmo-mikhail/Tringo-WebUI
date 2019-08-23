@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Autocomplete from "./Autocomplete";
 import RangeSlider from "./slider"
+import DatePanel from "./date-input/datePanel";
 
 class SearchWidgetWrapper extends React.Component<any, any,any> {
     constructor(props:any) {
@@ -12,7 +13,7 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
           max: 1000,
           step: 10,
           values: [100, 1000],
-        }; 
+        };
       }
       onChange(values: any) {
         this.setState({ values: values });
@@ -68,6 +69,8 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
                     className={this.state.className}
                     onChange={this.onChange}
                     />
+
+                    <DatePanel/>
                 </div>
             </div>
         );
