@@ -2,7 +2,10 @@ import * as React from 'react';
 import './styles/dateunknownstyle.scss';
 import './styles/dateInput.scss';
 
-class Dateunknown extends React.Component<any, any> {
+export const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+
+export class Dateunknown extends React.Component<any, any> {
 
 
     constructor(props: any) {
@@ -15,14 +18,11 @@ class Dateunknown extends React.Component<any, any> {
         }
     }
 
-
     createMonthOptions() {
         let buttons = [];
         let dt = new Date();
         let monnumber = dt.getMonth();
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
+        
         for (let i = 0; i < 6; i++) {
             buttons.push(
                 <button key={monthNames[(monnumber + i) % 12]} id={monthNames[(monnumber + i) % 12]} className="btn-standard"
@@ -83,4 +83,3 @@ class Dateunknown extends React.Component<any, any> {
         )
     }
 }
-export default Dateunknown;

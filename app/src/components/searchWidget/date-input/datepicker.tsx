@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import DayPicker, { DateUtils } from "react-day-picker";
+import DayPicker, { DateUtils, RangeModifier } from "react-day-picker";
 import Select from "react-select";
 import * as dateFns from "date-fns";
 import "./styles/datepicker.scss"
@@ -11,7 +11,7 @@ class DatePicker extends React.Component<any, any> {
         from: PropTypes.Requireable<{ [any: string]: any; }>;
         to: PropTypes.Requireable<{ [any: string]: any; }>;
         maxAvailableMonths: PropTypes.Requireable<number>;
-        onDayChanged: PropTypes.Validator<(...args: any[]) => any>;
+        onDayChanged: PropTypes.Validator<(args: RangeModifier) => void>;
     };
     static defaultProps: {
         from: undefined;
