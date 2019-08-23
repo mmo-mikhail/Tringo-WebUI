@@ -14,18 +14,22 @@ class RangeSlider extends React.Component<any, any> {
         isRangeSlider: Requireable<boolean>;
         isBasicSlider: Requireable<boolean>;
         className: Requireable<string>;
-        onChange: PropTypes.Requireable<(...args: any[]) => any>
+        onChange: PropTypes.Requireable<(...args: number[]) => void>
     };
     constructor(props: any) {
         super(props);
-        this.onChange = this.onChange.bind(this);
+        this.onChangeRange = this.onChangeRange.bind(this);
+        this.onChangeSlider = this.onChangeSlider.bind(this);
     }
-    onChange(sliderValue: any) {
-        const values = this.props.isRangeSlider
-            ? sliderValue
-            : [this.props.min, sliderValue];
-        this.props.onChange && this.props.onChange(values);
+
+    onChangeRange(sliderValue: number[]) {
+        this.props.onChange && this.props.onChange(sliderValue);
     }
+
+    onChangeSlider(sliderValue: number) {
+        this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
+    }
+
     render() {
         const {
             min,
@@ -37,7 +41,6 @@ class RangeSlider extends React.Component<any, any> {
             className
         } = this.props;
         if (!values || values.length < 2) return null;
-        console.log(values[0]);
 
         const sliderClassName = classnames("range-slider", className, {
             "min-filtered": values[0] !== min,
@@ -57,7 +60,7 @@ class RangeSlider extends React.Component<any, any> {
                         value={values}
                         allowCross={false}
                         step={step}
-                        onChange={this.onChange}
+                        onChange={this.onChangeRange}
                     />
                 )}
                 {!isRangeSlider && (
@@ -66,7 +69,7 @@ class RangeSlider extends React.Component<any, any> {
                         max={max}
                         value={values[0]}
                         step={step}
-                        onChange={this.onChange}
+                        onChange={this.onChangeSlider}
                     />
                 )}
                 {!isBasicSlider && (
@@ -93,7 +96,7 @@ RangeSlider.propTypes = {
 
 RangeSlider.defaultProps = {
     className: "sliderClassName",
-    values: [0, 1000],
+    values: [0, 500],
     isRangeSlider: true,
     isBasicSlider: false
 

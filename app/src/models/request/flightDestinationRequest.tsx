@@ -3,24 +3,24 @@ import { DatesInput } from "./dateInput";
 
 export class FlightDestinationRequest {
     constructor(
-        private departureAirportId: string, // as IATA code?
-        private areaToRequest: MapArea,
-        private budget: Budget,
-        private dates: DatesInput
+        public departureAirportId: string, // as IATA code?
+        public areaToRequest: MapArea,
+        public budget: Budget,
+        public dates: DatesInput
     ) { }
 }
 
 export class Budget {
     constructor(
-        private from: number,
-        private to: number
+        public from: number,
+        public to: number
     ) { }
 }
 
 export class MapArea {
     constructor(
-        private lat: number,
-        private lng: number,
-        private radius: number
+        public lat: number,
+        public lng: number,
+        public radius: number
     ) { }
 }

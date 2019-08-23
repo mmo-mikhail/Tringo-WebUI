@@ -1,16 +1,20 @@
 export class DatesInput {
     constructor(
-        private dateFrom: Date | null,
-        private dateUntil: Date | null,
-        private uncertainDates: UncertainDates | null
+        public dateFrom: Date | null,
+        public dateUntil: Date | null,
+        public uncertainDates: UncertainDates | null
     ) { }
 }
 
 export class UncertainDates {
     constructor(
-        private monthIdx: number,
-        private duration: Duration
+        public monthIdx: number,
+        public duration: Duration
     ) { }
 }
 
-export type Duration = "Weekend" | "Week" | "TwoWeeks";
+export enum Duration {
+    Weekend = 1,
+    Week = 2,
+    TwoWeek = 4
+}

@@ -15,7 +15,7 @@ class App extends React.Component<any, any> {
 			<div className="App">
                 <SimpleMap
                     center={{ lat: -23.7970703, lng: 132.3082171 }}
-                    defaultZoom={4.72}/>
+                    defaultZoom={4.72} />
 
 			</div>
 		);
