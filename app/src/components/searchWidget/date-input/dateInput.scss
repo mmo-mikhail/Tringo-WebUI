@@ -1,0 +1,37 @@
+.date-panel-wrapper {
+    position: relative;
+    opacity: 1;
+
+    .date-panel-collapsed {
+        cursor: pointer;
+        background-color: antiquewhite;
+        width: 120px;
+        height: 40px;
+    }
+
+    .date-panel-expanded {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #dfdfdf;
+        width: 500px;
+        height: 250px;
+        opacity: 1 !important;
+
+        .top-toogler {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+
+            .dates-selector {
+                width: 40%;
+                height: 30px;
+                margin: 10px 3%;
+                text-align: center;
+                background-color: #a9a9a9;
+                cursor:pointer;
+            }
+        }
+    }
+}
