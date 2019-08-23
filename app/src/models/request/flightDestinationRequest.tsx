@@ -2,22 +2,25 @@
 import { DatesInput } from "./dateInput";
 
 export class FlightDestinationRequest {
-    departureAirportId: string; // as IATA code?
-
-    areaToRequest: MapArea;
-
-    budget: Budget;
-
-    dates: DatesInput;
+    constructor(
+        private departureAirportId: string, // as IATA code?
+        private areaToRequest: MapArea,
+        private budget: Budget,
+        private dates: DatesInput
+    ) { }
 }
 
 export class Budget {
-    from: number;
-    to: number;
+    constructor(
+        private from: number,
+        private to: number
+    ) { }
 }
 
 export class MapArea {
-    lat: number;
-    lng: number;
-    radius: number;
+    constructor(
+        private lat: number,
+        private lng: number,
+        private radius: number
+    ) { }
 }

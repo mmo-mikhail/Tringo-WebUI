@@ -1,12 +1,16 @@
 export class DatesInput {
-    dateFrom: Date | null;
-    dateUntil: Date | null;
-    uncertainDates: UncertainDates | null;
+    constructor(
+        private dateFrom: Date | null,
+        private dateUntil: Date | null,
+        private uncertainDates: UncertainDates | null
+    ) { }
 }
 
 export class UncertainDates {
-    monthIdx: number;
-    duration: Duration
+    constructor(
+        private monthIdx: number,
+        private duration: Duration
+    ) { }
 }
 
 export type Duration = "Weekend" | "Week" | "TwoWeeks";
