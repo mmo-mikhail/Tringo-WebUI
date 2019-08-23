@@ -7,8 +7,17 @@ import "./datepicker.scss"
 
 
 class DatePicker extends React.Component<any,any> {
-  static propTypes: { from: PropTypes.Requireable<{ [any: string]: any; }>; to: PropTypes.Requireable<{ [any: string]: any; }>; maxAvailableMonths: PropTypes.Requireable<number>; onDayChanged: PropTypes.Validator<(...args: any[]) => any>; };
-  static defaultProps: { from: undefined; to: undefined; maxAvailableMonths: number; };
+  static propTypes: { 
+      from: PropTypes.Requireable<{ [any: string]: any; }>; 
+      to: PropTypes.Requireable<{ [any: string]: any; }>; 
+      maxAvailableMonths: PropTypes.Requireable<number>; 
+      onDayChanged: PropTypes.Validator<(...args: any[]) => any>; 
+    };
+  static defaultProps: { 
+      from: undefined; 
+      to: undefined; 
+      maxAvailableMonths: number; 
+    };
   constructor(props:any) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
