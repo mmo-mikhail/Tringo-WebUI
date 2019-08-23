@@ -2,7 +2,7 @@ import React, { Requireable } from "react";
 import classnames from "classnames";
 import PropTypes, { Validator } from "prop-types";
 import Slider, { Range } from "rc-slider";
-import "./slider.scss"
+import "./styles/slider.scss"
 
 class RangeSlider extends React.Component<any, any> {
     static defaultProps: { className: string; values: number[]; isRangeSlider: boolean; isBasicSlider: boolean; };

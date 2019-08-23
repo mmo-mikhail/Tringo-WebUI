@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './dateInput.scss';
+import './styles/dateInput.scss';
 import ExpandedDatePanel from './expandedDatePanel'
 
 class DatePanel extends React.Component<any, any> {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DayPicker, { DateUtils } from "react-day-picker";
 import Select from "react-select";
 import * as dateFns from "date-fns";
-import "./datepicker.scss"
+import "./styles/datepicker.scss"
 
 
 class DatePicker extends React.Component<any, any> {

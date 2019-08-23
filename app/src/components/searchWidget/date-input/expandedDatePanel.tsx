@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './dateInput.scss';
+import './styles/dateInput.scss';
 import '../../common.scss';
 import Dateunknown from "./dateunknown";
 import DatePicker from "./datepicker"
