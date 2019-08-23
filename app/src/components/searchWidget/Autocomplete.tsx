@@ -3,8 +3,8 @@ import * as PropTypes from "prop-types";
 import classnames from "classnames";
 import { components } from "react-select";
 import { Async as AsyncSelect } from "react-select";
-import './widget.scss';
-import "./slider.scss"
+import './styles/widget.scss';
+import "./styles/slider.scss"
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './dateInput.scss';
+import './styles/dateInput.scss';
 import '../../common.scss';
 import Dateunknown from "./dateunknown";
 import DatePicker from "./datepicker"
@@ -18,26 +18,22 @@ class ExpandedDatePanel extends React.Component<any, any> {
         };
         var today = new Date();
         this.state = {
-         from: new Date(
-         today.getFullYear(),
-         today.getMonth() + 2,
-            15,
-            11,
-            30,
-            0,
-            0
-         ),
-         to: new Date(today.getFullYear(), today.getMonth() + 2, 20, 16, 30, 0, 0)
-    };
-    this.state = {
-        from: undefined,
-        to: undefined
-      };
+            from: new Date(
+                today.getFullYear(),
+                today.getMonth() + 2, 15, 11, 30, 0, 0
+            ),
+            to: new Date(today.getFullYear(), today.getMonth() + 2, 20, 16, 30, 0, 0)
+        };
+        this.state = {
+            from: undefined,
+            to: undefined,
+            datePanelType: datePanelTypes.UNKNOWN_DATES
+        };
     };
 
-    handleDateChange(newDateRange:any) {
+    handleDateChange(newDateRange: any) {
         this.setState({ from: newDateRange.from, to: newDateRange.to });
-      }
+    }
     selectPanel(panelType: datePanelTypes) {
         this.setState({
             datePanelType: panelType
@@ -61,13 +57,12 @@ class ExpandedDatePanel extends React.Component<any, any> {
                 </div>
                 {this.state.datePanelType === datePanelTypes.SPECIFIC_DATES && (
                     <div className="specific-dates-main-area">
-                      <DatePicker from={from} to={to} onDayChanged={this.handleDateChange} />
-                        
+                        <DatePicker from={from} to={to} onDayChanged={this.handleDateChange} />
                     </div>
                 )}
                 {this.state.datePanelType === datePanelTypes.UNKNOWN_DATES && (
                     <div className="flexible-dates-main-area">
-                       <Dateunknown/>
+                        <Dateunknown />
                     </div>
                 )}
             </div>
