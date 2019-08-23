@@ -6,7 +6,7 @@ export default class PriceTagMarker extends React.Component<any, any> {
         return (
             <p className="price-marker">
                 <span>{this.props.title}</span>
-                <br/>
+                <br />
                 <span className="price-text">${this.props.price}</span>
             </p>
         );

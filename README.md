@@ -10,3 +10,9 @@ in terminal (on mac) or GitBash or WSL on Windows execute pipeline.sh from /inte
 ```
 ./pipeline.sh
 ```
+
+
+#### Clean code with prettier
+```
+./node_modules/.bin/prettier --single-quote --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+```

@@ -1,20 +1,25 @@
-import React, { Requireable } from "react";
-import classnames from "classnames";
-import PropTypes, { Validator } from "prop-types";
-import Slider, { Range } from "rc-slider";
-import "./styles/slider.scss"
+import React, { Requireable } from 'react';
+import classnames from 'classnames';
+import PropTypes, { Validator } from 'prop-types';
+import Slider, { Range } from 'rc-slider';
+import './styles/slider.scss';
 
 class RangeSlider extends React.Component<any, any> {
-    static defaultProps: { className: string; values: number[]; isRangeSlider: boolean; isBasicSlider: boolean; };
+    static defaultProps: {
+        className: string;
+        values: number[];
+        isRangeSlider: boolean;
+        isBasicSlider: boolean;
+    };
     static propTypes: {
-        min: Validator<number>
+        min: Validator<number>;
         max: Validator<number>;
         step: Validator<number>;
         values: Validator<number[]>;
         isRangeSlider: Requireable<boolean>;
         isBasicSlider: Requireable<boolean>;
         className: Requireable<string>;
-        onChange: PropTypes.Requireable<(...args: number[]) => void>
+        onChange: PropTypes.Requireable<(...args: number[]) => void>;
     };
     constructor(props: any) {
         super(props);
@@ -27,7 +32,8 @@ class RangeSlider extends React.Component<any, any> {
     }
 
     onChangeSlider(sliderValue: number) {
-        this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
+        this.props.onChange &&
+            this.props.onChange([this.props.min, sliderValue]);
     }
 
     render() {
@@ -42,11 +48,11 @@ class RangeSlider extends React.Component<any, any> {
         } = this.props;
         if (!values || values.length < 2) return null;
 
-        const sliderClassName = classnames("range-slider", className, {
-            "min-filtered": values[0] !== min,
-            "max-filtered": values[1] !== max,
-            "max-only": !isRangeSlider,
-            "selector-slider": isBasicSlider
+        const sliderClassName = classnames('range-slider', className, {
+            'min-filtered': values[0] !== min,
+            'max-filtered': values[1] !== max,
+            'max-only': !isRangeSlider,
+            'selector-slider': isBasicSlider
         });
 
         return (
@@ -75,8 +81,8 @@ class RangeSlider extends React.Component<any, any> {
                 {!isBasicSlider && (
                     <div>
                         <br />
-                        <div className="from" >{values[0]}$</div>
-                        <div className="to" >{values[1]}$</div>
+                        <div className="from">{values[0]}$</div>
+                        <div className="to">{values[1]}$</div>
                     </div>
                 )}
             </div>
@@ -95,12 +101,10 @@ RangeSlider.propTypes = {
 };
 
 RangeSlider.defaultProps = {
-    className: "sliderClassName",
+    className: 'sliderClassName',
     values: [0, 500],
     isRangeSlider: true,
     isBasicSlider: false
-
-
 };
 
 export default RangeSlider;

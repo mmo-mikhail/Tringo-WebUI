@@ -1,3 +1,53 @@
 {
-    "extends": "react-app"
+    "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+    "plugins": ["jsx-a11y"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": { "tsx": true }
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true,
+        "es6": true,
+        "amd": true
+    },
+    "rules": {
+        "linebreak-style": [0, "windows" ],
+        "arrow-body-style": [2, "as-needed", { "requireReturnForObjectLiteral": true }],
+        "comma-dangle": ["error", "never"],
+        "quotes": [ 2, "single" ],
+        "indent": [2, 4,
+            {
+                "SwitchCase": 1,
+                "VariableDeclarator": 2,
+                "MemberExpression": "off"
+            }],
+        "curly": ["error", "multi-line"],
+        "max-len": 0,
+        "newline-per-chained-call": 0,
+        "no-console": 1,
+        "no-use-before-define": 0,
+        "prefer-template": 2,
+        "require-yield": 0,
+        "one-var": [2, { "var": "always", "let": "always", "const": "never" }],
+        "no-underscore-dangle": [2, { "allow": ["__Rewire__"] }],
+        "import/imports-first": 0,
+        "import/newline-after-import": 0,
+        "import/no-extraneous-dependencies": 0,
+        "import/no-named-as-default": 0,
+        //"import/no-unresolved": 2,  //Has problem
+        "import/prefer-default-export": 0,
+        "jsx-a11y/aria-props": 2,
+        "jsx-a11y/heading-has-content": 0,
+        "react/jsx-filename-extension": 0,
+        "react/jsx-no-target-blank": 0,
+        "react/require-extension": 0,
+        "react/self-closing-comp": 0,
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [2, 4],
+        "react/forbid-prop-types": 0,
+        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "never" }]
+    }
 }

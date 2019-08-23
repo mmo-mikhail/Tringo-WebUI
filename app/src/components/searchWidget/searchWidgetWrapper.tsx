@@ -1,14 +1,17 @@
 import * as React from 'react';
 
-import Autocomplete from "./Autocomplete";
-import RangeSlider from "./slider"
-import DatePanel from "./date-input/datePanel";
+import Autocomplete from './Autocomplete';
+import RangeSlider from './slider';
+import DatePanel from './date-input/datePanel';
 
-import { FlightDestinationRequest, Budget } from "./../../models/request/flightDestinationRequest";
+import {
+    FlightDestinationRequest,
+    Budget
+} from './../../models/request/flightDestinationRequest';
 
 interface StateChangedProps {
-    onChange: (model: FlightDestinationRequest) => void
-    initialModel: FlightDestinationRequest
+    onChange: (model: FlightDestinationRequest) => void;
+    initialModel: FlightDestinationRequest;
 }
 
 class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
@@ -20,15 +23,20 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
             budgetMin: this.props.initialModel.budget.from,
             budgetMax: this.props.initialModel.budget.to,
             budgetStep: 10,
-            budgetValues: [this.props.initialModel.budget.from, this.props.initialModel.budget.to],
+            budgetValues: [
+                this.props.initialModel.budget.from,
+                this.props.initialModel.budget.to
+            ]
         };
     }
 
     onBudgetChanged(values: number[]) {
         if (values.length !== 2) {
-            throw new Error("onRangeChanged has invalid agrument: must be array 2 values length");
+            throw new Error(
+                'onRangeChanged has invalid agrument: must be array 2 values length'
+            );
         }
-        this.setState({ budgetValues: values});
+        this.setState({ budgetValues: values });
 
         this.props.initialModel.budget = new Budget(values[0], values[1]);
         this.props.onChange(this.props.initialModel);
@@ -41,31 +49,31 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                 callback([
                     {
                         value: 1,
-                        label: "Melbourne International Airport, Australia",
-                        optionLabel: "Melbourne International Airport (MEL)",
-                        optionSubLabel: "Melbourne, Australia"
+                        label: 'Melbourne International Airport, Australia',
+                        optionLabel: 'Melbourne International Airport (MEL)',
+                        optionSubLabel: 'Melbourne, Australia'
                     },
                     {
                         value: 2,
-                        label: "Sydney International Airport, Australia",
-                        optionLabel: "Sydney International Airport (SYD)",
-                        optionSubLabel: "Sydney, Australia"
+                        label: 'Sydney International Airport, Australia',
+                        optionLabel: 'Sydney International Airport (SYD)',
+                        optionSubLabel: 'Sydney, Australia'
                     },
                     {
                         value: 3,
-                        label: "Perth International Airport, Australia",
-                        optionLabel: "Perth International Airport (PER)",
-                        optionSubLabel: "Perth, Australia"
+                        label: 'Perth International Airport, Australia',
+                        optionLabel: 'Perth International Airport (PER)',
+                        optionSubLabel: 'Perth, Australia'
                     }
                 ]);
             }, 500);
         };
 
         const noOptionsMessage =
-            "No cities or airports were found. Please check your spelling.";
+            'No cities or airports were found. Please check your spelling.';
         return (
             <div className="widgetContainer">
-                <div >
+                <div>
                     <Autocomplete
                         id="pickup-location"
                         className="pickup-location"
@@ -92,4 +100,4 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
     }
 }
 
-export default SearchWidgetWrapper
+export default SearchWidgetWrapper;
