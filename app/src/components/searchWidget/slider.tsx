@@ -15,8 +15,6 @@ class RangeSlider extends React.Component<any,any> {
         isBasicSlider: Requireable<boolean>; 
         className: Requireable<string>; 
         onChange: PropTypes.Requireable<(...args: any[]) => any>
-        
-    
     };
   constructor(props:any) {
     super(props);
