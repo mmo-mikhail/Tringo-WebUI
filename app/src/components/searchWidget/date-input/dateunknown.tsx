@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './dateunknownstyle.scss';
-import './dateInput.scss';
+import './styles/dateunknownstyle.scss';
+import './styles/dateInput.scss';
 
 class Dateunknown extends React.Component<any, any> {
 

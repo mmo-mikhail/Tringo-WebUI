@@ -1,23 +1,39 @@
 import * as React from 'react';
+
 import Autocomplete from "./Autocomplete";
 import RangeSlider from "./slider"
 import DatePanel from "./date-input/datePanel";
 
-class SearchWidgetWrapper extends React.Component<any, any,any> {
-    constructor(props:any) {
+import { FlightDestinationRequest, Budget } from "./../../models/request/flightDestinationRequest";
+
+interface StateChangedProps {
+    onChange: (model: FlightDestinationRequest) => void
+    initialModel: FlightDestinationRequest
+}
+
+class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
+    constructor(props: StateChangedProps) {
         super(props);
-       
-        this.onChange = this.onChange.bind(this);
+
+        this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.state = {
-          min: 100,
-          max: 1000,
-          step: 10,
-          values: [100, 1000],
+            budgetMin: this.props.initialModel.budget.from,
+            budgetMax: this.props.initialModel.budget.to,
+            budgetStep: 10,
+            budgetValues: [this.props.initialModel.budget.from, this.props.initialModel.budget.to],
         };
-      }
-      onChange(values: any) {
-        this.setState({ values: values });
-      }
+    }
+
+    onBudgetChanged(values: number[]) {
+        if (values.length !== 2) {
+            throw new Error("onRangeChanged has invalid agrument: must be array 2 values length");
+        }
+        this.setState({ budgetValues: values});
+
+        this.props.initialModel.budget = new Budget(values[0], values[1]);
+        this.props.onChange(this.props.initialModel);
+    }
+
     render() {
         const fetchLocationData = (inputValue: any, callback: any) => {
             // Mock api call
@@ -59,18 +75,17 @@ class SearchWidgetWrapper extends React.Component<any, any,any> {
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
                     />
-                   
+
                     <RangeSlider
-                    
-                    min={this.state.min}
-                    max={this.state.max}
-                    values={this.state.values}
-                    step={this.state.step}
-                    className={this.state.className}
-                    onChange={this.onChange}
+                        min={this.state.budgetMin}
+                        max={this.state.budgetMax}
+                        values={this.state.budgetValues}
+                        step={this.state.budgetStep}
+                        className={this.state.className}
+                        onChange={this.onBudgetChanged}
                     />
 
-                    <DatePanel/>
+                    <DatePanel />
                 </div>
             </div>
         );
