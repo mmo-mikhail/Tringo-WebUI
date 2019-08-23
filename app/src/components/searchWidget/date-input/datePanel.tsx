@@ -41,8 +41,6 @@ class DatePanel extends React.Component<any, any> {
             && event.target.className.indexOf("rc-select") === -1 
             && event.target.id.indexOf("react-select-") === -1) {
 
-            console.log(event.target);
-
             event.preventDefault();
             event.stopPropagation();
 
