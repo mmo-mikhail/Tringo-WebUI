@@ -1,4 +1,4 @@
-import { takeEvery, all, takeLatest } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
 import { destinationActionType } from '../actions/actionTypes';
 import * as destinationSaga from './destinationSaga';
 
