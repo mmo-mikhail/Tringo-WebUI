@@ -1,9 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { components } from 'react-select';
-import { Async as AsyncSelect } from 'react-select';
+import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
-import './styles/slider.scss';
 import { ActionMeta } from 'react-select/lib/types';
 
 // AsyncSelect custom components below
