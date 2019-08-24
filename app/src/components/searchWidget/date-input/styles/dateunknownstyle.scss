@@ -1,25 +1,22 @@
-
-.btn-standard 
-{
-  box-shadow:none;
-  color:#333333;
-  background:inherit;
+.btn-standard {
+    box-shadow: none;
+    color: #333333;
+    background: inherit;
 }
 
-
-  .hr { 
+.hr {
     display: block;
     margin-top: 2%;
     margin-bottom: 7%;
     margin-left: auto;
     margin-right: auto;
     border-style: inset;
-    border-width:0;
-    color:inherit;
-  } 
+    border-width: 0;
+    color: inherit;
+}
 
 .dateContainer {
-    position:relative;
+    position: relative;
     width: 400px;
     min-height: 240px;
     margin: 15px;
