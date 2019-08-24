@@ -32,6 +32,8 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
+
+        this.onDepartureChanged = this.onDepartureChanged.bind(this);
     }
 
     onBudgetChanged(values: number[]) {
@@ -55,25 +57,30 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
         this.props.onChange(this.props.initialModel);
     }
 
+    onDepartureChanged(airportId: string) {
+        this.props.initialModel.departureAirportId = airportId;
+        this.props.onChange(this.props.initialModel);
+    }
+
     render() {
         const fetchLocationData = (inputValue: any, callback: any) => {
             // Mock api call
             setTimeout(() => {
                 callback([
                     {
-                        value: 1,
+                        value: 'MEL',
                         label: 'Melbourne International Airport, Australia',
                         optionLabel: 'Melbourne International Airport (MEL)',
                         optionSubLabel: 'Melbourne, Australia'
                     },
                     {
-                        value: 2,
+                        value: 'SYD',
                         label: 'Sydney International Airport, Australia',
                         optionLabel: 'Sydney International Airport (SYD)',
                         optionSubLabel: 'Sydney, Australia'
                     },
                     {
-                        value: 3,
+                        value: 'PER',
                         label: 'Perth International Airport, Australia',
                         optionLabel: 'Perth International Airport (PER)',
                         optionSubLabel: 'Perth, Australia'
@@ -95,6 +102,7 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                         noOptionsMessage={noOptionsMessage}
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
+                        onChange={this.onDepartureChanged}
                     />
 
                     <RangeSlider

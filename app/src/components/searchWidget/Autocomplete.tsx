@@ -4,6 +4,7 @@ import { components } from 'react-select';
 import { Async as AsyncSelect } from 'react-select';
 import './styles/widget.scss';
 import './styles/slider.scss';
+import { ActionMeta } from 'react-select/lib/types';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -40,8 +41,7 @@ const Input = (props: any) => (
 
 // Autocomplete component starts from here
 interface AutoCompleteProps {
-    //onChange: (model: any) => void;
-    //initialModel: any;
+    onChange: (airportId: string) => void;
 
     id: string;
     className: string;
@@ -59,6 +59,7 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
 
         this.loadOptionsHandler = this.loadOptionsHandler.bind(this);
         this.noOptionsMessageHandler = this.noOptionsMessageHandler.bind(this);
+        this.onSelectChanged = this.onSelectChanged.bind(this);
     }
 
     loadOptionsHandler(inputValue: any, callback: any) {
@@ -68,12 +69,16 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
         else callback();
     }
 
-    noOptionsMessageHandler({ inputValue }: any) {
+    noOptionsMessageHandler(inputValue: any) {
         // Only return no options message after minimum length of typed value
         // Otherwise do not show empty dropdown by returning null
         if (inputValue.length >= this.props.minValueLength)
             return this.props.noOptionsMessage;
         return null;
+    }
+
+    onSelectChanged(value: any, action: ActionMeta) {
+        this.props.onChange(value.value);
     }
 
     render() {
@@ -91,6 +96,7 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
                 )}
                 classNamePrefix="rc-autocomplete"
                 components={{ Control, Option, LoadingIndicator, Input }}
+                onChange={this.onSelectChanged}
             />
         );
     }
