@@ -2,12 +2,18 @@ import { put } from 'redux-saga/effects';
 import { fetchDestinationsSaga } from '../destinationSaga';
 import * as actions from '../../actions/destinations';
 import { IDestination } from '../../models/destination';
+import { FlightDestinationRequest } from '../../models/request/flightDestinationRequest';
+
+import { destinationActionType } from '../../actions/actionTypes';
 
 describe('fetchDestinationsSaga', () => {
     let fetchDestinationGenerator: any;
-
     beforeEach(() => {
-        fetchDestinationGenerator = fetchDestinationsSaga();
+        const model = FlightDestinationRequest.createRandom();
+        fetchDestinationGenerator = fetchDestinationsSaga({
+            type: destinationActionType.FETCH_DESTINATION_START,
+            model: model
+        });
 
         const callDescriptor = fetchDestinationGenerator.next().value;
         expect(callDescriptor).toMatchSnapshot();

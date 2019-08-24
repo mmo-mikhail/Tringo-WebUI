@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
+import { googleZoomToKms } from 'utils/helpers';
 import PriceTagMarker from './marker/priceTagMarker';
 import { IDestination } from '../models/destination';
 import * as destinationActions from './../actions/destinations';
@@ -23,7 +24,11 @@ class SimpleMap extends React.Component<any, any> {
         this.state = {
             destinationsRequestModel: new FlightDestinationRequest(
                 'MEL',
-                new MapArea(this.props.center.lat, this.props.center.lng, 200),
+                new MapArea(
+                    this.props.center.lat,
+                    this.props.center.lng,
+                    googleZoomToKms(this.props.defaultZoom)
+                ),
                 new Budget(0, 1000),
                 new DatesInput(
                     null,
@@ -38,6 +43,8 @@ class SimpleMap extends React.Component<any, any> {
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(
             this
         );
+        this.onMapDrag = this.onMapDrag.bind(this);
+        this.onMapZoomAnimationEnd = this.onMapZoomAnimationEnd.bind(this);
     }
 
     renderDestinations() {
@@ -63,7 +70,7 @@ class SimpleMap extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.fetchDestinations();
+        this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
 
     requestDestinationsUpdate(model: FlightDestinationRequest) {
@@ -73,6 +80,24 @@ class SimpleMap extends React.Component<any, any> {
             destinationsRequestModel: model
         });
         //intiiate fetching destinations here
+        this.props.fetchDestinations(this.state.destinationsRequestModel);
+    }
+
+    onMapDrag(args: any) {
+        var currentMode = this.state.destinationsRequestModel;
+        currentMode.areaToRequest.lat = args.center.lat();
+        currentMode.areaToRequest.lng = args.center.lng();
+
+        this.requestDestinationsUpdate(currentMode);
+    }
+
+    onMapZoomAnimationEnd(args: any) {
+        //console.log(args); //undefined ???
+        if (args === undefined) return;
+
+        var currentMode = this.state.destinationsRequestModel;
+        //currentMode.areaToRequest.radius = googleZoomToKms(args.zoom));
+        this.requestDestinationsUpdate(currentMode);
     }
 
     render() {
@@ -83,8 +108,10 @@ class SimpleMap extends React.Component<any, any> {
                         key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs'
                     }}
                     defaultCenter={this.props.center}
-                    defaultZoom={this.props.defaultZoom} // km = ( 40000/2 ^ zl ) * 2
+                    defaultZoom={this.props.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
+                    onDrag={this.onMapDrag}
+                    onZoomAnimationEnd={this.onMapZoomAnimationEnd}
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
@@ -106,8 +133,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        fetchDestinations: () =>
-            dispatch(destinationActions.fetchDestinationsStart())
+        fetchDestinations: (model: FlightDestinationRequest) =>
+            dispatch(destinationActions.fetchDestinationsStart(model))
     };
 };
 
