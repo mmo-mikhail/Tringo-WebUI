@@ -1,5 +1,6 @@
 import { destinationActionType } from '../actions/actionTypes';
 import { DestinationsState } from '../models/destinations';
+import { IFlightsRequestAction } from '../models/request/flightDestinationRequest';
 
 const initialState = new DestinationsState();
 
@@ -16,7 +17,10 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
-const fetchDestinationsStart = (state: DestinationsState, action: any) => {
+const fetchDestinationsStart = (
+    state: DestinationsState,
+    action: IFlightsRequestAction
+) => {
     return state.set('error', null).set('isLoading', true);
 };
 
