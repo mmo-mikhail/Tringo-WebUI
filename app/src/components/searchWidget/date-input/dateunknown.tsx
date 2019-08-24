@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './styles/dateunknownstyle.scss';
 import './styles/dateInput.scss';
+import {UncertainDates,Duration} from '../../../models/request/dateInput';
 
 export const monthNames = [
     'January',
@@ -17,14 +18,30 @@ export const monthNames = [
     'December'
 ];
 
-export class Dateunknown extends React.Component<any, any> {
-    constructor(props: any) {
+export const durations= {
+
+    1: 'Duration.Weekend',
+    2: 'Duration.Week',
+    4: 'Duration.TwoWeek',
+}
+
+
+
+export interface dateunknown{
+
+    initialDates:UncertainDates,
+    onChange:(unknownDates: UncertainDates) => void
+
+}
+
+export class Dateunknown extends React.Component<dateunknown, any> {
+    constructor(props: dateunknown) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.createMonthOptions = this.createMonthOptions.bind(this);
         this.state = {
-            monthnameoption: 'ini',
-            durationoption: 'ini'
+            monthnameoption: this.props.initialDates.monthIdx,
+            durationoption: this.props.initialDates.duration,
         };
     }
 
@@ -37,7 +54,7 @@ export class Dateunknown extends React.Component<any, any> {
             buttons.push(
                 <button
                     key={monthNames[(monnumber + i) % 12]}
-                    id={monthNames[(monnumber + i) % 12]}
+                    id={((monnumber + i) % 12).toString()}
                     className="btn-standard"
                     onClick={(event: React.MouseEvent<HTMLElement>) => {
                         this.handleClick(event);
@@ -52,28 +69,35 @@ export class Dateunknown extends React.Component<any, any> {
 
     handleClick(event: React.MouseEvent<HTMLElement>) {
         let cid = event.currentTarget.id;
-        if (cid === 'weekend' || cid === 'oneweek' || cid === 'twoweeks') {
+        if (cid === durations[1] || cid === durations[2] || 
+            cid === durations[4]) {
             let curduration = this.state.durationoption;
             if (
-                curduration === 'weekend' ||
-                curduration === 'oneweek' ||
-                curduration === 'twoweeks'
+                curduration === durations[1] ||
+                curduration === durations[2] ||
+                curduration === durations[4]
             ) {
                 let curbutton = document.getElementById(curduration);
                 curbutton!.className = 'btn-standard';
             }
-
-            this.setState({ durationoption: cid }, () => {
-                console.log(this.state.durationoption);
+               
+            this.setState({ durationoption: cid,   
+            }, () => {
+                 const dates=new UncertainDates(parseInt(this.state.monthnameoption),this.state.durationoption);
+                 this.props.onChange(dates);
+                console.log(dates.duration+" and month "+dates.monthIdx);
             });
         } else {
             let curmonth = this.state.monthnameoption;
-            if (curmonth !== 'ini') {
+            if (curmonth !== 'ini' ) {
                 let curbutton = document.getElementById(curmonth);
                 curbutton!.className = 'btn-standard';
             }
+          
             this.setState({ monthnameoption: cid }, () => {
-                console.log(this.state.monthnameoption);
+                 const dates=new UncertainDates(parseInt(this.state.monthnameoption),this.state.durationoption);
+                 this.props.onChange(dates);
+                console.log(dates.duration+" and month "+dates.monthIdx);
             });
         }
         event.currentTarget.className === 'btn-selection'
@@ -85,7 +109,7 @@ export class Dateunknown extends React.Component<any, any> {
             <div className="flexible-dates-main-area">
                 <div id="monthbtgroup" className="btn-group">
                     <button
-                        id="all"
+                        id="-1"
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
@@ -99,7 +123,7 @@ export class Dateunknown extends React.Component<any, any> {
                 <hr className="hr" />
                 <div id="durationbtgroup" className="btn-group">
                     <button
-                        id="weekend"
+                        id='Duration.Weekend'
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
@@ -108,7 +132,7 @@ export class Dateunknown extends React.Component<any, any> {
                         Weekend
                     </button>
                     <button
-                        id="oneweek"
+                        id='Duration.Week'
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
@@ -117,7 +141,7 @@ export class Dateunknown extends React.Component<any, any> {
                         1 Week
                     </button>
                     <button
-                        id="twoweeks"
+                        id='Duration.TwoWeek'
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
