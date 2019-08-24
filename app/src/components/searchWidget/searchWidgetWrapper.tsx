@@ -21,7 +21,6 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
 
         this.state = {
             datesState: this.props.initialModel.dates,
-
             budgetMin: this.props.initialModel.budget.from,
             budgetMax: this.props.initialModel.budget.to,
             budgetStep: 10,
@@ -102,7 +101,9 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                         max={this.state.budgetMax}
                         values={this.state.budgetValues}
                         step={this.state.budgetStep}
-                        className={this.state.className}
+                        isRangeSlider={true}
+                        isBasicSlider={false}
+                        className={'sliderClassName'}
                         onChange={this.onBudgetChanged}
                     />
 

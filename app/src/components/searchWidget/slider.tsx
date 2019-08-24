@@ -1,26 +1,20 @@
-import React, { Requireable } from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import PropTypes, { Validator } from 'prop-types';
 import Slider, { Range } from 'rc-slider';
 import './styles/slider.scss';
 
-class RangeSlider extends React.Component<any, any> {
-    static defaultProps: {
-        className: string;
-        values: number[];
-        isRangeSlider: boolean;
-        isBasicSlider: boolean;
-    };
-    static propTypes: {
-        min: Validator<number>;
-        max: Validator<number>;
-        step: Validator<number>;
-        values: Validator<number[]>;
-        isRangeSlider: Requireable<boolean>;
-        isBasicSlider: Requireable<boolean>;
-        className: Requireable<string>;
-        onChange: PropTypes.Requireable<(...args: number[]) => void>;
-    };
+export interface sliderProps {
+    min: number;
+    max: number;
+    step: number;
+    values: number[];
+    isRangeSlider: boolean;
+    isBasicSlider: boolean;
+    className: string;
+    onChange: (sliderChange: number[]) => void;
+}
+
+class RangeSlider extends React.Component<sliderProps, any> {
     constructor(props: any) {
         super(props);
         this.onChangeRange = this.onChangeRange.bind(this);
@@ -89,22 +83,5 @@ class RangeSlider extends React.Component<any, any> {
         );
     }
 }
-RangeSlider.propTypes = {
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    step: PropTypes.number.isRequired,
-    values: PropTypes.array.isRequired,
-    isRangeSlider: PropTypes.bool,
-    isBasicSlider: PropTypes.bool,
-    className: PropTypes.string,
-    onChange: PropTypes.func
-};
-
-RangeSlider.defaultProps = {
-    className: 'sliderClassName',
-    values: [0, 500],
-    isRangeSlider: true,
-    isBasicSlider: false
-};
 
 export default RangeSlider;
