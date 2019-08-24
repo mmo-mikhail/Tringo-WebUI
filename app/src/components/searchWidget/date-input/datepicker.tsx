@@ -1,30 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DayPicker, { DateUtils } from "react-day-picker";
-import AsyncSelect from "react-select";
+import Select from "react-select";
 import * as dateFns from "date-fns";
 import "./styles/datepicker.scss"
 
-interface props{
-    handleMonthSelected:React.ChangeEvent<HTMLSelectElement>;
-}
 
-
-<<<<<<< Updated upstream
 class DatePicker extends React.Component<any, any> {
     static propTypes: {
-        from: PropTypes.Requireable<{ [any: string]: any; }>;
-        to: PropTypes.Requireable<{ [any: string]: any; }>;
+        from: PropTypes.Requireable<{ [any: string]: any }>;
+        to: PropTypes.Requireable<{ [any: string]: any }>;
         maxAvailableMonths: PropTypes.Requireable<number>;
         onDayChanged: PropTypes.Validator<(...args: any[]) => any>;
-=======
-class DatePicker extends React.Component<any,any,props> {
-  static propTypes: { 
-      from: PropTypes.Requireable<{ [any: string]: any; }>; 
-      to: PropTypes.Requireable<{ [any: string]: any; }>; 
-      maxAvailableMonths: PropTypes.Requireable<number>; 
-      onDayChanged: PropTypes.Validator<(...args: any[]) => any>; 
->>>>>>> Stashed changes
     };
     static defaultProps: {
         from: undefined;
@@ -40,8 +27,7 @@ class DatePicker extends React.Component<any,any,props> {
 
         this.state = {
             showMonth: props.from || new Date(),
-            hoveredToDate: props.to,
-
+            hoveredToDate: props.to
         };
     }
 
@@ -49,13 +35,13 @@ class DatePicker extends React.Component<any,any,props> {
         let options = [];
         for (let i = 0; i < numberOfMonthsAhead + 1; i++) {
             let month = dateFns.addMonths(new Date(), i);
-            let monthStr = dateFns.format(month, "MMMM yyyy");
-            let monthVal = dateFns.format(month, "yyyy-MM-01");
+            let monthStr = dateFns.format(month, 'MMMM yyyy');
+            let monthVal = dateFns.format(month, 'yyyy-MM-01');
             options.push({ value: monthVal, label: monthStr });
         }
 
-        let label = dateFns.format(showMonth, "MMMM yyyy");
-        let value = dateFns.format(showMonth, "yyyy-MM-01");
+        let label = dateFns.format(showMonth, 'MMMM yyyy');
+        let value = dateFns.format(showMonth, 'yyyy-MM-01');
         return (
             <div className="header">
                 <Select
@@ -88,13 +74,12 @@ class DatePicker extends React.Component<any,any,props> {
         if (this.state.disabled) return;
 
         const { from, to } = this.props;
-        if ((from && !to) || (!from && to)) this.setState({ hoveredToDate: day });
+        if ((from && !to) || (!from && to))
+            this.setState({ hoveredToDate: day });
     }
 
     handleMonthSelected(selectedOption: any) {
-        const month = new Date(
-            Date.parse(selectedOption.value)
-        );
+        const month = new Date(Date.parse(selectedOption.value));
         this.setState({ showMonth: month });
     }
 
@@ -119,12 +104,23 @@ class DatePicker extends React.Component<any,any,props> {
                     selectedDays={{ from, to: hoveredToDate }}
                     month={showMonth}
                     showOutsideDays
-                    disabledDays={{ before: disabledBefore, after: disabledAfter }}
+                    disabledDays={{
+                        before: disabledBefore,
+                        after: disabledAfter
+                    }}
                     modifiers={{ start: from, end: hoveredToDate }}
                     onDayClick={this.handleDayClick}
                     onMonthChange={this.handleMonthChange}
                     onDayMouseEnter={this.handleDayMouseEnter}
-                    weekdaysShort={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
+                    weekdaysShort={[
+                        'Sun',
+                        'Mon',
+                        'Tue',
+                        'Wed',
+                        'Thu',
+                        'Fri',
+                        'Sat'
+                    ]}
                 />
             </div>
         );

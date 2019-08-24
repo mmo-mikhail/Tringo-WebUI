@@ -1,5 +1,5 @@
-import { destinationActionType } from "../actions/actionTypes";
-import { DestinationsState } from "../models/destinations";
+import { destinationActionType } from '../actions/actionTypes';
+import { DestinationsState } from '../models/destinations';
 
 const initialState = new DestinationsState();
 
@@ -17,16 +17,18 @@ const reducer = (state = initialState, action: any) => {
 };
 
 const fetchDestinationsStart = (state: DestinationsState, action: any) => {
-	return state.set("error", null).set("isLoading", true);
+    return state.set('error', null).set('isLoading', true);
 };
 
 const fetchDestinationsSuccess = (state: DestinationsState, action: any) => {
-	return state.set("destinations", action.destinations).set("isLoading", false);
+    return state
+        .set('destinations', action.destinations)
+        .set('isLoading', false);
     //return copy;
 };
 
 const fetchDestinationsFail = (state: DestinationsState, action: any) => {
-	return state.set("error", action.error).set("isLoading", false);
+    return state.set('error', action.error).set('isLoading', false);
 };
 
 export default reducer;
