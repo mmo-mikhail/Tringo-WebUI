@@ -43,7 +43,7 @@ class Dateunknown extends React.Component<any, any> {
             if (curduration === "weekend" || curduration === "oneweek" || curduration === "twoweeks") {
 
                 let curbutton = document.getElementById(curduration);
-                curbutton!.className = "btn-standard";
+                curbutton!.className = "btn-standard ";
             }
 
             this.setState({ durationoption: cid }, () => { console.log(this.state.durationoption) })
