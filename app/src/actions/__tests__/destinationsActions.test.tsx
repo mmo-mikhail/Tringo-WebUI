@@ -5,15 +5,23 @@ import {
     fetchDestinationsFail
 } from '../destinations';
 import { IDestination } from '../../models/destination';
+import {
+    FlightDestinationRequest,
+    IFlightsRequestAction
+} from '../../models/request/flightDestinationRequest';
 
 describe('Destinaton Actions', () => {
     describe('fetchDestinationsStart', () => {
         it('should return the correct type', () => {
-            const expectedResult = {
-                type: destinationActionType.FETCH_DESTINATION_START
+            var flightsRequest = FlightDestinationRequest.createRandom();
+            const expectedResult: IFlightsRequestAction = {
+                type: destinationActionType.FETCH_DESTINATION_START,
+                model: flightsRequest
             };
 
-            expect(fetchDestinationsStart()).toEqual(expectedResult);
+            expect(fetchDestinationsStart(flightsRequest)).toEqual(
+                expectedResult
+            );
         });
     });
 

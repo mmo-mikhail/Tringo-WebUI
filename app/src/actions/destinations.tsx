@@ -1,9 +1,16 @@
 import { destinationActionType } from './actionTypes';
 import { IDestination } from '../models/destination';
+import {
+    FlightDestinationRequest,
+    IFlightsRequestAction
+} from '../models/request/flightDestinationRequest';
 
-export const fetchDestinationsStart = () => {
+export const fetchDestinationsStart = (
+    model: FlightDestinationRequest
+): IFlightsRequestAction => {
     return {
-        type: destinationActionType.FETCH_DESTINATION_START
+        type: destinationActionType.FETCH_DESTINATION_START,
+        model
     };
 };
 

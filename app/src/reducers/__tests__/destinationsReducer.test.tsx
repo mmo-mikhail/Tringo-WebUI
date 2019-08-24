@@ -7,6 +7,7 @@ import {
 } from '../../actions/destinations';
 import { IDestination } from '../../models/destination';
 import { DestinationsState } from '../../models/destinations';
+import { FlightDestinationRequest } from '../../models/request/flightDestinationRequest';
 
 describe('destinationReducer', () => {
     const initialState = new DestinationsState();
@@ -24,9 +25,10 @@ describe('destinationReducer', () => {
 
     it('should handle fetchDestinationsStart correctly', () => {
         const expectedResult = state.set('error', null).set('isLoading', true);
-        expect(destinationsReducer(state, fetchDestinationsStart())).toEqual(
-            expectedResult
-        );
+        var flightsRequest = FlightDestinationRequest.createRandom();
+        expect(
+            destinationsReducer(state, fetchDestinationsStart(flightsRequest))
+        ).toEqual(expectedResult);
     });
 
     it('should handle fetchDestinationsSuccess correctly', () => {
