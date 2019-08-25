@@ -30,6 +30,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         };
         this.saveSelectedPanel(this.state.datePanelType);
         this.onSpecificDateChange = this.onSpecificDateChange.bind(this);
+        this.onUnknownDatesChange=this.onUnknownDatesChange.bind(this);
     }
 
     onSpecificDateChange(newDateRange: RangeModifier) {
