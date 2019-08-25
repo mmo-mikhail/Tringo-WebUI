@@ -73,12 +73,9 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
                  this.props.onChange(dates);         
             });
         } else {
-            let curmonth = this.state.monthnameoption;
-            if (curmonth !== 15 ) {
+            let curmonth = this.state.monthnameoption;          
                 let curbutton = document.getElementById(curmonth.toString());
-                curbutton!.className = 'btn-standard';
-            }
-          
+                curbutton!.className = 'btn-standard';                  
             this.setState({ monthnameoption: parseInt(cid) }, () => {
                 let dura=Duration.Weekend;
                 if(this.state.durationoption === Duration.Weekend) dura=Duration.Weekend; 
@@ -110,7 +107,7 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
                 <hr className="hr" />
                 <div id="durationbtgroup" className="btn-group">
                     <button
-                        id='Weekend'
+                        id={Duration[Duration.Weekend]}
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
@@ -119,7 +116,7 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
                         Weekend
                     </button>
                     <button
-                        id='Week'
+                        id={Duration[Duration.Week]}
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
@@ -128,7 +125,7 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
                         1 Week
                     </button>
                     <button
-                        id='TwoWeek'
+                        id={Duration[Duration.TwoWeek]}
                         className="btn-standard"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
