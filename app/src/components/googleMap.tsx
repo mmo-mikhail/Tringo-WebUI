@@ -2,22 +2,32 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import { googleZoomToKms } from 'utils/helpers';
-import PriceTagMarker from './marker/priceTagMarker';
-import { IDestination } from '../models/destination';
-import * as destinationActions from './../actions/destinations';
-import SearchWidgetWrapper from './searchWidget/searchWidgetWrapper';
+import PriceTagMarker from 'components/marker/priceTagMarker';
+import { IDestination } from 'models/destination';
+import * as destinationActions from 'actions/destinations';
+import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
 import {
+    Budget,
     FlightDestinationRequest,
-    MapArea,
-    Budget
-} from '../models/request/flightDestinationRequest';
-import {
-    DatesInput,
-    UncertainDates,
-    Duration
-} from '../models/request/dateInput';
+    MapArea
+} from 'models/request/flightDestinationRequest';
+import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 
-class SimpleMap extends React.Component<any, any> {
+export interface MapProp {
+    center: {
+        lat: number;
+        lng: number;
+    };
+    defaultZoom: number;
+    error?: object;
+    isLoading?: boolean;
+    destinations: {
+        map: (arg: object) => {};
+    };
+    fetchDestinations: (arg: object) => {};
+}
+
+class SimpleMap extends React.Component<MapProp, any> {
     constructor(props: any) {
         super(props);
 
@@ -74,28 +84,25 @@ class SimpleMap extends React.Component<any, any> {
     }
 
     requestDestinationsUpdate(model: FlightDestinationRequest) {
-        //console.log("requestDestinationsUpdate, for model:");
-        //console.log(model);
         this.setState({
             destinationsRequestModel: model
         });
-        //intiiate fetching destinations here
+        // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
 
     onMapDrag(args: any) {
-        var currentMode = this.state.destinationsRequestModel;
-        currentMode.areaToRequest.lat = args.center.lat();
-        currentMode.areaToRequest.lng = args.center.lng();
+        const currentMode = this.state.destinationsRequestModel;
+        currentMode.areaToRequest.lat = args.center.lat;
+        currentMode.areaToRequest.lng = args.center.lng;
 
         this.requestDestinationsUpdate(currentMode);
     }
 
     onMapZoomAnimationEnd(args: any) {
-        //console.log(args); //undefined ???
         if (args === undefined) return;
 
-        var currentMode = this.state.destinationsRequestModel;
+        const currentMode = this.state.destinationsRequestModel;
         //currentMode.areaToRequest.radius = googleZoomToKms(args.zoom));
         this.requestDestinationsUpdate(currentMode);
     }
@@ -105,13 +112,135 @@ class SimpleMap extends React.Component<any, any> {
             <div>
                 <GoogleMapReact
                     bootstrapURLKeys={{
-                        key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs'
+                        key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs',
+                        language: 'en'
                     }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
                     onDrag={this.onMapDrag}
                     onZoomAnimationEnd={this.onMapZoomAnimationEnd}
+                    options={{
+                        fullscreenControl: false,
+                        maxZoom:
+                            this.props.defaultZoom +
+                            this.props.defaultZoom * 0.3,
+                        minZoom:
+                            this.props.defaultZoom -
+                            this.props.defaultZoom * 0.2,
+                        minZoomOverride: true,
+                        disableDefaultUI: true,
+                        zoomControl: true,
+                        styles: [
+                            {
+                                featureType: 'all',
+                                elementType: 'geometry.fill',
+                                stylers: [
+                                    {
+                                        weight: '2.00'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'all',
+                                elementType: 'geometry.stroke',
+                                stylers: [
+                                    {
+                                        color: '#9c9c9c'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'all',
+                                elementType: 'labels.text',
+                                stylers: [
+                                    {
+                                        visibility: 'on'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'landscape',
+                                elementType: 'all',
+                                stylers: [
+                                    {
+                                        color: '#f2f2f2'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'landscape',
+                                elementType: 'geometry.fill',
+                                stylers: [
+                                    {
+                                        color: '#ffffff'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'landscape.man_made',
+                                elementType: 'geometry.fill',
+                                stylers: [
+                                    {
+                                        color: '#ffffff'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'poi',
+                                elementType: 'all',
+                                stylers: [
+                                    {
+                                        visibility: 'off'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'all',
+                                stylers: [{ visibility: 'off' }]
+                            },
+                            {
+                                featureType: 'transit',
+                                elementType: 'all',
+                                stylers: [
+                                    {
+                                        visibility: 'off'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'all',
+                                stylers: [
+                                    {
+                                        color: '#46bcec'
+                                    },
+                                    {
+                                        visibility: 'on'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'geometry.fill',
+                                stylers: [
+                                    {
+                                        color: '#c8d7d4'
+                                    }
+                                ]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'labels',
+                                stylers: [
+                                    {
+                                        visibility: 'off'
+                                    }
+                                ]
+                            }
+                        ]
+                    }}
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>

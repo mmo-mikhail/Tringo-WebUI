@@ -14,10 +14,16 @@ class Tringo extends React.Component<any, any> {
             <div className="App">
                 <SimpleMap
                     center={{ lat: -23.7970703, lng: 132.3082171 }}
-                    defaultZoom={4.72}
+                    defaultZoom={this.defaultZoom()}
                 />
             </div>
         );
+    }
+
+    private defaultZoom(): number {
+        const screenWidth = window.screen.width * window.devicePixelRatio;
+        // const screenHeight = window.screen.height * window.devicePixelRatio;
+        return screenWidth < 600 ? 10 : 4.72;
     }
 }
 
