@@ -31,7 +31,7 @@
         "no-use-before-define": 0,
         "prefer-template": 2,
         "require-yield": 0,
-        "one-var": [2, { "var": "always", "let": "always", "const": "never" }],
+        "one-var": [2, { "var": "always", "let": "never", "const": "never" }],
         "no-underscore-dangle": [2, { "allow": ["__Rewire__"] }],
         "import/imports-first": 0,
         "import/newline-after-import": 0,

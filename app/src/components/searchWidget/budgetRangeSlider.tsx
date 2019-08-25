@@ -14,7 +14,7 @@ export interface sliderProps {
     onChange: (sliderChange: number[]) => void;
 }
 
-class RangeSlider extends React.Component<sliderProps, any> {
+class BudgetRangeSlider extends React.Component<sliderProps, any> {
     constructor(props: any) {
         super(props);
         this.onChangeRange = this.onChangeRange.bind(this);
@@ -84,4 +84,4 @@ class RangeSlider extends React.Component<sliderProps, any> {
     }
 }
 
-export default RangeSlider;
+export default BudgetRangeSlider;

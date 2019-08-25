@@ -11,8 +11,8 @@ export interface dateProps {
     numberOfMonths: number;
     onDayChanged: (newDateRange: RangeModifier) => void;
 }
-class DatePicker extends React.Component<dateProps, any> {
-    constructor(props: any) {
+class TringoDatePicker extends React.Component<dateProps, any> {
+    constructor(props: dateProps) {
         super(props);
         this.handleDayClick = this.handleDayClick.bind(this);
         this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -25,9 +25,9 @@ class DatePicker extends React.Component<dateProps, any> {
         };
     }
 
-    getCalendarHeader(showMonth: any, numberOfMonthsAhead: any) {
+    getCalendarHeader(showMonth: Date, numberOfMonthsAhead: number) {
         let options = [];
-        let nextMonth: any;
+        let nextMonth: Date = new Date();
         for (let i = 0; i < numberOfMonthsAhead + 1; i++) {
             let month = dateFns.addMonths(new Date(), i);
             nextMonth = dateFns.addMonths(showMonth, 1);
@@ -72,8 +72,9 @@ class DatePicker extends React.Component<dateProps, any> {
         if (this.state.disabled) return;
 
         const { from, to } = this.props;
-        if ((from && !to) || (!from && to))
+        if ((from && !to) || (!from && to)) {
             this.setState({ hoveredToDate: day });
+        }
     }
 
     handleMonthSelected(selectedOption: any) {
@@ -125,4 +126,4 @@ class DatePicker extends React.Component<dateProps, any> {
     }
 }
 
-export default DatePicker;
+export default TringoDatePicker;
