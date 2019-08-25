@@ -2,7 +2,7 @@ import * as React from 'react';
 import './styles/dateInput.scss';
 import '../../common.scss';
 import { Dateunknown } from './dateunknown';
-import DatePicker from './datepicker';
+import TringoDatePicker from './tringoDatePicker';
 import { DatesInput, UncertainDates } from '../../../models/request/dateInput';
 import { RangeModifier } from 'react-day-picker';
 
@@ -102,10 +102,11 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 </div>
                 {this.state.datePanelType === datePanelTypes.SPECIFIC_DATES && (
                     <div className="specific-dates-main-area">
-                        <DatePicker
+                        <TringoDatePicker
                             from={from}
                             to={to}
                             maxAvailableMonths={11}
+                            numberOfMonths={2}
                             onDayChanged={this.onSpecificDateChange}
                         />
                     </div>

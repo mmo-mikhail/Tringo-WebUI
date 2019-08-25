@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import Autocomplete from './Autocomplete';
-import RangeSlider from './slider';
+import BudgetRangeSlider from './budgetRangeSlider';
 import DatePanel from './date-input/datePanel';
 
 import {
     FlightDestinationRequest,
     Budget
-} from './../../models/request/flightDestinationRequest';
+} from '../../models/request/flightDestinationRequest';
 import { DatesInput } from '../../models/request/dateInput';
 
 interface StateChangedProps {
@@ -104,7 +104,7 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                         onChange={this.onDepartureChanged}
                     />
 
-                    <RangeSlider
+                    <BudgetRangeSlider
                         min={this.state.budgetMin}
                         max={this.state.budgetMax}
                         values={this.state.budgetValues}

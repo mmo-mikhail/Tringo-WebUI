@@ -8,10 +8,11 @@ export interface dateProps {
     from: any;
     to: any;
     maxAvailableMonths: number;
+    numberOfMonths: number;
     onDayChanged: (newDateRange: RangeModifier) => void;
 }
-class DatePicker extends React.Component<dateProps, any> {
-    constructor(props: any) {
+class TringoDatePicker extends React.Component<dateProps, any> {
+    constructor(props: dateProps) {
         super(props);
         this.handleDayClick = this.handleDayClick.bind(this);
         this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -24,10 +25,12 @@ class DatePicker extends React.Component<dateProps, any> {
         };
     }
 
-    getCalendarHeader(showMonth: any, numberOfMonthsAhead: any) {
+    getCalendarHeader(showMonth: Date, numberOfMonthsAhead: number) {
         let options = [];
+        let nextMonth: Date = new Date();
         for (let i = 0; i < numberOfMonthsAhead + 1; i++) {
             let month = dateFns.addMonths(new Date(), i);
+            nextMonth = dateFns.addMonths(showMonth, 1);
             let monthStr = dateFns.format(month, 'MMMM yyyy');
             let monthVal = dateFns.format(month, 'yyyy-MM-01');
             options.push({ value: monthVal, label: monthStr });
@@ -35,6 +38,7 @@ class DatePicker extends React.Component<dateProps, any> {
 
         let label = dateFns.format(showMonth, 'MMMM yyyy');
         let value = dateFns.format(showMonth, 'yyyy-MM-01');
+        let nextmonthlabel = dateFns.format(nextMonth, 'MMMM yyyy');
         return (
             <div className="header">
                 <Select
@@ -45,6 +49,7 @@ class DatePicker extends React.Component<dateProps, any> {
                     classNamePrefix="rc-select"
                     onChange={this.handleMonthSelected}
                 />
+                <p className="sideheader">{nextmonthlabel}</p>
             </div>
         );
     }
@@ -67,8 +72,9 @@ class DatePicker extends React.Component<dateProps, any> {
         if (this.state.disabled) return;
 
         const { from, to } = this.props;
-        if ((from && !to) || (!from && to))
+        if ((from && !to) || (!from && to)) {
             this.setState({ hoveredToDate: day });
+        }
     }
 
     handleMonthSelected(selectedOption: any) {
@@ -94,6 +100,7 @@ class DatePicker extends React.Component<dateProps, any> {
                 {this.getCalendarHeader(showMonth, maxAvailableMonths)}
                 <DayPicker
                     selectedDays={{ from, to: hoveredToDate }}
+                    numberOfMonths={this.props.numberOfMonths}
                     month={showMonth}
                     showOutsideDays
                     disabledDays={{
@@ -119,4 +126,4 @@ class DatePicker extends React.Component<dateProps, any> {
     }
 }
 
-export default DatePicker;
+export default TringoDatePicker;
