@@ -105,6 +105,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                             from={from}
                             to={to}
                             maxAvailableMonths={11}
+                            numberOfMonths={2}
                             onDayChanged={this.onSpecificDateChange}
                         />
                     </div>

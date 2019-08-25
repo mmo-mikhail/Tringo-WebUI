@@ -8,6 +8,7 @@ export interface dateProps {
     from: any;
     to: any;
     maxAvailableMonths: number;
+    numberOfMonths: number;
     onDayChanged: (newDateRange: RangeModifier) => void;
 }
 class DatePicker extends React.Component<dateProps, any> {
@@ -26,8 +27,10 @@ class DatePicker extends React.Component<dateProps, any> {
 
     getCalendarHeader(showMonth: any, numberOfMonthsAhead: any) {
         let options = [];
+        let nextMonth: any;
         for (let i = 0; i < numberOfMonthsAhead + 1; i++) {
             let month = dateFns.addMonths(new Date(), i);
+            nextMonth = dateFns.addMonths(showMonth, 1);
             let monthStr = dateFns.format(month, 'MMMM yyyy');
             let monthVal = dateFns.format(month, 'yyyy-MM-01');
             options.push({ value: monthVal, label: monthStr });
@@ -35,6 +38,7 @@ class DatePicker extends React.Component<dateProps, any> {
 
         let label = dateFns.format(showMonth, 'MMMM yyyy');
         let value = dateFns.format(showMonth, 'yyyy-MM-01');
+        let nextmonthlabel = dateFns.format(nextMonth, 'MMMM yyyy');
         return (
             <div className="header">
                 <Select
@@ -45,6 +49,7 @@ class DatePicker extends React.Component<dateProps, any> {
                     classNamePrefix="rc-select"
                     onChange={this.handleMonthSelected}
                 />
+                <p className="sideheader">{nextmonthlabel}</p>
             </div>
         );
     }
@@ -94,6 +99,7 @@ class DatePicker extends React.Component<dateProps, any> {
                 {this.getCalendarHeader(showMonth, maxAvailableMonths)}
                 <DayPicker
                     selectedDays={{ from, to: hoveredToDate }}
+                    numberOfMonths={this.props.numberOfMonths}
                     month={showMonth}
                     showOutsideDays
                     disabledDays={{
