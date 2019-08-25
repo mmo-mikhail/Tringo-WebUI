@@ -24,7 +24,7 @@ export interface DateUnknownProps{
 }
 export interface DateUnknownState{
     monthnameoption:number,
-    durationoption:string
+    durationoption:Duration
 }
 export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownState> {
     constructor(props: DateUnknownProps) {
@@ -32,8 +32,8 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
         this.handleClick = this.handleClick.bind(this);
         this.createMonthOptions = this.createMonthOptions.bind(this);
         this.state = {
-            monthnameoption: -1,
-            durationoption: Duration[this.props.initialDates.duration]||'Weekend',
+            monthnameoption: this.props.initialDates.monthIdx,
+            durationoption: this.props.initialDates.duration,
         };
     }
     createMonthOptions() {
@@ -58,24 +58,17 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
     }
     handleClick(event: React.MouseEvent<HTMLElement>) {
         let cid = event.currentTarget.id;
-        if (cid === Duration[1] || cid === Duration[2] || 
-            cid === Duration[4]) {
+        if (cid === Duration[Duration.Weekend] || cid === Duration[Duration.Week] || 
+            cid === Duration[Duration.TwoWeek]) {
             let curduration = this.state.durationoption;
-            if (
-                curduration === Duration[1] ||
-                curduration === Duration[2] ||
-                curduration === Duration[4]
-            ) {
-                let curbutton = document.getElementById(curduration);
-                curbutton!.className = 'btn-standard';
-            }
-               
-            this.setState({ durationoption: cid,   
-            }, () => {
+            let curbutton = document.getElementById(Duration[curduration]);
+            curbutton!.className = 'btn-standard';   
                 let dura=Duration.Weekend;
-                if(cid === Duration[1]) dura=Duration.Weekend; 
-                if(cid === Duration[2]) dura=Duration.Week;
-                if(cid === Duration[4]) dura=Duration.TwoWeek;              
+                if(cid === Duration[Duration.Weekend]) dura=Duration.Weekend; 
+                if(cid === Duration[Duration.Week]) dura=Duration.Week;
+                if(cid === Duration[Duration.TwoWeek]) dura=Duration.TwoWeek;      
+            this.setState({ durationoption: dura,   
+            }, () => {                  
                  const dates=new UncertainDates(this.state.monthnameoption,dura);
                  this.props.onChange(dates);         
             });
@@ -88,9 +81,9 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
           
             this.setState({ monthnameoption: parseInt(cid) }, () => {
                 let dura=Duration.Weekend;
-                if(this.state.durationoption === Duration[1]) dura=Duration.Weekend; 
-                if(this.state.durationoption === Duration[2] ) dura=Duration.Week; 
-                if(this.state.durationoption === Duration[4]) dura=Duration.TwoWeek;
+                if(this.state.durationoption === Duration.Weekend) dura=Duration.Weekend; 
+                if(this.state.durationoption === Duration.Week) dura=Duration.Week; 
+                if(this.state.durationoption ===Duration.TwoWeek) dura=Duration.TwoWeek;
                  const dates=new UncertainDates(this.state.monthnameoption,dura);
                  this.props.onChange(dates);               
             });
