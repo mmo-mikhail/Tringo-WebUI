@@ -1,12 +1,8 @@
 import * as React from 'react';
 import './styles/dateInput.scss';
 import { ExpandedDatePanel, StateChangedProps } from './expandedDatePanel';
-import {
-    DatesInput,
-    Duration,
-    UncertainDates
-} from '../../../models/request/dateInput';
-import { monthNames } from './dateunknown';
+import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
+import { monthNames } from './dateUnknown';
 
 interface DatePanelState {
     isHidden: boolean;
