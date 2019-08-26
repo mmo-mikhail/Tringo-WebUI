@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './styles/dateInput.scss';
 import '../../common.scss';
-import { Dateunknown } from './dateunknown';
+import { DateUnknown } from './dateUnknown';
 import TringoDatePicker from './tringoDatePicker';
 import { DatesInput, UncertainDates } from '../../../models/request/dateInput';
 import { RangeModifier } from 'react-day-picker';
@@ -30,7 +30,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         };
         this.saveSelectedPanel(this.state.datePanelType);
         this.onSpecificDateChange = this.onSpecificDateChange.bind(this);
-        this.onUnknownDatesChange=this.onUnknownDatesChange.bind(this);
+        this.onUnknownDatesChange = this.onUnknownDatesChange.bind(this);
     }
 
     onSpecificDateChange(newDateRange: RangeModifier) {
@@ -113,7 +113,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 )}
                 {this.state.datePanelType === datePanelTypes.UNKNOWN_DATES && (
                     <div className="flexible-dates-main-area">
-                        <Dateunknown
+                        <DateUnknown
                             initialDates={this.state.unknownDates}
                             onChange={this.onUnknownDatesChange}
                         />
