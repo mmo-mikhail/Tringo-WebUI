@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact, { MapTypeStyle } from 'google-map-react';
 import { googleZoomToKms } from 'utils/helpers';
 import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/destination';
@@ -12,6 +12,7 @@ import {
     MapArea
 } from 'models/request/flightDestinationRequest';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
+import gMapConf from './gMapConf.json';
 
 export interface MapProp {
     center: {
@@ -27,7 +28,11 @@ export interface MapProp {
     fetchDestinations: (arg: object) => {};
 }
 
-class SimpleMap extends React.Component<MapProp, any> {
+export interface MapState {
+    destinationsRequestModel: FlightDestinationRequest;
+}
+
+class SimpleMap extends React.Component<MapProp, MapState> {
     constructor(props: any) {
         super(props);
 
@@ -131,63 +136,7 @@ class SimpleMap extends React.Component<MapProp, any> {
                         minZoomOverride: true,
                         disableDefaultUI: true,
                         zoomControl: true,
-                        styles: [
-                            {
-                                featureType: 'all',
-                                elementType: 'geometry.fill',
-                                stylers: [{ weight: '2.00' }]
-                            },
-                            {
-                                featureType: 'all',
-                                elementType: 'geometry.stroke',
-                                stylers: [{ color: '#9c9c9c' }]
-                            },
-                            {
-                                featureType: 'all',
-                                elementType: 'labels.text',
-                                stylers: [{ visibility: 'on' }]
-                            },
-                            {
-                                featureType: 'administrative.province',
-                                elementType: 'all',
-                                stylers: [{ visibility: 'off' }]
-                            },
-                            {
-                                featureType: 'landscape',
-                                elementType: 'all',
-                                stylers: [{ color: '#f2f2f2' }]
-                            },
-                            {
-                                featureType: 'poi',
-                                elementType: 'all',
-                                stylers: [{ visibility: 'off' }]
-                            },
-                            {
-                                featureType: 'road',
-                                elementType: 'all',
-                                stylers: [{ visibility: 'off' }]
-                            },
-                            {
-                                featureType: 'transit',
-                                elementType: 'all',
-                                stylers: [{ visibility: 'off' }]
-                            },
-                            {
-                                featureType: 'water',
-                                elementType: 'all',
-                                stylers: [{ color: '#46BCEC' }]
-                            },
-                            {
-                                featureType: 'water',
-                                elementType: 'geometry.fill',
-                                stylers: [{ color: '#c8d7d4' }]
-                            },
-                            {
-                                featureType: 'water',
-                                elementType: 'labels',
-                                stylers: [{ visibility: 'off' }]
-                            }
-                        ]
+                        styles: gMapConf.styles as MapTypeStyle[]
                     }}
                 >
                     {this.renderDestinations()}
