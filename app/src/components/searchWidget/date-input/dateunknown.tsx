@@ -32,8 +32,8 @@ export class Dateunknown extends React.Component<DateUnknownProps, DateUnknownSt
         this.handleClick = this.handleClick.bind(this);
         this.createMonthOptions = this.createMonthOptions.bind(this);
         this.state = {
-            monthnameoption: this.props.initialDates.monthIdx,
-            durationoption: this.props.initialDates.duration,
+            monthnameoption:-1,
+            durationoption:Duration.Weekend,
         };
     }
     createMonthOptions() {
