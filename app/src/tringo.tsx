@@ -1,7 +1,6 @@
 import * as React from 'react';
-
 import './tringo.scss';
-
+import gMapConf from 'components/gMapConf.json';
 import SimpleMap from './components/googleMap';
 
 /**
@@ -13,7 +12,7 @@ class Tringo extends React.Component<any, any> {
         return (
             <div className="App">
                 <SimpleMap
-                    center={{ lat: -23.7970703, lng: 132.3082171 }}
+                    center={gMapConf.defaultCentre}
                     defaultZoom={this.defaultZoom()}
                 />
             </div>
@@ -21,9 +20,13 @@ class Tringo extends React.Component<any, any> {
     }
 
     private defaultZoom(): number {
-        const screenWidth = window.screen.width * window.devicePixelRatio;
+        const zoom =
+            window.screen.width < 600
+                ? (gMapConf.defaultMobileZoom as number)
+                : (gMapConf.defaultDesktopZoom as number);
+
         // const screenHeight = window.screen.height * window.devicePixelRatio;
-        return screenWidth < 600 ? 10 : 4.72;
+        return zoom;
     }
 }
 
