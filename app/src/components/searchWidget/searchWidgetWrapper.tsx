@@ -7,8 +7,8 @@ import DatePanel from './date-input/datePanel';
 import {
     FlightDestinationRequest,
     Budget
-} from '../../models/request/flightDestinationRequest';
-import { DatesInput } from '../../models/request/dateInput';
+} from 'models/request/flightDestinationRequest';
+import { DatesInput } from 'models/request/dateInput';
 
 interface StateChangedProps {
     onChange: (model: FlightDestinationRequest) => void;
