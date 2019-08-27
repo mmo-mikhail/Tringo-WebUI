@@ -10,7 +10,7 @@ interface MarkerProps {
     priority: number
 }
 
-export default class PriceTagMarker extends React.Component<MarkerProps, any> {
+export default class PriceTagMarker extends React.Component<MarkerProps> {
     render() {
         return (
             <p className="price-marker">
