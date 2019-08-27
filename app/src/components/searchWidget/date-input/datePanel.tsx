@@ -30,7 +30,19 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         this.setState({
             currentModel: dateModel
         });
+
+        // when nothing selected OR only date From is selected
+        if (dateModel.uncertainDates == null && dateModel.dateUntil == null)
+            return; // need to handle this case to keep state updated, but do not proceed further
+
         this.props.onChange(dateModel);
+
+        if (dateModel.uncertainDates == null && dateModel.dateUntil != null) {
+            // specific dates werre selected, so close the window
+            this.setState({
+                isHidden: true
+            });
+        }
     }
 
     render() {
@@ -137,6 +149,13 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
             event.target.className.indexOf('rc-select') === -1 &&
             event.target.id.indexOf('react-select-') === -1
         ) {
+            if (
+                this.state.currentModel.dateUntil == null &&
+                this.state.currentModel.uncertainDates == null
+            ) {
+                return;
+            }
+
             event.preventDefault();
             event.stopPropagation();
 
