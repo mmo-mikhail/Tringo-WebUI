@@ -72,15 +72,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }
         return (
             destinations &&
-            destinations.map((record: IDestination, idx: number) => (
-                <PriceTagMarker
-                    key={idx}
-                    lat={record.lat}
-                    lng={record.lng}
-                    price={record.price}
-                    title={record.cityName}
-                />
-            ))
+            destinations.map((record: IDestination, idx: number) => {
+                    if (record.lat === undefined
+                        || record.lng === undefined
+                        || record.price === undefined
+                        || record.personalPriorityIdx === undefined
+                        || record.cityName === undefined) {
+                        return "";
+                    }
+                    return (
+                        <PriceTagMarker
+                            key={idx} // required for Maps API
+                            lat={record.lat} // to be consumed only by Maps API
+                            lng={record.lng} // to be consumed only by Maps API
+
+                            // properties used by marker component properties:
+                            price={record.price}
+                            title={record.cityName}
+                            priority={record.personalPriorityIdx}
+                        />
+                    );
+                })
         );
     }
 
