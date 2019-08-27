@@ -3,7 +3,11 @@ import './styles/dateInput.scss';
 import '../../common.scss';
 import { DateUnknown } from './dateUnknown';
 import TringoDatePicker from './tringoDatePicker';
-import { DatesInput, UncertainDates } from '../../../models/request/dateInput';
+import {
+    DatesInput,
+    UncertainDates,
+    Duration
+} from '../../../models/request/dateInput';
 import { RangeModifier } from 'react-day-picker';
 
 export enum datePanelTypes {
@@ -38,11 +42,10 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
             from: newDateRange.from,
             to: newDateRange.to
         });
-        if (newDateRange.from && newDateRange.to) {
-            this.props.initialModel.dateFrom = newDateRange.from;
-            this.props.initialModel.dateUntil = newDateRange.to;
-            this.props.onChange(this.props.initialModel);
-        }
+
+        this.props.initialModel.dateFrom = newDateRange.from;
+        this.props.initialModel.dateUntil = newDateRange.to;
+        this.props.onChange(this.props.initialModel); // will be checked for nulls and stoped later on
     }
 
     onUnknownDatesChange(unknownDates: UncertainDates) {
@@ -61,11 +64,19 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         this.saveSelectedPanel(panelType);
 
         if (
-            this.props.initialModel.dateFrom === null &&
-            this.props.initialModel.dateUntil === null &&
+            panelType === datePanelTypes.UNKNOWN_DATES &&
             this.props.initialModel.uncertainDates === null
-        )
-            return; // the selection was changed but nothign is selected yet
+        ) {
+            // Set Default month and duration here
+            this.props.initialModel.uncertainDates = new UncertainDates(
+                -1,
+                Duration.Weekend
+            );
+            this.setState({
+                unknownDates: this.props.initialModel.uncertainDates
+            });
+        }
+
         this.props.onChange(this.props.initialModel);
     }
 
