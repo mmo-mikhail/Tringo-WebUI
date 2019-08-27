@@ -5,7 +5,6 @@ import * as destinationAction from '../actions/destinations';
 import { IFlightsRequestAction } from '../models/request/flightDestinationRequest';
 
 export function* fetchDestinationsSaga(action: IFlightsRequestAction) {
-    debugger;
     try {
         const response = yield call(
             // axios.post,
