@@ -31,7 +31,8 @@ describe('Destinaton Actions', () => {
                 lat: 4322.34,
                 lng: 5436.789,
                 price: 5432.21,
-                cityName: 'CityNameTest'
+                cityName: 'CityNameTest',
+                personalPriorityIdx: 6
             }
         ];
 

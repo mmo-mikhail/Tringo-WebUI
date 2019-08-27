@@ -7,6 +7,7 @@ export interface IDestination {
     lng?: number;
     price?: number;
     cityName?: string;
+    personalPriorityIdx?:number
 }
 
 export interface IDestinationStore extends IDestination, IBaseModel {}
@@ -16,6 +17,7 @@ const defaultValues: IDestinationStore = {
     lng: undefined,
     price: undefined,
     cityName: undefined,
+    personalPriorityIdx: undefined,
     isLoading: false,
     error: null
 };
