@@ -11,7 +11,7 @@ export class FlightDestinationRequest {
     static createRandom(): FlightDestinationRequest {
         return new FlightDestinationRequest(
             'MEL',
-            new MapArea(-12.21, 66.6, 199),
+            MapArea.createRandom(),
             new Budget(0, 1000),
             new DatesInput(null, null, new UncertainDates(10, Duration.Weekend))
         );
@@ -24,10 +24,24 @@ export class Budget {
 
 export class MapArea {
     constructor(
-        public lat: number,
-        public lng: number,
-        public radius: number
+        public nw: Coordinates,
+        public ne: Coordinates,
+        public sw: Coordinates,
+        public se: Coordinates
     ) {}
+
+    static createRandom(): MapArea {
+        return new MapArea(
+            new Coordinates(12.1, 32.2),
+            new Coordinates(14.9, -52.1),
+            new Coordinates(22.1, -72.3),
+            new Coordinates(52.8, 39.67)
+        );
+    }
+}
+
+export class Coordinates {
+    constructor(public lat: number, public lng: number) {}
 }
 
 export interface IFlightsRequestAction {
