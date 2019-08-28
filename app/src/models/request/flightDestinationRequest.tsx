@@ -23,18 +23,11 @@ export class Budget {
 }
 
 export class MapArea {
-    constructor(
-        public nw: Coordinates,
-        public ne: Coordinates,
-        public sw: Coordinates,
-        public se: Coordinates
-    ) {}
+    constructor(public nw: Coordinates, public se: Coordinates) {}
 
     static createRandom(): MapArea {
         return new MapArea(
             new Coordinates(12.1, 32.2),
-            new Coordinates(14.9, -52.1),
-            new Coordinates(22.1, -72.3),
             new Coordinates(52.8, 39.67)
         );
     }

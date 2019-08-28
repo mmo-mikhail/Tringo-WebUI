@@ -108,7 +108,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     // mapChanged. Get fired on: drag end/zoom/on initial load
     mapChanged(changeEvent: ChangeEventValue) {
         const currentMode = this.state.destinationsRequestModel;
-        currentMode.searchArea = changeEvent.marginBounds;
+        currentMode.searchArea.nw = changeEvent.marginBounds.nw;
+        currentMode.searchArea.se = changeEvent.marginBounds.se;
         this.requestDestinationsUpdate(currentMode);
     }
 
