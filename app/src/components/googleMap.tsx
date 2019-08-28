@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import GoogleMapReact, { MapTypeStyle } from 'google-map-react';
-import { googleZoomToKms } from 'utils/helpers';
+import GoogleMapReact, {
+    MapTypeStyle,
+    ChangeEventValue
+} from 'google-map-react';
 import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/destination';
 import * as destinationActions from 'actions/destinations';
@@ -36,14 +38,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     constructor(props: any) {
         super(props);
 
+        // no matters what MapArea at this point at all,
+        // we set lat/lng and zoom for component directly and it will be overriden
         this.state = {
             destinationsRequestModel: new FlightDestinationRequest(
                 'MEL',
-                new MapArea(
-                    this.props.center.lat,
-                    this.props.center.lng,
-                    googleZoomToKms(this.props.defaultZoom)
-                ),
+                MapArea.createRandom(),
                 new Budget(0, 1000),
                 new DatesInput(
                     null,
@@ -55,11 +55,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 )
             )
         };
+
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(
             this
         );
-        this.onMapDrag = this.onMapDrag.bind(this);
-        this.onMapZoomAnimationEnd = this.onMapZoomAnimationEnd.bind(this);
+        this.mapChanged = this.mapChanged.bind(this);
     }
 
     renderDestinations() {
@@ -97,10 +97,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         );
     }
 
-    componentDidMount() {
-        this.props.fetchDestinations(this.state.destinationsRequestModel);
-    }
-
     requestDestinationsUpdate(model: FlightDestinationRequest) {
         this.setState({
             destinationsRequestModel: model
@@ -109,19 +105,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
 
-    onMapDrag(args: any) {
+    // mapChanged. Get fired on: drag end/zoom/on initial load
+    mapChanged(changeEvent: ChangeEventValue) {
         const currentMode = this.state.destinationsRequestModel;
-        currentMode.searchArea.lat = args.center.lat();
-        currentMode.searchArea.lng = args.center.lng();
-
-        this.requestDestinationsUpdate(currentMode);
-    }
-
-    onMapZoomAnimationEnd(args: any) {
-        if (args === undefined) return;
-
-        const currentMode = this.state.destinationsRequestModel;
-        //currentMode.searchArea.radius = googleZoomToKms(args.zoom));
+        currentMode.searchArea.nw = changeEvent.marginBounds.nw;
+        currentMode.searchArea.se = changeEvent.marginBounds.se;
         this.requestDestinationsUpdate(currentMode);
     }
 
@@ -136,8 +124,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
-                    onDrag={this.onMapDrag}
-                    onZoomAnimationEnd={this.onMapZoomAnimationEnd}
+                    onChange={this.mapChanged}
                     options={{
                         fullscreenControl: false,
                         maxZoom:

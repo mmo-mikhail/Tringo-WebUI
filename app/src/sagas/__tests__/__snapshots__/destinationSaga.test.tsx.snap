@@ -22,9 +22,14 @@ Object {
         },
         "departureAirportId": "MEL",
         "searchArea": MapArea {
-          "lat": -12.21,
-          "lng": 66.6,
-          "radius": 199,
+          "nw": Coordinates {
+            "lat": 12.1,
+            "lng": 32.2,
+          },
+          "se": Coordinates {
+            "lat": 52.8,
+            "lng": 39.67,
+          },
         },
       },
     ],
@@ -57,9 +62,14 @@ Object {
         },
         "departureAirportId": "MEL",
         "searchArea": MapArea {
-          "lat": -12.21,
-          "lng": 66.6,
-          "radius": 199,
+          "nw": Coordinates {
+            "lat": 12.1,
+            "lng": 32.2,
+          },
+          "se": Coordinates {
+            "lat": 52.8,
+            "lng": 39.67,
+          },
         },
       },
     ],
