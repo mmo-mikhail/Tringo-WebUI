@@ -7,15 +7,17 @@ $break-small: 375px;
 }
 
 .pickup-location {
-    width: 455px;
-    margin: 20px;
+    top:3px;
+    width: 20%;
+    height: 50px;
+    margin: 10px;
 }
 
 .widgetContainer {
     position: absolute;
-    width: 600px;
-    min-height: 300px;
-    margin: 15px;
+    width: 95%;
+    height: 80px;
+    margin: 5px;
     background-color: #333;
     opacity: 0.85;
     transition: opacity linear 0.15s;
@@ -25,3 +27,6 @@ $break-small: 375px;
         transition: opacity ease 0.15s;
     }
 }
+
+
+

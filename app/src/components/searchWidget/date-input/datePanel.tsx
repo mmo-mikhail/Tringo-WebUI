@@ -3,6 +3,8 @@ import './styles/dateInput.scss';
 import { ExpandedDatePanel, StateChangedProps } from './expandedDatePanel';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import { monthNames } from './dateUnknown';
+import {components} from 'react-select';
+import classnames from 'classnames';
 
 interface DatePanelState {
     isHidden: boolean;
@@ -13,6 +15,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     private datePanelWrapper: React.RefObject<HTMLInputElement> | undefined;
 
     bindHandleOutsideClick(event: any) {}
+
 
     constructor(props: StateChangedProps) {
         super(props);
@@ -33,7 +36,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         // when nothing selected OR only date From is selected
         if (dateModel.uncertainDates == null && dateModel.dateUntil == null)
-            return; // need to handle this case to keep state updated, but do not proceed further
+        {return;} // need to handle this case to keep state updated, but do not proceed further
 
         this.props.onChange(dateModel);
 
@@ -55,20 +58,20 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
                     >
                         {this.state.currentModel &&
                             this.state.currentModel.uncertainDates && (
-                                <div>
-                                    {this.getUncertainDatesText(
-                                        this.state.currentModel.uncertainDates
-                                    )}
-                                </div>
-                            )}
+                            <div>
+                                {this.getUncertainDatesText(
+                                    this.state.currentModel.uncertainDates
+                                )}
+                            </div>
+                        )}
                         {this.state.currentModel &&
                             this.state.currentModel.dateFrom && (
-                                <div>
-                                    {this.getSpecificDatesText(
-                                        this.state.currentModel
-                                    )}
-                                </div>
-                            )}
+                            <div>
+                                {this.getSpecificDatesText(
+                                    this.state.currentModel
+                                )}
+                            </div>
+                        )}
                     </div>
                     {!this.state.isHidden && (
                         <ExpandedDatePanel
@@ -167,3 +170,4 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 }
 
 export default DatePanel;
+
