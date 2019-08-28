@@ -111,8 +111,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     onMapDrag(args: any) {
         const currentMode = this.state.destinationsRequestModel;
-        currentMode.searchArea.lat = args.center.lat;
-        currentMode.searchArea.lng = args.center.lng;
+        currentMode.searchArea.lat = args.center.lat();
+        currentMode.searchArea.lng = args.center.lng();
 
         this.requestDestinationsUpdate(currentMode);
     }
