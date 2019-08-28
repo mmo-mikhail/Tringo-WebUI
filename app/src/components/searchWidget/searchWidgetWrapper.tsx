@@ -21,12 +21,12 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
 
         this.state = {
             datesState: this.props.initialModel.dates,
-            budgetMin: this.props.initialModel.budget.from,
-            budgetMax: this.props.initialModel.budget.to,
+            budgetMin: this.props.initialModel.budget.min,
+            budgetMax: this.props.initialModel.budget.max,
             budgetStep: 10,
             budgetValues: [
-                this.props.initialModel.budget.from,
-                this.props.initialModel.budget.to
+                this.props.initialModel.budget.min,
+                this.props.initialModel.budget.max
             ]
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);

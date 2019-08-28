@@ -73,26 +73,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         return (
             destinations &&
             destinations.map((record: IDestination, idx: number) => {
-                    if (record.lat === undefined
-                        || record.lng === undefined
-                        || record.price === undefined
-                        || record.personalPriorityIdx === undefined
-                        || record.cityName === undefined) {
-                        return "";
-                    }
-                    return (
-                        <PriceTagMarker
-                            key={idx} // required for Maps API
-                            lat={record.lat} // to be consumed only by Maps API
-                            lng={record.lng} // to be consumed only by Maps API
-
-                            // properties used by marker component properties:
-                            price={record.price}
-                            title={record.cityName}
-                            priority={record.personalPriorityIdx}
-                        />
-                    );
-                })
+                if (
+                    record.lat === undefined ||
+                    record.lng === undefined ||
+                    record.price === undefined ||
+                    record.personalPriorityIdx === undefined ||
+                    record.cityName === undefined
+                ) {
+                    return '';
+                }
+                return (
+                    <PriceTagMarker
+                        key={idx} // required for Maps API
+                        lat={record.lat} // to be consumed only by Maps API
+                        lng={record.lng} // to be consumed only by Maps API
+                        // properties used by marker component properties:
+                        price={record.price}
+                        title={record.cityName}
+                        priority={record.personalPriorityIdx}
+                    />
+                );
+            })
         );
     }
 
@@ -110,8 +111,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     onMapDrag(args: any) {
         const currentMode = this.state.destinationsRequestModel;
-        currentMode.areaToRequest.lat = args.center.lat;
-        currentMode.areaToRequest.lng = args.center.lng;
+        currentMode.searchArea.lat = args.center.lat;
+        currentMode.searchArea.lng = args.center.lng;
 
         this.requestDestinationsUpdate(currentMode);
     }
@@ -120,7 +121,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         if (args === undefined) return;
 
         const currentMode = this.state.destinationsRequestModel;
-        //currentMode.areaToRequest.radius = googleZoomToKms(args.zoom));
+        //currentMode.searchArea.radius = googleZoomToKms(args.zoom));
         this.requestDestinationsUpdate(currentMode);
     }
 

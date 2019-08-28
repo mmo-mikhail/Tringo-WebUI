@@ -3,7 +3,7 @@ import { DatesInput, UncertainDates, Duration } from './dateInput';
 export class FlightDestinationRequest {
     constructor(
         public departureAirportId: string, // as IATA
-        public areaToRequest: MapArea,
+        public searchArea: MapArea,
         public budget: Budget,
         public dates: DatesInput
     ) {}
@@ -19,7 +19,7 @@ export class FlightDestinationRequest {
 }
 
 export class Budget {
-    constructor(public from: number, public to: number) {}
+    constructor(public min: number, public max: number) {}
 }
 
 export class MapArea {
