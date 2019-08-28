@@ -6,7 +6,27 @@ Object {
   "combinator": false,
   "payload": Object {
     "args": Array [
-      "/api/v1/flights/GetDestinationPrice",
+      "/api/v1/flights/GetDestinationPrices",
+      FlightDestinationRequest {
+        "budget": Budget {
+          "max": 1000,
+          "min": 0,
+        },
+        "dates": DatesInput {
+          "dateFrom": null,
+          "dateUntil": null,
+          "uncertainDates": UncertainDates {
+            "duration": 1,
+            "monthIdx": 10,
+          },
+        },
+        "departureAirportId": "MEL",
+        "searchArea": MapArea {
+          "lat": -12.21,
+          "lng": 66.6,
+          "radius": 199,
+        },
+      },
     ],
     "context": null,
     "fn": [Function],
@@ -21,7 +41,27 @@ Object {
   "combinator": false,
   "payload": Object {
     "args": Array [
-      "/api/v1/flights/GetDestinationPrice",
+      "/api/v1/flights/GetDestinationPrices",
+      FlightDestinationRequest {
+        "budget": Budget {
+          "max": 1000,
+          "min": 0,
+        },
+        "dates": DatesInput {
+          "dateFrom": null,
+          "dateUntil": null,
+          "uncertainDates": UncertainDates {
+            "duration": 1,
+            "monthIdx": 10,
+          },
+        },
+        "departureAirportId": "MEL",
+        "searchArea": MapArea {
+          "lat": -12.21,
+          "lng": 66.6,
+          "radius": 199,
+        },
+      },
     ],
     "context": null,
     "fn": [Function],
