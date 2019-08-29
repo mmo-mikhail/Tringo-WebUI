@@ -127,12 +127,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onChange={this.mapChanged}
                     options={{
                         fullscreenControl: false,
-                        maxZoom:
-                            this.props.defaultZoom +
-                            this.props.defaultZoom * 0.3,
-                        minZoom:
-                            this.props.defaultZoom -
-                            this.props.defaultZoom * 0.2,
+                        maxZoom: this.props.defaultZoom * 1.5,
+                        minZoom: this.props.defaultZoom * 0.8,
                         minZoomOverride: true,
                         disableDefaultUI: true,
                         zoomControl: true,
