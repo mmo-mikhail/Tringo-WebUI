@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="1.899">
-  <testsuite name="{filename|filepath|ancestorTitles}" errors="0" failures="0" skipped="0" timestamp="2019-08-16T17:30:20" time="0.383" tests="1">
-    <testcase classname="-generateAttributeIds" name="-generateAttributeIds" time="0.003">
+<testsuites name="jest tests" tests="9" failures="0" time="5.652">
+  <testsuite name="{filename|filepath|ancestorTitles}" errors="0" failures="0" skipped="0" timestamp="2019-08-29T15:58:18" time="1.22" tests="3">
+    <testcase classname="Destinaton Actions › fetchDestinationsStart-should return the correct type" name="Destinaton Actions › fetchDestinationsStart-should return the correct type" time="0.004">
+    </testcase>
+    <testcase classname="Destinaton Actions › fetchDestinationsSuccess-should return the correct type" name="Destinaton Actions › fetchDestinationsSuccess-should return the correct type" time="0">
+    </testcase>
+    <testcase classname="Destinaton Actions › fetchDestinationsFail-should return the correct type" name="Destinaton Actions › fetchDestinationsFail-should return the correct type" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="{filename|filepath|ancestorTitles}" errors="0" failures="0" skipped="0" timestamp="2019-08-29T15:58:18" time="1.225" tests="2">
+    <testcase classname="fetchDestinationsSaga-should dispatch the fetchDestinationsSuccess action if it requests the data successfully" name="fetchDestinationsSaga-should dispatch the fetchDestinationsSuccess action if it requests the data successfully" time="0.006">
+    </testcase>
+    <testcase classname="fetchDestinationsSaga-should dispatch the fetchDestinationsFail action if the response errors" name="fetchDestinationsSaga-should dispatch the fetchDestinationsFail action if the response errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="{filename|filepath|ancestorTitles}" errors="0" failures="0" skipped="0" timestamp="2019-08-29T15:58:18" time="1.256" tests="4">
+    <testcase classname="destinationReducer-should return the initial state" name="destinationReducer-should return the initial state" time="0.004">
+    </testcase>
+    <testcase classname="destinationReducer-should handle fetchDestinationsStart correctly" name="destinationReducer-should handle fetchDestinationsStart correctly" time="0.001">
+    </testcase>
+    <testcase classname="destinationReducer-should handle fetchDestinationsSuccess correctly" name="destinationReducer-should handle fetchDestinationsSuccess correctly" time="0.001">
+    </testcase>
+    <testcase classname="destinationReducer-should handle fetchDestinationsFail correctly" name="destinationReducer-should handle fetchDestinationsFail correctly" time="0">
     </testcase>
   </testsuite>
 </testsuites>
