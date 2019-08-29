@@ -43,9 +43,9 @@ interface AutoCompleteProps {
 
     id: string;
     className: string;
-    defaultValue: string;
     minValueLength: number;
     noOptionsMessage: string;
+    placeholder: string;
     inputIconClassName: string;
     fetchOptions: (args: any, callback: any) => any;
     disabled?: boolean;
@@ -76,7 +76,7 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
     }
 
     onSelectChanged(value: any, action: ActionMeta) {
-        this.props.onChange(this.props.defaultValue);
+        this.props.onChange(value);
     }
 
     render() {
@@ -84,8 +84,8 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
             <AsyncSelect
                 inputId={this.props.id}
                 isClearable
-                defaultInputValue={this.props.defaultValue}
-                placeholder={'City or Airport'}
+                defaultInputValue={process.env.REACT_APP_DEFAULT_LOCATION}
+                placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
                 noOptionsMessage={this.noOptionsMessageHandler}

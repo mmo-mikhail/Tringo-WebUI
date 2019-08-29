@@ -96,9 +96,9 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                     <Autocomplete
                         id="pickup-location"
                         className="pickup-location"
-                        defaultValue="Sydney International Airport, Australia"
                         minValueLength={3}
                         noOptionsMessage={noOptionsMessage}
+                        placeholder="City or Airport"
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
                         onChange={this.onDepartureChanged}
