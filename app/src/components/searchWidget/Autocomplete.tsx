@@ -85,6 +85,7 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
                 inputId={this.props.id}
                 isClearable
                 defaultInputValue={this.props.defaultValue}
+                placeholder={'City or Airport'}
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
                 noOptionsMessage={this.noOptionsMessageHandler}
