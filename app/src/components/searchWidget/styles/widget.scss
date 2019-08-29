@@ -9,6 +9,7 @@ $break-small: 375px;
 .pickup-location {
     width: 455px;
     margin: 20px;
+    text-align: left;
 }
 
 .widgetContainer {
@@ -25,3 +26,4 @@ $break-small: 375px;
         transition: opacity ease 0.15s;
     }
 }
+
