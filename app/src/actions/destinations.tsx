@@ -1,5 +1,5 @@
 import { destinationActionType } from './actionTypes';
-import { IDestination } from '../models/destination';
+import { IDestination } from 'models/response/destination';
 import {
     FlightDestinationRequest,
     IFlightsRequestAction

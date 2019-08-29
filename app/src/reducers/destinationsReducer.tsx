@@ -1,6 +1,6 @@
 import { destinationActionType } from '../actions/actionTypes';
-import { DestinationsState } from '../models/destinations';
-import { IFlightsRequestAction } from '../models/request/flightDestinationRequest';
+import { DestinationsState } from 'models/response/destinations';
+import { IFlightsRequestAction } from 'models/request/flightDestinationRequest';
 
 const initialState = new DestinationsState();
 
