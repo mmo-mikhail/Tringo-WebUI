@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 
 import axios from './../utils/axious';
 import * as destinationAction from '../actions/destinations';
-import { IFlightsRequestAction } from '../models/request/flightDestinationRequest';
+import { IFlightsRequestAction } from 'models/request/flightDestinationRequest';
 
 export function* fetchDestinationsSaga(action: IFlightsRequestAction) {
     try {
