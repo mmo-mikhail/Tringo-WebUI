@@ -5,9 +5,9 @@ import {
     fetchDestinationsSuccess,
     fetchDestinationsFail
 } from '../../actions/destinations';
-import { IDestination } from '../../models/destination';
-import { DestinationsState } from '../../models/destinations';
-import { FlightDestinationRequest } from '../../models/request/flightDestinationRequest';
+import { IDestination } from 'models/response/destination';
+import { DestinationsState } from 'models/response/destinations';
+import { FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 
 describe('destinationReducer', () => {
     const initialState = new DestinationsState();
