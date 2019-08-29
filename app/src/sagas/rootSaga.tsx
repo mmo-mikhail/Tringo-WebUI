@@ -3,10 +3,5 @@ import { destinationActionType } from '../actions/actionTypes';
 import * as destinationSaga from './destinationSaga';
 
 export function* rootSaga() {
-    yield all([
-        takeLatest(
-            destinationActionType.FETCH_DESTINATION_START,
-            destinationSaga.fetchDestinationsSaga
-        )
-    ]);
+    yield all([takeLatest(destinationActionType.FETCH_DESTINATION_START, destinationSaga.fetchDestinationsSaga)]);
 }

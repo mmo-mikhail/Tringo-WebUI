@@ -29,16 +29,12 @@ describe('fetchDestinationsSaga', () => {
         };
 
         const putDescriptor = fetchDestinationGenerator.next(response).value;
-        expect(putDescriptor).toEqual(
-            put(actions.fetchDestinationsSuccess(response.data))
-        );
+        expect(putDescriptor).toEqual(put(actions.fetchDestinationsSuccess(response.data)));
     });
 
     it('should dispatch the fetchDestinationsFail action if the response errors', () => {
         const error = new Error('Some error');
         const putDescriptor = fetchDestinationGenerator.throw(error).value;
-        expect(putDescriptor).toEqual(
-            put(actions.fetchDestinationsFail(error.message))
-        );
+        expect(putDescriptor).toEqual(put(actions.fetchDestinationsFail(error.message)));
     });
 });

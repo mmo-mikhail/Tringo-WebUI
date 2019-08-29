@@ -13,14 +13,7 @@ const Control = ({ children, ...props }: any) => {
 
     return (
         <components.Control {...props}>
-            {hasIcon && (
-                <span
-                    className={classnames(
-                        'wj-icon wj-depart',
-                        inputIconClassName
-                    )}
-                />
-            )}
+            {hasIcon && <span className={classnames('wj-icon wj-depart', inputIconClassName)} />}
             {children}
         </components.Control>
     );
@@ -33,9 +26,7 @@ const Option = ({ data, ...props }: any) => (
     </components.Option>
 );
 
-const Input = (props: any) => (
-    <components.Input {...props} role="presentation" name="props.id" />
-);
+const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
 interface AutoCompleteProps {
@@ -91,10 +82,7 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
                 noOptionsMessage={this.noOptionsMessageHandler}
-                className={classnames(
-                    'wj-rc-autocomplete',
-                    this.props.className
-                )}
+                className={classnames('wj-rc-autocomplete', this.props.className)}
                 classNamePrefix="rc-autocomplete"
                 components={{ Control, Option, LoadingIndicator, Input }}
                 onChange={this.onSelectChanged}

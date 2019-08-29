@@ -43,8 +43,8 @@
     "typescript": "3.5.3"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": [
+      "prettier --write",
       "git add"
     ]
   },
@@ -52,7 +52,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "test:ci": "CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage "
+    "test:ci:coverage": "CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage",
+    "test:ci": "CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit"
   },
   "jest-junit": {
     "reporters": [
@@ -82,8 +83,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test:ci"
+      "pre-commit": "lint-staged && npm run test:ci"
     }
   },
   "devDependencies": {
