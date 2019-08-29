@@ -40,18 +40,17 @@ const Input = (props: any) => (
 // Autocomplete component starts from here
 interface AutoCompleteProps {
     onChange: (airportId: string) => void;
-
     id: string;
     className: string;
-    defaultValue: string;
     minValueLength: number;
     noOptionsMessage: string;
+    placeholder: string;
     inputIconClassName: string;
     fetchOptions: (args: any, callback: any) => any;
     disabled?: boolean;
 }
 
-class Autocomplete extends React.Component<AutoCompleteProps, any> {
+class Autocomplete extends React.Component<AutoCompleteProps> {
     constructor(props: AutoCompleteProps) {
         super(props);
 
@@ -62,21 +61,24 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
 
     loadOptionsHandler(inputValue: any, callback: any) {
         // Start loading options after minimum length of typed value
-        if (inputValue.length >= this.props.minValueLength)
+        if (inputValue.length >= this.props.minValueLength) {
             this.props.fetchOptions(inputValue, callback);
-        else callback();
+        } else {
+            callback();
+        }
     }
 
-    noOptionsMessageHandler(inputValue: any) {
+    noOptionsMessageHandler(inputValue: { inputValue: string }) {
         // Only return no options message after minimum length of typed value
         // Otherwise do not show empty dropdown by returning null
-        if (inputValue.length >= this.props.minValueLength)
+        if (inputValue.inputValue.length >= this.props.minValueLength) {
             return this.props.noOptionsMessage;
+        }
         return null;
     }
 
     onSelectChanged(value: any, action: ActionMeta) {
-        this.props.onChange(this.props.defaultValue);
+        this.props.onChange(value);
     }
 
     render() {
@@ -84,8 +86,8 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
             <AsyncSelect
                 inputId={this.props.id}
                 isClearable
-                defaultInputValue={this.props.defaultValue}
-                placeholder={'City or Airport'}
+                defaultInputValue={process.env.REACT_APP_DEFAULT_LOCATION}
+                placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
                 noOptionsMessage={this.noOptionsMessageHandler}

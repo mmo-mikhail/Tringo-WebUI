@@ -10,13 +10,24 @@ import {
 } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 
-interface StateChangedProps {
+interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest) => void;
     initialModel: FlightDestinationRequest;
 }
 
-class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
-    constructor(props: StateChangedProps) {
+interface SearchWidgetWrapperState {
+    datesState: DatesInput;
+    budgetMin: number;
+    budgetMax: number;
+    budgetStep: number;
+    budgetValues: number[];
+}
+
+class SearchWidgetWrapper extends React.Component<
+    SearchWidgetWrapperProps,
+    SearchWidgetWrapperState
+> {
+    constructor(props: SearchWidgetWrapperProps) {
         super(props);
 
         this.state = {
@@ -96,9 +107,9 @@ class SearchWidgetWrapper extends React.Component<StateChangedProps, any> {
                     <Autocomplete
                         id="pickup-location"
                         className="pickup-location"
-                        defaultValue="Sydney International Airport, Australia"
                         minValueLength={3}
                         noOptionsMessage={noOptionsMessage}
+                        placeholder="City or Airport"
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
                         onChange={this.onDepartureChanged}

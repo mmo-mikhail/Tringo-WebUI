@@ -4,7 +4,7 @@ import { IDestination } from './destination';
 import _ from 'lodash';
 
 export interface IDestinations {
-	destinations: IDestination[] | null;
+    destinations: IDestination[] | null;
 }
 
 export interface IDestinationsStore extends IDestinations, IBaseModel {}
@@ -15,7 +15,8 @@ const defaultValues: IDestinationsStore = {
     error: null
 };
 
-export class DestinationsState extends Record(defaultValues) implements IDestinationsStore {
+export class DestinationsState extends Record(defaultValues)
+    implements IDestinationsStore {
     constructor(js?: any) {
         const additionalFields: IBaseModel = {
             isLoading: false,
