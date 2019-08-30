@@ -21,7 +21,7 @@ describe('destinationReducer', () => {
 
     it('should handle fetchDestinationsStart correctly', () => {
         const expectedResult = state.set('error', null).set('isLoading', true);
-        var flightsRequest = FlightDestinationRequest.createRandom();
+        let flightsRequest = FlightDestinationRequest.createRandom();
         expect(destinationsReducer(state, fetchDestinationsStart(flightsRequest))).toEqual(expectedResult);
     });
 
