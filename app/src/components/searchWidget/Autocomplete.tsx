@@ -84,7 +84,10 @@ class Autocomplete extends React.Component<AutoCompleteProps, any> {
             <AsyncSelect
                 inputId={this.props.id}
                 isClearable
-                defaultInputValue={process.env.REACT_APP_DEFAULT_LOCATION}
+                defaultValue={{
+                    label: process.env.REACT_APP_DEFAULT_LOCATION,
+                    value: 'SYD'
+                }}
                 placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
