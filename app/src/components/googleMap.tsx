@@ -5,7 +5,7 @@ import GoogleMapReact, {
     ChangeEventValue
 } from 'google-map-react';
 import PriceTagMarker from 'components/marker/priceTagMarker';
-import { IDestination } from 'models/destination';
+import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
 import {
@@ -15,6 +15,7 @@ import {
 } from 'models/request/flightDestinationRequest';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
+import { DestinationsState } from '../models/response/destinations.jsx';
 
 export interface MapProp {
     center: {
@@ -22,16 +23,16 @@ export interface MapProp {
         lng: number;
     };
     defaultZoom: number;
-    error?: object;
+    error?: string;
     isLoading?: boolean;
-    destinations: {
-        map: (arg: object) => {};
-    };
-    fetchDestinations: (arg: object) => {};
+    destinations: IDestination[];
+    fetchDestinations: (arg: FlightDestinationRequest) => {};
 }
 
 export interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
+    isLoading?: boolean;
+    error?: string;
 }
 
 class SimpleMap extends React.Component<MapProp, MapState> {
@@ -63,16 +64,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     renderDestinations() {
-        const { error, isLoading, destinations } = this.props;
-        if (isLoading) {
-            return <p>Loading ...</p>;
-        }
-        if (error) {
-            return <p>Error: {error}</p>;
-        }
         return (
-            destinations &&
-            destinations.map((record: IDestination, idx: number) => {
+            this.props.destinations &&
+            this.props.destinations.map((record: IDestination, idx: number) => {
                 if (
                     record.lat === undefined ||
                     record.lng === undefined ||
@@ -99,8 +93,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     requestDestinationsUpdate(model: FlightDestinationRequest) {
         this.setState({
-            destinationsRequestModel: model
+            destinationsRequestModel: model,
+            isLoading: true
         });
+        //this.props.isLoading = true;
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
@@ -141,15 +137,17 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                 />
+                {this.props.isLoading && <div></div>}
             </div>
         );
     }
 }
 
-const mapStateToProps = (state: any) => {
-    const destinations = state.destinationsReducer.destinations;
+const mapStateToProps = (state: { destinationsReducer: DestinationsState }) => {
     return {
-        destinations
+        destinations: state.destinationsReducer.destinations,
+        isLoading: state.destinationsReducer.isLoading,
+        error: state.destinationsReducer.error
     };
 };
 

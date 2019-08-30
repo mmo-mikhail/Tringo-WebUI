@@ -4,7 +4,7 @@ import {
     fetchDestinationsSuccess,
     fetchDestinationsFail
 } from '../destinations';
-import { IDestination } from '../../models/destination';
+import { IDestination } from 'models/response/destination';
 import {
     FlightDestinationRequest,
     IFlightsRequestAction

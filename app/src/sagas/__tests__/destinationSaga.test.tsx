@@ -1,8 +1,8 @@
 import { put } from 'redux-saga/effects';
 import { fetchDestinationsSaga } from '../destinationSaga';
 import * as actions from '../../actions/destinations';
-import { IDestination } from '../../models/destination';
-import { FlightDestinationRequest } from '../../models/request/flightDestinationRequest';
+import { IDestination } from 'models/response/destination';
+import { FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 
 import { destinationActionType } from '../../actions/actionTypes';
 
