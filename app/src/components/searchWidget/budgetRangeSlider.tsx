@@ -33,7 +33,7 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
         const { min, max, values, isRangeSlider, isBasicSlider, step, className } = this.props;
         if (!values || values.length < 2) return null;
 
-        const sliderClassName = classnames('range-slider', className, {
+        const sliderClassName = classnames(className, {
             'min-filtered': values[0] !== min,
             'max-filtered': values[1] !== max,
             'max-only': !isRangeSlider,

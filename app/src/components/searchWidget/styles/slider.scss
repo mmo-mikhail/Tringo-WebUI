@@ -1,9 +1,11 @@
-.sliderClassName {
+.range-slider {
     position: relative;
     left: 115px;
-    top: 0px;
+    top: 0;
     width: 60%;
+    z-index: -1;
 }
+
 .budgetlabel {
     position: absolute;
     left: -95px;
@@ -19,6 +21,6 @@
 .to {
     position: relative;
     left: 180px;
-    top: 0px;
+    top: 0;
     color: #f5f5f5;
 }
