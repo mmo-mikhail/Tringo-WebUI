@@ -38,7 +38,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             destinationsRequestModel: new FlightDestinationRequest(
                 'MEL',
                 MapArea.createRandom(),
-                new Budget(0, 1000),
+                new Budget(0, 2000),
                 new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
             )
         };
