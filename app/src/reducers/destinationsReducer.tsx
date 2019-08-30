@@ -17,22 +17,13 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
-const fetchDestinationsStart = (
-    state: DestinationsState,
-    action: IFlightsRequestAction
-) => {
-    return state.set('error', null).set('isLoading', true);
-};
+const fetchDestinationsStart = (state: DestinationsState, action: IFlightsRequestAction) =>
+    state.set('error', null).set('isLoading', true);
 
-const fetchDestinationsSuccess = (state: DestinationsState, action: any) => {
-    return state
-        .set('destinations', action.destinations)
-        .set('isLoading', false);
-    //return copy;
-};
+const fetchDestinationsSuccess = (state: DestinationsState, action: any) =>
+    state.set('destinations', action.destinations).set('isLoading', false);
 
-const fetchDestinationsFail = (state: DestinationsState, action: any) => {
-    return state.set('error', action.error).set('isLoading', false);
-};
+const fetchDestinationsFail = (state: DestinationsState, action: any) =>
+    state.set('error', action.error).set('isLoading', false);
 
 export default reducer;

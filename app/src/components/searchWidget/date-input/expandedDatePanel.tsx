@@ -3,11 +3,7 @@ import './styles/dateInput.scss';
 import '../../common.scss';
 import { DateUnknown } from './dateUnknown';
 import TringoDatePicker from './tringoDatePicker';
-import {
-    DatesInput,
-    UncertainDates,
-    Duration
-} from '../../../models/request/dateInput';
+import { DatesInput, UncertainDates, Duration } from '../../../models/request/dateInput';
 import { RangeModifier } from 'react-day-picker';
 
 export enum datePanelTypes {
@@ -63,15 +59,9 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         });
         this.saveSelectedPanel(panelType);
 
-        if (
-            panelType === datePanelTypes.UNKNOWN_DATES &&
-            this.props.initialModel.uncertainDates === null
-        ) {
+        if (panelType === datePanelTypes.UNKNOWN_DATES && this.props.initialModel.uncertainDates === null) {
             // Set Default month and duration here
-            this.props.initialModel.uncertainDates = new UncertainDates(
-                -1,
-                Duration.Weekend
-            );
+            this.props.initialModel.uncertainDates = new UncertainDates(-1, Duration.Weekend);
             this.setState({
                 unknownDates: this.props.initialModel.uncertainDates
             });
@@ -96,17 +86,13 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 <div className="top-toogler">
                     <div
                         className="dates-selector middle-text"
-                        onClick={() =>
-                            this.selectPanel(datePanelTypes.SPECIFIC_DATES)
-                        }
+                        onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
                     >
                         <div>Specific Dates</div>
                     </div>
                     <div
                         className="dates-selector middle-text"
-                        onClick={() =>
-                            this.selectPanel(datePanelTypes.UNKNOWN_DATES)
-                        }
+                        onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
                     >
                         <div>Flexible Dates</div>
                     </div>
@@ -124,10 +110,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 )}
                 {this.state.datePanelType === datePanelTypes.UNKNOWN_DATES && (
                     <div className="flexible-dates-main-area">
-                        <DateUnknown
-                            initialDates={this.state.unknownDates}
-                            onChange={this.onUnknownDatesChange}
-                        />
+                        <DateUnknown initialDates={this.state.unknownDates} onChange={this.onUnknownDatesChange} />
                     </div>
                 )}
             </div>

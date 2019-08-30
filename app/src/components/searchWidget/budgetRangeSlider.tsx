@@ -26,20 +26,11 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
     }
 
     onChangeSlider(sliderValue: number) {
-        this.props.onChange &&
-            this.props.onChange([this.props.min, sliderValue]);
+        this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
     }
 
     render() {
-        const {
-            min,
-            max,
-            values,
-            isRangeSlider,
-            isBasicSlider,
-            step,
-            className
-        } = this.props;
+        const { min, max, values, isRangeSlider, isBasicSlider, step, className } = this.props;
         if (!values || values.length < 2) return null;
 
         const sliderClassName = classnames('range-slider', className, {
@@ -64,13 +55,7 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
                     />
                 )}
                 {!isRangeSlider && (
-                    <Slider
-                        min={min}
-                        max={max}
-                        value={values[0]}
-                        step={step}
-                        onChange={this.onChangeSlider}
-                    />
+                    <Slider min={min} max={max} value={values[0]} step={step} onChange={this.onChangeSlider} />
                 )}
                 {!isBasicSlider && (
                     <div>

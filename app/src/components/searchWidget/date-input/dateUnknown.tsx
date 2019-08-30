@@ -28,10 +28,7 @@ interface DateUnknownState {
     durationOption: Duration;
 }
 
-export class DateUnknown extends React.Component<
-    DateUnknownProps,
-    DateUnknownState
-> {
+export class DateUnknown extends React.Component<DateUnknownProps, DateUnknownState> {
     constructor(props: DateUnknownProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -51,11 +48,7 @@ export class DateUnknown extends React.Component<
                 <button
                     key={monthNames[(monNumber + i) % 12]}
                     id={((monNumber + i) % 12).toString()}
-                    className={
-                        this.state.monthNameOption === (monNumber + i) % 12
-                            ? 'btn-selection'
-                            : 'btn-standard'
-                    }
+                    className={this.state.monthNameOption === (monNumber + i) % 12 ? 'btn-selection' : 'btn-standard'}
                     onClick={(event: React.MouseEvent<HTMLElement>) => {
                         this.handleClick(event);
                     }}
@@ -86,10 +79,7 @@ export class DateUnknown extends React.Component<
                     durationOption: dura
                 },
                 () => {
-                    const dates = new UncertainDates(
-                        this.state.monthNameOption,
-                        dura
-                    );
+                    const dates = new UncertainDates(this.state.monthNameOption, dura);
                     this.props.onChange(dates);
                 }
             );
@@ -99,16 +89,10 @@ export class DateUnknown extends React.Component<
             curbutton!.className = 'btn-standard';
             this.setState({ monthNameOption: parseInt(cId) }, () => {
                 let dura = Duration.Weekend;
-                if (this.state.durationOption === Duration.Weekend)
-                    dura = Duration.Weekend;
-                if (this.state.durationOption === Duration.Week)
-                    dura = Duration.Week;
-                if (this.state.durationOption === Duration.TwoWeek)
-                    dura = Duration.TwoWeek;
-                const dates = new UncertainDates(
-                    this.state.monthNameOption,
-                    dura
-                );
+                if (this.state.durationOption === Duration.Weekend) dura = Duration.Weekend;
+                if (this.state.durationOption === Duration.Week) dura = Duration.Week;
+                if (this.state.durationOption === Duration.TwoWeek) dura = Duration.TwoWeek;
+                const dates = new UncertainDates(this.state.monthNameOption, dura);
                 this.props.onChange(dates);
             });
         }
@@ -123,11 +107,7 @@ export class DateUnknown extends React.Component<
                 <div id="monthbtgroup" className="btn-group">
                     <button
                         id="-1"
-                        className={
-                            this.state.monthNameOption === -1
-                                ? 'btn-selection'
-                                : 'btn-standard'
-                        }
+                        className={this.state.monthNameOption === -1 ? 'btn-selection' : 'btn-standard'}
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                             this.handleClick(event);
                         }}
@@ -141,8 +121,7 @@ export class DateUnknown extends React.Component<
                     <button
                         id={Duration[Duration.Weekend]}
                         className={
-                            Duration[this.state.durationOption] ===
-                            Duration[Duration.Weekend]
+                            Duration[this.state.durationOption] === Duration[Duration.Weekend]
                                 ? 'btn-selection'
                                 : 'btn-standard'
                         }
@@ -155,8 +134,7 @@ export class DateUnknown extends React.Component<
                     <button
                         id={Duration[Duration.Week]}
                         className={
-                            Duration[this.state.durationOption] ===
-                            Duration[Duration.Week]
+                            Duration[this.state.durationOption] === Duration[Duration.Week]
                                 ? 'btn-selection'
                                 : 'btn-standard'
                         }
@@ -169,8 +147,7 @@ export class DateUnknown extends React.Component<
                     <button
                         id={Duration[Duration.TwoWeek]}
                         className={
-                            Duration[this.state.durationOption] ===
-                            Duration[Duration.TwoWeek]
+                            Duration[this.state.durationOption] === Duration[Duration.TwoWeek]
                                 ? 'btn-selection'
                                 : 'btn-standard'
                         }
