@@ -42,7 +42,7 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
 
         return (
             <div className={sliderClassName}>
-                <div className="budgetlabel">Budget</div>
+                <div className="budget-label">Budget</div>
 
                 {isRangeSlider && (
                     <Range
