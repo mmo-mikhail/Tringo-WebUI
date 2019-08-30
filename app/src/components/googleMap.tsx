@@ -8,7 +8,7 @@ import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
 import { Budget, FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
-import { DestinationsState } from '../models/response/destinations.jsx';
+import { DestinationsState } from 'models/response/destinations';
 
 export interface MapProp {
     center: {
