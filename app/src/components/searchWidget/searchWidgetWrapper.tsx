@@ -90,8 +90,7 @@ class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, Sear
 
         const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
-            <div className="widgetContainer">
-                <div>
+            <div className="widgetContainer">             
                     <Autocomplete
                         id="pickup-location"
                         className="pickup-location"
@@ -101,8 +100,7 @@ class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, Sear
                         fetchOptions={fetchLocationData}
                         inputIconClassName="wj-car-pickup"
                         onChange={this.onDepartureChanged}
-                    />
-
+                    />                            
                     <BudgetRangeSlider
                         min={this.state.budgetMin}
                         max={this.state.budgetMax}
@@ -112,10 +110,8 @@ class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, Sear
                         isBasicSlider={false}
                         className={'sliderClassName'}
                         onChange={this.onBudgetChanged}
-                    />
-
-                    <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
-                </div>
+                    />                             
+                     <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />                                          
             </div>
         );
     }
