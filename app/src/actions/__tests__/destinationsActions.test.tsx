@@ -6,7 +6,7 @@ import { FlightDestinationRequest, IFlightsRequestAction } from '../../models/re
 describe('Destinaton Actions', () => {
     describe('fetchDestinationsStart', () => {
         it('should return the correct type', () => {
-            var flightsRequest = FlightDestinationRequest.createRandom();
+            let flightsRequest = FlightDestinationRequest.createRandom();
             const expectedResult: IFlightsRequestAction = {
                 type: destinationActionType.FETCH_DESTINATION_START,
                 model: flightsRequest
