@@ -13,11 +13,10 @@ interface MarkerProps {
 export default class PriceTagMarker extends React.Component<MarkerProps> {
     render() {
         return (
-            <p className="price-marker">
-                <span>{this.props.title}</span>
-                <br />
-                <span className="price-text">${this.props.price}</span>
-            </p>
+            <div className="price-marker" title={this.props.title}>
+                <div className="city-text">{this.props.title}</div>
+                <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
+            </div>
         );
     }
 }
