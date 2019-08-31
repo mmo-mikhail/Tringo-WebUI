@@ -17,7 +17,7 @@ export default class PriceTagMarker extends React.Component<MarkerProps> {
             <div
                 className="price-marker"
                 title={this.props.title}
-                onClick={() => window.open(this.props.redirectUrl, '_blank')}
+                onClick={() => window.open(this.props.redirectUrl, '_self')}
             >
                 <div className="city-text">{this.props.title}</div>
                 <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>

@@ -130,14 +130,18 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     buildRedirectUrl(destination: IDestination): string {
         return 'https://google.com';
         //const reqModel = this.state.destinationsRequestModel;
-        //const formatDate = (date: Date): string => date.getFullYear().toString() +
-        //	date.getMonth().toString() +
-        //	date.getDate().toString();
-        //return "https://services.dev.webjet.com.au/web/flights/redirect?" +
-        //	`adults=${1}` + //&children=0&infants=0` +
-        //	`&triptype=return&steps=` +
-        //	`${reqModel.departureAirportId}-${formatDate(depDate)}-economy-melbourne-london` +
-        //	`_${destinationAirportId}-${formatDate(depDate)}-economy-london-melbourne`;
+        //const destAirportId = 'LON'; // from destination
+        //const depDate = new Date(2019, 10, 17); // from destination
+        //const retDate = new Date(2019, 10, 19); // from destination
+        //const url = "https://services.dev.webjet.com.au/web/flights/redirect?" +
+        //	`adults=1&children=0&infants=0&triptype=return&steps=${reqModel.departureAirportId}all-${destAirportId}all-${this.formatDate(depDate)}-economy-${reqModel.departureAirportId}-${destAirportId}` +
+        //	`_${destAirportId}all-${reqModel.departureAirportId}all-${this.formatDate(retDate)}-economy-${destAirportId}-${reqModel.departureAirportId}`;
+        //console.log(url);
+        //return url;
+    }
+
+    private formatDate(d: Date): string {
+        return d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString();
     }
 }
 
