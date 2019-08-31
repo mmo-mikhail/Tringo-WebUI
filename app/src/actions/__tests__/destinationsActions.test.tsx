@@ -1,27 +1,18 @@
 import { destinationActionType } from '../actionTypes';
-import {
-    fetchDestinationsStart,
-    fetchDestinationsSuccess,
-    fetchDestinationsFail
-} from '../destinations';
+import { fetchDestinationsStart, fetchDestinationsSuccess, fetchDestinationsFail } from '../destinations';
 import { IDestination } from 'models/response/destination';
-import {
-    FlightDestinationRequest,
-    IFlightsRequestAction
-} from '../../models/request/flightDestinationRequest';
+import { FlightDestinationRequest, IFlightsRequestAction } from '../../models/request/flightDestinationRequest';
 
 describe('Destinaton Actions', () => {
     describe('fetchDestinationsStart', () => {
         it('should return the correct type', () => {
-            var flightsRequest = FlightDestinationRequest.createRandom();
+            let flightsRequest = FlightDestinationRequest.createRandom();
             const expectedResult: IFlightsRequestAction = {
                 type: destinationActionType.FETCH_DESTINATION_START,
                 model: flightsRequest
             };
 
-            expect(fetchDestinationsStart(flightsRequest)).toEqual(
-                expectedResult
-            );
+            expect(fetchDestinationsStart(flightsRequest)).toEqual(expectedResult);
         });
     });
 
@@ -42,9 +33,7 @@ describe('Destinaton Actions', () => {
                 destinations: testDestinations
             };
 
-            expect(fetchDestinationsSuccess(testDestinations)).toEqual(
-                expectedResult
-            );
+            expect(fetchDestinationsSuccess(testDestinations)).toEqual(expectedResult);
         });
     });
 

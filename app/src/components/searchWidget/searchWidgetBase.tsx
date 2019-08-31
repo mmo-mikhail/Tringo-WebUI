@@ -4,10 +4,7 @@ import Autocomplete from './Autocomplete';
 import BudgetRangeSlider from './budgetRangeSlider';
 import DatePanel from './date-input/datePanel';
 
-import {
-    FlightDestinationRequest,
-    Budget
-} from 'models/request/flightDestinationRequest';
+import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 
 interface SearchWidgetWrapperProps {
@@ -23,10 +20,7 @@ interface SearchWidgetWrapperState {
     budgetValues: number[];
 }
 
-class SearchWidgetWrapper extends React.Component<
-    SearchWidgetWrapperProps,
-    SearchWidgetWrapperState
-> {
+class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
     constructor(props: SearchWidgetWrapperProps) {
         super(props);
 
@@ -35,10 +29,7 @@ class SearchWidgetWrapper extends React.Component<
             budgetMin: this.props.initialModel.budget.min,
             budgetMax: this.props.initialModel.budget.max,
             budgetStep: 10,
-            budgetValues: [
-                this.props.initialModel.budget.min,
-                this.props.initialModel.budget.max
-            ]
+            budgetValues: [this.props.initialModel.budget.min, this.props.initialModel.budget.max]
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
@@ -48,9 +39,7 @@ class SearchWidgetWrapper extends React.Component<
 
     onBudgetChanged(values: number[]) {
         if (values.length !== 2) {
-            throw new Error(
-                'onRangeChanged has invalid agrument: must be array 2 values length'
-            );
+            throw new Error('onRangeChanged has invalid agrument: must be array 2 values length');
         }
         this.setState({ budgetValues: values });
 
@@ -99,41 +88,33 @@ class SearchWidgetWrapper extends React.Component<
             }, 500);
         };
 
-        const noOptionsMessage =
-            'No cities or airports were found. Please check your spelling.';
+        const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
             <div className="widgetContainer">
-                <div>
-                    <Autocomplete
-                        id="pickup-location"
-                        className="pickup-location"
-                        minValueLength={3}
-                        noOptionsMessage={noOptionsMessage}
-                        placeholder="City or Airport"
-                        fetchOptions={fetchLocationData}
-                        inputIconClassName="wj-car-pickup"
-                        onChange={this.onDepartureChanged}
-                    />
-
-                    <BudgetRangeSlider
-                        min={this.state.budgetMin}
-                        max={this.state.budgetMax}
-                        values={this.state.budgetValues}
-                        step={this.state.budgetStep}
-                        isRangeSlider={true}
-                        isBasicSlider={false}
-                        className={'sliderClassName'}
-                        onChange={this.onBudgetChanged}
-                    />
-
-                    <DatePanel
-                        onChange={this.onDatesChanged}
-                        initialModel={this.state.datesState}
-                    />
-                </div>
+                <Autocomplete
+                    id="pickup-location"
+                    className="pickup-location"
+                    minValueLength={3}
+                    noOptionsMessage={noOptionsMessage}
+                    placeholder="City or Airport"
+                    fetchOptions={fetchLocationData}
+                    inputIconClassName="wj-car-pickup"
+                    onChange={this.onDepartureChanged}
+                />
+                <BudgetRangeSlider
+                    min={this.state.budgetMin}
+                    max={this.state.budgetMax}
+                    values={this.state.budgetValues}
+                    step={this.state.budgetStep}
+                    isRangeSlider={true}
+                    isBasicSlider={false}
+                    className={'range-slider'}
+                    onChange={this.onBudgetChanged}
+                />
+                <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
             </div>
         );
     }
 }
 
-export default SearchWidgetWrapper;
+export default SearchWidgetBase;

@@ -1,21 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import GoogleMapReact, {
-    MapTypeStyle,
-    ChangeEventValue
-} from 'google-map-react';
+import GoogleMapReact, { MapTypeStyle, ChangeEventValue } from 'google-map-react';
 import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
-import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
-import {
-    Budget,
-    FlightDestinationRequest,
-    MapArea
-} from 'models/request/flightDestinationRequest';
+import SearchWidgetBase from 'components/searchWidget/searchWidgetBase';
+import { Budget, FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
-import { DestinationsState } from '../models/response/destinations.jsx';
+import { DestinationsState } from 'models/response/destinations';
 
 export interface MapProp {
     center: {
@@ -46,20 +39,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 'MEL',
                 MapArea.createRandom(),
                 new Budget(0, 1000),
-                new DatesInput(
-                    null,
-                    null,
-                    new UncertainDates(
-                        new Date().getMonth() + 1,
-                        Duration.Weekend
-                    )
-                )
+                new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
             )
         };
 
-        this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(
-            this
-        );
+        this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
     }
 
@@ -133,7 +117,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
-                <SearchWidgetWrapper
+                <SearchWidgetBase
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                 />

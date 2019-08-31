@@ -11,10 +11,7 @@ class Tringo extends React.Component<any, any> {
     render() {
         return (
             <div className="App">
-                <SimpleMap
-                    center={gMapConf.defaultCentre}
-                    defaultZoom={this.defaultZoom()}
-                />
+                <SimpleMap center={gMapConf.defaultCentre} defaultZoom={this.defaultZoom()} />
             </div>
         );
     }

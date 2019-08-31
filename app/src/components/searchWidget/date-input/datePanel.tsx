@@ -32,8 +32,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         });
 
         // when nothing selected OR only date From is selected
-        if (dateModel.uncertainDates == null && dateModel.dateUntil == null)
-            return; // need to handle this case to keep state updated, but do not proceed further
+        if (dateModel.uncertainDates == null && dateModel.dateUntil == null) return; // need to handle this case to keep state updated, but do not proceed further
 
         this.props.onChange(dateModel);
 
@@ -49,32 +48,16 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         return (
             <div>
                 <div className="date-panel-wrapper" ref={this.datePanelWrapper}>
-                    <div
-                        className="date-panel-collapsed"
-                        onClick={this.toggleHidden.bind(this)}
-                    >
-                        {this.state.currentModel &&
-                            this.state.currentModel.uncertainDates && (
-                                <div>
-                                    {this.getUncertainDatesText(
-                                        this.state.currentModel.uncertainDates
-                                    )}
-                                </div>
-                            )}
-                        {this.state.currentModel &&
-                            this.state.currentModel.dateFrom && (
-                                <div>
-                                    {this.getSpecificDatesText(
-                                        this.state.currentModel
-                                    )}
-                                </div>
-                            )}
+                    <div className="date-panel-collapsed" onClick={this.toggleHidden.bind(this)}>
+                        {this.state.currentModel && this.state.currentModel.uncertainDates && (
+                            <div>{this.getUncertainDatesText(this.state.currentModel.uncertainDates)}</div>
+                        )}
+                        {this.state.currentModel && this.state.currentModel.dateFrom && (
+                            <div>{this.getSpecificDatesText(this.state.currentModel)}</div>
+                        )}
                     </div>
                     {!this.state.isHidden && (
-                        <ExpandedDatePanel
-                            onChange={this.onChange}
-                            initialModel={this.state.currentModel}
-                        />
+                        <ExpandedDatePanel onChange={this.onChange} initialModel={this.state.currentModel} />
                     )}
                 </div>
             </div>
@@ -96,10 +79,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
                 durationText = 'Two Weeks';
                 break;
         }
-        const monthName =
-            uncertainDates.monthIdx === -1
-                ? 'any month'
-                : monthNames[uncertainDates.monthIdx];
+        const monthName = uncertainDates.monthIdx === -1 ? 'any month' : monthNames[uncertainDates.monthIdx];
         return (
             <span>
                 {durationText} in {monthName}
@@ -112,8 +92,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         return (
             <span>
-                from {datesModel.dateFrom.toDateString()} to{' '}
-                {datesModel.dateUntil.toDateString()}
+                from {datesModel.dateFrom.toDateString()} to {datesModel.dateUntil.toDateString()}
             </span>
         );
     }
@@ -125,11 +104,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     }
 
     componentWillUnmount() {
-        document.removeEventListener(
-            'click',
-            this.bindHandleOutsideClick,
-            false
-        );
+        document.removeEventListener('click', this.bindHandleOutsideClick, false);
     }
 
     toggleHidden(event: React.MouseEvent<HTMLInputElement>) {
@@ -149,10 +124,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
             event.target.className.indexOf('rc-select') === -1 &&
             event.target.id.indexOf('react-select-') === -1
         ) {
-            if (
-                this.state.currentModel.dateUntil == null &&
-                this.state.currentModel.uncertainDates == null
-            ) {
+            if (this.state.currentModel.dateUntil == null && this.state.currentModel.uncertainDates == null) {
                 return;
             }
 

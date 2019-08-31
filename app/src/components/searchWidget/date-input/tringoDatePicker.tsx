@@ -111,15 +111,7 @@ class TringoDatePicker extends React.Component<dateProps, any> {
                     onDayClick={this.handleDayClick}
                     onMonthChange={this.handleMonthChange}
                     onDayMouseEnter={this.handleDayMouseEnter}
-                    weekdaysShort={[
-                        'Sun',
-                        'Mon',
-                        'Tue',
-                        'Wed',
-                        'Thu',
-                        'Fri',
-                        'Sat'
-                    ]}
+                    weekdaysShort={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
                 />
             </div>
         );

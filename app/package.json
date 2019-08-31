@@ -24,7 +24,6 @@
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "google-map-react": "^1.1.4",
-    "husky": "^3.0.4",
     "immutable": "^4.0.0-rc.12",
     "lint-staged": "^9.2.3",
     "lodash": "^4.17.15",
@@ -44,16 +43,17 @@
     "typescript": "3.5.3"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": [
+      "prettier --write",
       "git add"
     ]
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env CI=true react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "test:ci": "CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage "
+    "test:ci:coverage": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage",
+    "test:ci": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit"
   },
   "jest-junit": {
     "reporters": [
@@ -83,13 +83,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test:ci"
     }
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-react-app": "^5.0.1",
@@ -99,6 +100,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.4",
     "jest-junit": "^7.0.0",
     "prettier": "^1.18.2"
   }

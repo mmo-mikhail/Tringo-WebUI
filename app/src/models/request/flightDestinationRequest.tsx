@@ -26,10 +26,7 @@ export class MapArea {
     constructor(public nw: Coordinates, public se: Coordinates) {}
 
     static createRandom(): MapArea {
-        return new MapArea(
-            new Coordinates(12.1, 32.2),
-            new Coordinates(52.8, 39.67)
-        );
+        return new MapArea(new Coordinates(12.1, 32.2), new Coordinates(52.8, 39.67));
     }
 }
 

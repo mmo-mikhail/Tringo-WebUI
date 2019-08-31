@@ -1,10 +1,6 @@
 import { fromJS } from 'immutable';
 import destinationsReducer from '../destinationsReducer';
-import {
-    fetchDestinationsStart,
-    fetchDestinationsSuccess,
-    fetchDestinationsFail
-} from '../../actions/destinations';
+import { fetchDestinationsStart, fetchDestinationsSuccess, fetchDestinationsFail } from '../../actions/destinations';
 import { IDestination } from 'models/response/destination';
 import { DestinationsState } from 'models/response/destinations';
 import { FlightDestinationRequest } from 'models/request/flightDestinationRequest';
@@ -25,10 +21,8 @@ describe('destinationReducer', () => {
 
     it('should handle fetchDestinationsStart correctly', () => {
         const expectedResult = state.set('error', null).set('isLoading', true);
-        var flightsRequest = FlightDestinationRequest.createRandom();
-        expect(
-            destinationsReducer(state, fetchDestinationsStart(flightsRequest))
-        ).toEqual(expectedResult);
+        let flightsRequest = FlightDestinationRequest.createRandom();
+        expect(destinationsReducer(state, fetchDestinationsStart(flightsRequest))).toEqual(expectedResult);
     });
 
     it('should handle fetchDestinationsSuccess correctly', () => {
@@ -41,24 +35,13 @@ describe('destinationReducer', () => {
             }
         ];
 
-        const expectedResult = state
-            .set('destinations', testDestinations)
-            .set('isLoading', false);
-        expect(
-            destinationsReducer(
-                state,
-                fetchDestinationsSuccess(testDestinations)
-            )
-        ).toEqual(expectedResult);
+        const expectedResult = state.set('destinations', testDestinations).set('isLoading', false);
+        expect(destinationsReducer(state, fetchDestinationsSuccess(testDestinations))).toEqual(expectedResult);
     });
 
     it('should handle fetchDestinationsFail correctly', () => {
         const error = 'Test error';
-        const expectedResult = state
-            .set('error', error)
-            .set('isLoading', false);
-        expect(
-            destinationsReducer(state, fetchDestinationsFail(error))
-        ).toEqual(expectedResult);
+        const expectedResult = state.set('error', error).set('isLoading', false);
+        expect(destinationsReducer(state, fetchDestinationsFail(error))).toEqual(expectedResult);
     });
 });
