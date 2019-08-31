@@ -69,6 +69,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         price={record.price}
                         title={record.cityName}
                         priority={record.personalPriorityIdx}
+                        redirectUrl={this.buildRedirectUrl(record)}
                     />
                 );
             })
@@ -124,6 +125,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 {this.props.isLoading && <div></div>}
             </div>
         );
+    }
+
+    buildRedirectUrl(destination: IDestination): string {
+        return 'https://google.com';
+        //const reqModel = this.state.destinationsRequestModel;
+        //const formatDate = (date: Date): string => date.getFullYear().toString() +
+        //	date.getMonth().toString() +
+        //	date.getDate().toString();
+        //return "https://services.dev.webjet.com.au/web/flights/redirect?" +
+        //	`adults=${1}` + //&children=0&infants=0` +
+        //	`&triptype=return&steps=` +
+        //	`${reqModel.departureAirportId}-${formatDate(depDate)}-economy-melbourne-london` +
+        //	`_${destinationAirportId}-${formatDate(depDate)}-economy-london-melbourne`;
     }
 }
 

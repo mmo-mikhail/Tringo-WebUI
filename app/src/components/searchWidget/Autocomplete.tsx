@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
-import { ActionMeta } from 'react-select/lib/types';
+import { ActionMeta, ValueType } from 'react-select/lib/types';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -41,6 +41,13 @@ interface AutoCompleteProps {
     disabled?: boolean;
 }
 
+interface OptionType {
+    label?: string;
+    value: string;
+    optionLabel?: string;
+    optionSubLabel?: string;
+}
+
 class Autocomplete extends React.Component<AutoCompleteProps> {
     constructor(props: AutoCompleteProps) {
         super(props);
@@ -68,8 +75,11 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
         return null;
     }
 
-    onSelectChanged(value: any, action: ActionMeta) {
-        this.props.onChange(value);
+    onSelectChanged(v: ValueType<OptionType>, action: ActionMeta) {
+        const option = v as OptionType;
+        if (option) {
+            this.props.onChange(option.value);
+        }
     }
 
     render() {
