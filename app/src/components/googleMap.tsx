@@ -36,7 +36,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         // we set lat/lng and zoom for component directly and it will be overriden
         this.state = {
             destinationsRequestModel: new FlightDestinationRequest(
-                'MEL',
+                'SYD',
                 MapArea.createRandom(),
                 new Budget(0, 2000),
                 new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
@@ -69,6 +69,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         price={record.price}
                         title={record.cityName}
                         priority={record.personalPriorityIdx}
+                        redirectUrl={this.buildRedirectUrl(record)}
                     />
                 );
             })
