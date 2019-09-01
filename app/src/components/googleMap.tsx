@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import GoogleMapReact, { MapTypeStyle, ChangeEventValue } from 'google-map-react';
+import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
 import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
@@ -10,22 +10,28 @@ import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 
-export interface MapProp {
-    center: {
-        lat: number;
-        lng: number;
-    };
-    defaultZoom: number;
+interface MapProp {
     error?: string;
     isLoading?: boolean;
     destinations: IDestination[];
     fetchDestinations: (arg: FlightDestinationRequest) => {};
 }
 
-export interface MapState {
+interface MapState {
+    center: {
+        lat: number;
+        lng: number;
+    };
+    mapProps: MapInitProps;
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
+}
+
+interface MapInitProps {
+    defaultZoom: number;
+    zoomControl: boolean;
+    scrollwheel: boolean;
 }
 
 class SimpleMap extends React.Component<MapProp, MapState> {
@@ -35,16 +41,36 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         // no matters what MapArea at this point at all,
         // we set lat/lng and zoom for component directly and it will be overriden
         this.state = {
+            mapProps: this.mapInitProp(),
+            center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
                 'SYD',
                 MapArea.createRandom(),
-                new Budget(0, 2000),
+                new Budget(0, parseInt(process.env.REACT_APP_MAX_BUDGET || '')),
                 new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
             )
         };
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
+    }
+
+    private mapInitProp(): MapInitProps {
+        let prop =
+            window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
+                ? {
+                      defaultZoom: gMapConf.defaultMobileZoom as number,
+                      zoomControl: false,
+                      scrollwheel: false
+                  }
+                : {
+                      defaultZoom: gMapConf.defaultDesktopZoom as number,
+                      zoomControl: true,
+                      scrollwheel: true
+                  };
+
+        // const screenHeight = window.screen.height * window.devicePixelRatio;
+        return prop;
     }
 
     renderDestinations() {
@@ -102,17 +128,18 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs',
                         language: 'en'
                     }}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.defaultZoom}
+                    defaultCenter={this.state.center}
+                    defaultZoom={this.state.mapProps.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
                     options={{
                         fullscreenControl: false,
-                        maxZoom: this.props.defaultZoom * 1.5,
-                        minZoom: this.props.defaultZoom * 0.8,
+                        maxZoom: this.state.mapProps.defaultZoom * 1.5,
+                        minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
                         disableDefaultUI: true,
-                        zoomControl: true,
+                        zoomControl: this.state.mapProps.zoomControl,
+                        scrollwheel: this.state.mapProps.scrollwheel,
                         styles: gMapConf.styles as MapTypeStyle[]
                     }}
                 >
@@ -128,20 +155,26 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     buildRedirectUrl(destination: IDestination): string {
-        return 'https://google.com';
-        //const reqModel = this.state.destinationsRequestModel;
-        //const destAirportId = 'LON'; // from destination
-        //const depDate = new Date(2019, 10, 17); // from destination
-        //const retDate = new Date(2019, 10, 19); // from destination
-        //const url = "https://services.dev.webjet.com.au/web/flights/redirect?" +
-        //	`adults=1&children=0&infants=0&triptype=return&steps=${reqModel.departureAirportId}all-${destAirportId}all-${this.formatDate(depDate)}-economy-${reqModel.departureAirportId}-${destAirportId}` +
-        //	`_${destAirportId}all-${reqModel.departureAirportId}all-${this.formatDate(retDate)}-economy-${destAirportId}-${reqModel.departureAirportId}`;
-        //console.log(url);
-        //return url;
+        if (!destination || !destination.flightDates) return '';
+        const reqModel = this.state.destinationsRequestModel;
+        const destAirportId = destination.destAirportCode;
+        const depDate = new Date(destination.flightDates.departureDate);
+        const retDate = new Date(destination.flightDates.returnDate);
+
+        const url =
+            process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL +
+            `?adults=1&children=0&infants=0&triptype=return&steps=` +
+            // departure step:
+            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-` +
+            `${reqModel.departureAirportId}-${destAirportId}` +
+            // return step:
+            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-` +
+            `${destAirportId}-${reqModel.departureAirportId}`;
+        return url;
     }
 
     private formatDate(d: Date): string {
-        return d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString();
+        return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
     }
 }
 
