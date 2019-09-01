@@ -2,6 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
 import './styles/slider.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 export interface sliderProps {
     min: number;
@@ -34,20 +36,25 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
         }
 
         const sliderClassName = classnames(className, {
-            // 'min-filtered': values[0] !== min
+            'max-filtered': values[1] !== max
         });
 
+        const sliderLabel =
+            values[1] === max ? 'Any price' : `$ ${values[1].toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
+
         return (
-            <div id="one-handler-range-slider" className={sliderClassName}>
-                <div className="budget-label">Budget</div>
-                {<Slider min={min} max={max} value={values[1]} step={step} onChange={this.onChangeSlider} />}
-                {
-                    <div>
-                        <br />
-                        <div className="from">$ {values[0]}</div>
-                        <div className="to">$ {values[1].toString().replace(/\d(?=(\d{3})+)/g, '$&,')}</div>
-                    </div>
-                }
+            <div className={'widget-row'}>
+                <div className="slider-label wj-icon">
+                    <FontAwesomeIcon icon={faDollarSign} />
+                </div>
+                <div id="one-handler-range-slider" className={sliderClassName}>
+                    {<Slider min={min} max={max} value={values[1]} step={step} onChange={this.onChangeSlider} />}
+                    {
+                        <div>
+                            <div className="to">{sliderLabel}</div>
+                        </div>
+                    }
+                </div>
             </div>
         );
     }

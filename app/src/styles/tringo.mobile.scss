@@ -1,0 +1,10 @@
+@import 'utulities';
+
+@media #{$mobile} {
+    .App {
+        min-height: 80vh;
+    }
+    .widgetContainer {
+        display: none;
+    }
+}
