@@ -128,20 +128,26 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     buildRedirectUrl(destination: IDestination): string {
-        return 'https://google.com';
-        //const reqModel = this.state.destinationsRequestModel;
-        //const destAirportId = 'LON'; // from destination
-        //const depDate = new Date(2019, 10, 17); // from destination
-        //const retDate = new Date(2019, 10, 19); // from destination
-        //const url = "https://services.dev.webjet.com.au/web/flights/redirect?" +
-        //	`adults=1&children=0&infants=0&triptype=return&steps=${reqModel.departureAirportId}all-${destAirportId}all-${this.formatDate(depDate)}-economy-${reqModel.departureAirportId}-${destAirportId}` +
-        //	`_${destAirportId}all-${reqModel.departureAirportId}all-${this.formatDate(retDate)}-economy-${destAirportId}-${reqModel.departureAirportId}`;
-        //console.log(url);
-        //return url;
+        if (!destination || !destination.flightDates) return '';
+        const reqModel = this.state.destinationsRequestModel;
+        const destAirportId = destination.destAirportCode;
+        const depDate = new Date(destination.flightDates.departureDate);
+        const retDate = new Date(destination.flightDates.returnDate);
+
+        const url =
+            process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL +
+            `?adults=1&children=0&infants=0&triptype=return&steps=` +
+            // departure step:
+            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-` +
+            `${reqModel.departureAirportId}-${destAirportId}` +
+            // return step:
+            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-` +
+            `${destAirportId}-${reqModel.departureAirportId}`;
+        return url;
     }
 
     private formatDate(d: Date): string {
-        return d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString();
+        return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
     }
 }
 
