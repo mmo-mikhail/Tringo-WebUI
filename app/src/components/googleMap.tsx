@@ -133,18 +133,17 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const destAirportId = destination.destAirportCode;
         const depDate = new Date(destination.flightDates.departureDate);
         const retDate = new Date(destination.flightDates.returnDate);
+
         const url =
-            'https://services.dev.webjet.com.au/web/flights/redirect?' +
-            `adults=1&children=0&infants=0&triptype=return&steps=` +
+            process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL +
+            `?adults=1&children=0&infants=0&triptype=return&steps=` +
             // departure step:
-            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-${
-                reqModel.departureAirportId
-            }-${destAirportId}` +
+            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-` +
+            `${reqModel.departureAirportId}-${destAirportId}` +
             // return step:
-            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-${destAirportId}-${
-                reqModel.departureAirportId
-            }`;
-        return url.toLowerCase();
+            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-` +
+            `${destAirportId}-${reqModel.departureAirportId}`;
+        return url;
     }
 
     private formatDate(d: Date): string {
