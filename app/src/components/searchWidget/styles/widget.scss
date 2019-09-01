@@ -1,28 +1,35 @@
-$break-small: 375px;
+@import '../../../styles/variables';
 
-@media screen and (max-width: $break-small) {
-    .widgetContainer {
-        display: none;
+.widget-row {
+    margin: 5px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: white;
+    border-radius: $widget__border-radius;
+    transition: background-color linear 0.15s;
+
+    &:hover {
+        background-color: #f6f2e7;
+        transition: background-color ease 0.15s;
     }
 }
 
 .pickup-location {
-    width: 455px;
-    margin: 20px;
     text-align: left;
 }
 
 .widgetContainer {
+    text-transform: capitalize;
+    padding: 20px;
     position: absolute;
-    width: 600px;
+    width: 450px;
     min-height: 300px;
     margin: 15px;
-    background-color: #333;
-    opacity: 0.85;
-    transition: opacity linear 0.15s;
+    background-color: rgba(0, 0, 0, 0.67);
+    transition: background-color linear 0.15s;
 
     &:hover {
-        opacity: 0.88;
-        transition: opacity ease 0.15s;
+        background-color: rgba(0, 0, 0, 0.76);
+        transition: background-color ease 0.15s;
     }
 }

@@ -28,7 +28,7 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
             datesState: this.props.initialModel.dates,
             budgetMin: this.props.initialModel.budget.min,
             budgetMax: this.props.initialModel.budget.max,
-            budgetStep: process.env.REACT_APP_SLIDER_STEP ? parseInt(process.env.REACT_APP_SLIDER_STEP) : 10,
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
             budgetValues: [this.props.initialModel.budget.min, this.props.initialModel.budget.max]
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
@@ -106,9 +106,7 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
                     max={this.state.budgetMax}
                     values={this.state.budgetValues}
                     step={this.state.budgetStep}
-                    isRangeSlider={true}
-                    isBasicSlider={false}
-                    className={'range-slider'}
+                    className={'range-slider max-only'}
                     onChange={this.onBudgetChanged}
                 />
                 <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
