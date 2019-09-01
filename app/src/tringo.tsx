@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './tringo.scss';
+import './styles/tringo.scss';
 import gMapConf from 'components/gMapConf.json';
 import SimpleMap from './components/googleMap';
 
