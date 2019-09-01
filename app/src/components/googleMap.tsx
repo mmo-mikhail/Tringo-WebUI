@@ -125,6 +125,30 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             </div>
         );
     }
+
+    buildRedirectUrl(destination: IDestination): string {
+        if (!destination || !destination.flightDates) return '';
+        const reqModel = this.state.destinationsRequestModel;
+        const destAirportId = destination.destAirportCode;
+        const depDate = new Date(destination.flightDates.departureDate);
+        const retDate = new Date(destination.flightDates.returnDate);
+        const url =
+            'https://services.dev.webjet.com.au/web/flights/redirect?' +
+            `adults=1&children=0&infants=0&triptype=return&steps=` +
+            // departure step:
+            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-${
+                reqModel.departureAirportId
+            }-${destAirportId}` +
+            // return step:
+            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-${destAirportId}-${
+                reqModel.departureAirportId
+            }`;
+        return url.toLowerCase();
+    }
+
+    private formatDate(d: Date): string {
+        return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+    }
 }
 
 const mapStateToProps = (state: { destinationsReducer: DestinationsState }) => {
