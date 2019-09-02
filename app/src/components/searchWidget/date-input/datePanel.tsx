@@ -46,7 +46,9 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
     render() {
         return (
-            <div>
+            <div className={'widget-row'}>
+                <span className="wj-icon icon-label wj-calendar" />
+
                 <div className="date-panel-wrapper" ref={this.datePanelWrapper}>
                     <div className="date-panel-collapsed" onClick={this.toggleHidden.bind(this)}>
                         {this.state.currentModel && this.state.currentModel.uncertainDates && (
