@@ -21,7 +21,6 @@ const Control = ({ children, ...props }: any) => {
 };
 
 
-
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
@@ -75,21 +74,21 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
            <div>
               <div className='format-label'>  
                   <Highlighter
-                   searchWords={[inputValue]}
-                   textToHighlight={optionLabel}
-                   autoEscape={true}
-                   highlightClassName='high-light'
-                   unhighlightClassName='un-high-light'
+                        searchWords={[inputValue]}
+                        textToHighlight={optionLabel}
+                        autoEscape={true}
+                        highlightClassName='high-light'
+                        unhighlightClassName='un-high-light'
                     />  
                 </div>
                 <br/>
                 <div className='format-label'>               
                  <Highlighter
-                  searchWords={[inputValue]}
-                  textToHighlight={optionSubLabel}
-                  autoEscape={true}
-                  highlightClassName='high-light'
-                  unhighlightClassName='un-high-light'
+                    searchWords={[inputValue]}
+                    textToHighlight={optionSubLabel}
+                    autoEscape={true}
+                    highlightClassName='high-light'
+                    unhighlightClassName='un-high-light'
                  /> 
                 </div>
             </div>
