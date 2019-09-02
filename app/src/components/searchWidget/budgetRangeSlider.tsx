@@ -43,17 +43,13 @@ class BudgetRangeSlider extends React.Component<sliderProps> {
             values[1] === max ? 'Any price' : `$ ${values[1].toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
         return (
-            <div className={'widget-row'}>
-                <div className="slider-label wj-icon">
+            <div className={'widget-row widget-row-fill'}>
+                <div className="icon-label wj-icon">
                     <FontAwesomeIcon icon={faDollarSign} />
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     {<Slider min={min} max={max} value={values[1]} step={step} onChange={this.onChangeSlider} />}
-                    {
-                        <div>
-                            <div className="to">{sliderLabel}</div>
-                        </div>
-                    }
+                    {<span className="to">{sliderLabel}</span>}
                 </div>
             </div>
         );

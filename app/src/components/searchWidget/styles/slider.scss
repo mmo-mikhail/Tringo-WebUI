@@ -1,13 +1,16 @@
 .range-slider {
-    flex-grow: 8;
-    top: 0;
-    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    justify-content: space-between;
+    padding: 10px;
     font-size: 1rem;
+    color: #333;
     z-index: 0;
 }
 
-.slider-label {
-    font-size: 32px;
+.icon-label {
+    font-size: 28px;
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
     width: 50px;

@@ -1,1 +1,10 @@
 @import 'variables';
+
+// webjet overrides
+.wj-icon {
+    border-right: 0 !important;
+}
+
+.wj-rc-autocomplete .rc-autocomplete__control {
+    border: 0;
+}
