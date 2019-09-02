@@ -4,7 +4,7 @@ import Autocomplete from './Autocomplete';
 import BudgetRangeSlider from './budgetRangeSlider';
 import DatePanel from './date-input/datePanel';
 
-import { FlightDestinationRequest, Budget } from 'models/request/flightDestinationRequest';
+import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 
 interface SearchWidgetWrapperProps {
@@ -20,7 +20,7 @@ interface SearchWidgetWrapperState {
     budgetValues: number[];
 }
 
-class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
+class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
     constructor(props: SearchWidgetWrapperProps) {
         super(props);
 
@@ -28,7 +28,7 @@ class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, Sear
             datesState: this.props.initialModel.dates,
             budgetMin: this.props.initialModel.budget.min,
             budgetMax: this.props.initialModel.budget.max,
-            budgetStep: 10,
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
             budgetValues: [this.props.initialModel.budget.min, this.props.initialModel.budget.max]
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
@@ -91,34 +91,28 @@ class SearchWidgetWrapper extends React.Component<SearchWidgetWrapperProps, Sear
         const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
             <div className="widgetContainer">
-                <div>
-                    <Autocomplete
-                        id="pickup-location"
-                        className="pickup-location"
-                        minValueLength={3}
-                        noOptionsMessage={noOptionsMessage}
-                        placeholder="City or Airport"
-                        fetchOptions={fetchLocationData}
-                        inputIconClassName="wj-car-pickup"
-                        onChange={this.onDepartureChanged}
-                    />
-
-                    <BudgetRangeSlider
-                        min={this.state.budgetMin}
-                        max={this.state.budgetMax}
-                        values={this.state.budgetValues}
-                        step={this.state.budgetStep}
-                        isRangeSlider={true}
-                        isBasicSlider={false}
-                        className={'sliderClassName'}
-                        onChange={this.onBudgetChanged}
-                    />
-
-                    <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
-                </div>
+                <Autocomplete
+                    id="pickup-location"
+                    className="pickup-location"
+                    minValueLength={3}
+                    noOptionsMessage={noOptionsMessage}
+                    placeholder="City or Airport"
+                    fetchOptions={fetchLocationData}
+                    inputIconClassName="wj-car-pickup"
+                    onChange={this.onDepartureChanged}
+                />
+                <BudgetRangeSlider
+                    min={this.state.budgetMin}
+                    max={this.state.budgetMax}
+                    values={this.state.budgetValues}
+                    step={this.state.budgetStep}
+                    className={'range-slider max-only'}
+                    onChange={this.onBudgetChanged}
+                />
+                <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
             </div>
         );
     }
 }
 
-export default SearchWidgetWrapper;
+export default SearchWidgetBase;
