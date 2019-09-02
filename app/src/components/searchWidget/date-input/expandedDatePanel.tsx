@@ -29,9 +29,10 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 ? datePanelTypes.UNKNOWN_DATES
                 : datePanelTypes.SPECIFIC_DATES, // selected by default
             unknownDates: this.props.initialModel.uncertainDates,
-            oldButton: true,
-            clicked: false
+            clicked: this.props.initialModel.clicked,
+            clickedu: this.props.initialModel.clickedu
         };
+
         this.saveSelectedPanel(this.state.datePanelType);
         this.onSpecificDateChange = this.onSpecificDateChange.bind(this);
         this.onUnknownDatesChange = this.onUnknownDatesChange.bind(this);
@@ -70,7 +71,6 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                 unknownDates: this.props.initialModel.uncertainDates
             });
         }
-
         this.props.onChange(this.props.initialModel);
     }
 
@@ -78,19 +78,17 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         if (panelType === datePanelTypes.UNKNOWN_DATES) {
             this.props.initialModel.dateFrom = null;
             this.props.initialModel.dateUntil = null;
+            this.props.initialModel.clicked = false;
+            this.props.initialModel.clickedu = true;
         } else if (panelType === datePanelTypes.SPECIFIC_DATES) {
             this.props.initialModel.uncertainDates = null;
+            this.props.initialModel.clickedu = false;
+            this.props.initialModel.clicked = true;
         }
     }
 
-    changeColor() {
-        this.setState({
-            newButton: !this.state.oldButton,
-            clicked: true
-        });
-    }
-
     render() {
+        //let btn_class = this.state.oldButton ? "blackButton" : "whiteButton";
         const { from, to } = this.state;
         return (
             <div className="date-panel-expanded">
@@ -99,13 +97,23 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                         className="dates-selector middle-text"
                         onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
                     >
-                        <Button onClick={this.changeColor.bind(this)}>Specific Dates</Button>
+                        <Button
+                            active={this.props.initialModel.clicked}
+                            className={'btn1'}
+                            onClick={() => this.saveSelectedPanel(datePanelTypes.SPECIFIC_DATES)}
+                        >
+                            Specific Dates
+                        </Button>
                     </div>
                     <div
                         className="dates-selector middle-text"
                         onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
                     >
-                        <Button active={!this.state.clicked} onClick={this.changeColor.bind(this)}>
+                        <Button
+                            active={this.props.initialModel.clickedu}
+                            className={'btn2'}
+                            onClick={() => this.saveSelectedPanel(datePanelTypes.UNKNOWN_DATES)}
+                        >
                             Flexible Dates
                         </Button>
                     </div>

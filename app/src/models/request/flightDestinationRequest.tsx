@@ -13,7 +13,7 @@ export class FlightDestinationRequest {
             'MEL',
             MapArea.createRandom(),
             new Budget(0, 1000),
-            new DatesInput(null, null, new UncertainDates(10, Duration.Weekend))
+            new DatesInput(null, null, new UncertainDates(10, Duration.Weekend), true, false)
         );
     }
 }

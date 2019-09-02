@@ -47,7 +47,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 'SYD',
                 MapArea.createRandom(),
                 new Budget(0, parseInt(process.env.REACT_APP_MAX_BUDGET || '')),
-                new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
+                new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend), true, false)
             )
         };
 

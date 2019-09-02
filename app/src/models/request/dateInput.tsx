@@ -2,7 +2,9 @@ export class DatesInput {
     constructor(
         public dateFrom: Date | null,
         public dateUntil: Date | null,
-        public uncertainDates: UncertainDates | null
+        public uncertainDates: UncertainDates | null,
+        public clicked: boolean | undefined,
+        public clickedu: boolean | undefined
     ) {}
 }
 
