@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
-import { ActionMeta, ValueType } from 'react-select/lib/types';
+import { ActionMeta } from 'react-select/lib/types';
 import Highlighter from 'react-highlight-words';
 
 // AsyncSelect custom components below
@@ -20,6 +20,8 @@ const Control = ({ children, ...props }: any) => {
     );
 };
 
+
+
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
@@ -33,13 +35,6 @@ interface AutoCompleteProps {
     inputIconClassName: string;
     fetchOptions: (args: any, callback: any) => any;
     disabled?: boolean;
-}
-
-interface OptionType {
-    label?: string;
-    value: string;
-    optionLabel?: string;
-    optionSubLabel?: string;
 }
 
 class Autocomplete extends React.Component<AutoCompleteProps> {
@@ -70,11 +65,8 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
         return null;
     }
 
-    onSelectChanged(v: ValueType<OptionType>, action: ActionMeta) {
-        const option = v as OptionType;
-        if (option) {
-            this.props.onChange(option.value);
-        }
+    onSelectChanged(value: any, action: ActionMeta) {
+        this.props.onChange(value);
     }
 
     formatOptionLabel({optionLabel,optionSubLabel}:any, {inputValue}:any){
@@ -99,7 +91,7 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
                   highlightClassName='high-light'
                   unhighlightClassName='un-high-light'
                  /> 
-                 </div>      
+                </div>
             </div>
         );
     }
@@ -110,11 +102,8 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
         return (
             <AsyncSelect
                 inputId={this.props.id}
-                isClearable
-                defaultValue={{
-                    label: process.env.REACT_APP_DEFAULT_LOCATION,
-                    value: 'SYD'
-                }}
+                isClearable              
+                defaultInputValue={process.env.REACT_APP_DEFAULT_LOCATION}
                 placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
