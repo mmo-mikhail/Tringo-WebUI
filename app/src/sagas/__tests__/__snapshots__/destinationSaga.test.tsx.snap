@@ -13,6 +13,8 @@ Object {
           "min": 0,
         },
         "dates": DatesInput {
+          "clicked": true,
+          "clickedu": false,
           "dateFrom": null,
           "dateUntil": null,
           "uncertainDates": UncertainDates {
@@ -53,6 +55,8 @@ Object {
           "min": 0,
         },
         "dates": DatesInput {
+          "clicked": true,
+          "clickedu": false,
           "dateFrom": null,
           "dateUntil": null,
           "uncertainDates": UncertainDates {
