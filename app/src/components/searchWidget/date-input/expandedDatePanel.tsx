@@ -1,10 +1,12 @@
 import * as React from 'react';
 import './styles/dateInput.scss';
 import '../../common.scss';
+import './styles/DateToggle.scss';
 import { DateUnknown } from './dateUnknown';
 import TringoDatePicker from './tringoDatePicker';
 import { DatesInput, UncertainDates, Duration } from '../../../models/request/dateInput';
 import { RangeModifier } from 'react-day-picker';
+import { ToggleButtonGroup, Button } from 'react-bootstrap';
 
 export enum datePanelTypes {
     SPECIFIC_DATES = 'SPECIFIC_DATES',
@@ -26,7 +28,9 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
             datePanelType: this.props.initialModel.uncertainDates
                 ? datePanelTypes.UNKNOWN_DATES
                 : datePanelTypes.SPECIFIC_DATES, // selected by default
-            unknownDates: this.props.initialModel.uncertainDates
+            unknownDates: this.props.initialModel.uncertainDates,
+            oldButton: true,
+            clicked: false
         };
         this.saveSelectedPanel(this.state.datePanelType);
         this.onSpecificDateChange = this.onSpecificDateChange.bind(this);
@@ -79,24 +83,33 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         }
     }
 
+    changeColor() {
+        this.setState({
+            newButton: !this.state.oldButton,
+            clicked: true
+        });
+    }
+
     render() {
         const { from, to } = this.state;
         return (
             <div className="date-panel-expanded">
-                <div className="top-toogler">
+                <ToggleButtonGroup className="datetoggle" name="options" defaultValue={1}>
                     <div
                         className="dates-selector middle-text"
                         onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
                     >
-                        <div>Specific Dates</div>
+                        <Button onClick={this.changeColor.bind(this)}>Specific Dates</Button>
                     </div>
                     <div
                         className="dates-selector middle-text"
                         onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
                     >
-                        <div>Flexible Dates</div>
+                        <Button active={!this.state.clicked} onClick={this.changeColor.bind(this)}>
+                            Flexible Dates
+                        </Button>
                     </div>
-                </div>
+                </ToggleButtonGroup>
                 {this.state.datePanelType === datePanelTypes.SPECIFIC_DATES && (
                     <div className="specific-dates-main-area">
                         <TringoDatePicker
