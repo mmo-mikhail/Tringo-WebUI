@@ -12,6 +12,23 @@ $break-small: 375px;
     text-align: left;
 }
 
+
+.format-label{
+    display:inline-block;
+}
+
+ .format-label span{
+    display:inline-block; 
+}
+
+.high-light{
+    background-color: #7bbaf6;   
+    float: left;
+}
+
+.un-high-light{
+    float:left;
+}
 .widgetContainer {
     position: absolute;
     width: 600px;

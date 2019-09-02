@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
 import { ActionMeta } from 'react-select/lib/types';
+import Highlighter from 'react-highlight-words';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -19,12 +20,12 @@ const Control = ({ children, ...props }: any) => {
     );
 };
 
-const Option = ({ data, ...props }: any) => (
+/*const Option = ({ data, ...props }: any) => (
     <components.Option {...props}>
         <span>{data.optionLabel}</span>
         <span>{data.optionSubLabel}</span>
     </components.Option>
-);
+);*/
 
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
@@ -48,6 +49,7 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
         this.loadOptionsHandler = this.loadOptionsHandler.bind(this);
         this.noOptionsMessageHandler = this.noOptionsMessageHandler.bind(this);
         this.onSelectChanged = this.onSelectChanged.bind(this);
+        this.formatOptionLabel = this.formatOptionLabel.bind(this);
     }
 
     loadOptionsHandler(inputValue: any, callback: any) {
@@ -72,6 +74,43 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
         this.props.onChange(value);
     }
 
+    formatOptionLabel({optionLabel,optionSubLabel}:any, {inputValue}:any){
+
+        return (
+           <div>
+           <div className='format-label'>
+         
+           <Highlighter
+            searchWords={[inputValue]}
+            textToHighlight={optionLabel}
+            autoEscape={true}
+            highlightClassName='high-light'
+            unhighlightClassName='un-high-light'
+          />  
+           </div>
+           <br/>
+           <div className='format-label'>
+         {/*   <span className='high-light'>{optionLabel}</span>*/}      
+          
+             <Highlighter
+            searchWords={[inputValue]}
+            textToHighlight={optionSubLabel}
+            autoEscape={true}
+            highlightClassName='high-light'
+            unhighlightClassName='un-high-light'
+          />  
+
+          {/* <span className='un-high-light'>{optionSubLabel}</span>*/}
+           </div>
+          
+         
+        </div>
+        );
+    }
+            
+         
+    
+
     render() {
         return (
             <AsyncSelect
@@ -85,9 +124,10 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
                 isDisabled={this.props.disabled}
                 loadOptions={this.loadOptionsHandler}
                 noOptionsMessage={this.noOptionsMessageHandler}
+                formatOptionLabel={this.formatOptionLabel}
                 className={classnames('wj-rc-autocomplete', this.props.className)}
                 classNamePrefix="rc-autocomplete"
-                components={{ Control, Option, LoadingIndicator, Input }}
+                components={{ Control, LoadingIndicator, Input }}
                 onChange={this.onSelectChanged}
             />
         );

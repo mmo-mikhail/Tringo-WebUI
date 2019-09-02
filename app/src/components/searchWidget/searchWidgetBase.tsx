@@ -70,13 +70,13 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
                         value: 'MEL',
                         label: 'Melbourne International Airport, Australia',
                         optionLabel: 'Melbourne International Airport (MEL)',
-                        optionSubLabel: 'Melbourne, Australia'
+                        optionSubLabel: 'Melbourne, Australia'                    
                     },
                     {
                         value: 'SYD',
                         label: 'Sydney International Airport, Australia',
                         optionLabel: 'Sydney International Airport (SYD)',
-                        optionSubLabel: 'Sydney, Australia'
+                        optionSubLabel: 'Sydney, Australia'                     
                     },
                     {
                         value: 'PER',
