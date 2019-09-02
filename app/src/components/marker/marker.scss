@@ -11,10 +11,11 @@
     display: table;
     cursor: pointer;
     transition: background-color ease 0.15s;
+    text-decoration: none !important;
 
     &:hover {
         transition: background-color ease 0.15s;
-        background-color: #eceaff;
+        background-color: #dfdfdf;
     }
 
     &:before {
