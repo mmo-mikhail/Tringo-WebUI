@@ -20,13 +20,6 @@ const Control = ({ children, ...props }: any) => {
     );
 };
 
-/*const Option = ({ data, ...props }: any) => (
-    <components.Option {...props}>
-        <span>{data.optionLabel}</span>
-        <span>{data.optionSubLabel}</span>
-    </components.Option>
-);*/
-
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
@@ -78,38 +71,30 @@ class Autocomplete extends React.Component<AutoCompleteProps> {
 
         return (
            <div>
-           <div className='format-label'>
-         
-           <Highlighter
-            searchWords={[inputValue]}
-            textToHighlight={optionLabel}
-            autoEscape={true}
-            highlightClassName='high-light'
-            unhighlightClassName='un-high-light'
-          />  
-           </div>
-           <br/>
-           <div className='format-label'>
-         {/*   <span className='high-light'>{optionLabel}</span>*/}      
-          
-             <Highlighter
-            searchWords={[inputValue]}
-            textToHighlight={optionSubLabel}
-            autoEscape={true}
-            highlightClassName='high-light'
-            unhighlightClassName='un-high-light'
-          />  
-
-          {/* <span className='un-high-light'>{optionSubLabel}</span>*/}
-           </div>
-          
-         
-        </div>
+              <div className='format-label'>  
+                  <Highlighter
+                   searchWords={[inputValue]}
+                   textToHighlight={optionLabel}
+                   autoEscape={true}
+                   highlightClassName='high-light'
+                   unhighlightClassName='un-high-light'
+                    />  
+                </div>
+                <br/>
+                <div className='format-label'>               
+                 <Highlighter
+                  searchWords={[inputValue]}
+                  textToHighlight={optionSubLabel}
+                  autoEscape={true}
+                  highlightClassName='high-light'
+                  unhighlightClassName='un-high-light'
+                 /> 
+                 </div>      
+            </div>
         );
     }
             
          
-    
 
     render() {
         return (
