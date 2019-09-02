@@ -1,8 +1,8 @@
 @import 'utulities';
 
-@media #{$mobile} {
+@media #{$mobileAndTablet} {
     .App {
-        min-height: 80vh;
+        min-height: 70vh;
     }
     .widgetContainer {
         display: none;
