@@ -84,7 +84,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         const monthName = uncertainDates.monthIdx === -1 ? 'any month' : monthNames[uncertainDates.monthIdx];
         return (
             <span>
-                {durationText} in {monthName}
+                {durationText} on {monthName}
             </span>
         );
     }
@@ -94,7 +94,8 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         return (
             <span>
-                from {datesModel.dateFrom.toDateString()} to {datesModel.dateUntil.toDateString()}
+                {datesModel.dateFrom.getDate()} {datesModel.dateFrom.toLocaleString('default', { month: 'short' })} -{' '}
+                {datesModel.dateUntil.getDate()} {datesModel.dateUntil.toLocaleString('default', { month: 'short' })}
             </span>
         );
     }
