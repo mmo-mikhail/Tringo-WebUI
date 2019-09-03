@@ -28,9 +28,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
             datePanelType: this.props.initialModel.uncertainDates
                 ? datePanelTypes.UNKNOWN_DATES
                 : datePanelTypes.SPECIFIC_DATES, // selected by default
-            unknownDates: this.props.initialModel.uncertainDates,
-            clicked: this.props.initialModel.clicked,
-            clickedu: this.props.initialModel.clickedu
+            unknownDates: this.props.initialModel.uncertainDates
         };
 
         this.saveSelectedPanel(this.state.datePanelType);
@@ -78,12 +76,8 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         if (panelType === datePanelTypes.UNKNOWN_DATES) {
             this.props.initialModel.dateFrom = null;
             this.props.initialModel.dateUntil = null;
-            this.props.initialModel.clicked = false;
-            this.props.initialModel.clickedu = true;
         } else if (panelType === datePanelTypes.SPECIFIC_DATES) {
             this.props.initialModel.uncertainDates = null;
-            this.props.initialModel.clickedu = false;
-            this.props.initialModel.clicked = true;
         }
     }
 
@@ -98,7 +92,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                         onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
                     >
                         <Button
-                            active={this.props.initialModel.clicked}
+                            active={!this.props.initialModel.uncertainDates}
                             className={'btn1'}
                             onClick={() => this.saveSelectedPanel(datePanelTypes.SPECIFIC_DATES)}
                         >
@@ -110,7 +104,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
                         onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
                     >
                         <Button
-                            active={this.props.initialModel.clickedu}
+                            active={!!this.props.initialModel.uncertainDates}
                             className={'btn2'}
                             onClick={() => this.saveSelectedPanel(datePanelTypes.UNKNOWN_DATES)}
                         >
