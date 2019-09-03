@@ -86,7 +86,7 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         const { from, to } = this.state;
         return (
             <div className="date-panel-expanded">
-                <ToggleButtonGroup className="datetoggle" name="options" defaultValue={1}>
+                <ToggleButtonGroup className="datetoggle" name="options">
                     <div
                         className="dates-selector middle-text"
                         onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
