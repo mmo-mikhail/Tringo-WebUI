@@ -4,9 +4,9 @@
     .App {
         min-height: 70vh;
     }
-    .widget-container {
-        display: none;
-    }
+    //.widget-container {
+    //    display: none !important;
+    //}
 }
 
 @media #{$mobile} {
