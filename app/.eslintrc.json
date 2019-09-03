@@ -17,8 +17,8 @@
         "linebreak-style": [0, "windows" ],
         "arrow-body-style": [2, "as-needed", { "requireReturnForObjectLiteral": true }],
         "comma-dangle": ["error", "never"],
-        "quotes": [ 2, "single" ],
-        "indent": [2, 4,
+        "quotes": [ "warn", "single" ],
+        "indent": ["warn", 4,
             {
                 "SwitchCase": 1,
                 "VariableDeclarator": 2,
@@ -45,8 +45,8 @@
         "react/jsx-no-target-blank": 0,
         "react/require-extension": 0,
         "react/self-closing-comp": 0,
-        "react/jsx-indent": [2, 4],
-        "react/jsx-indent-props": [2, 4],
+        "react/jsx-indent": ["warn", 4],
+        "react/jsx-indent-props": ["warn", 4],
         "react/forbid-prop-types": 0,
         "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }]
     }
