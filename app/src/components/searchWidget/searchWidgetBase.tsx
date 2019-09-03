@@ -91,11 +91,11 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
         const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
             <div className="widget-container">
-                <div className={'widget-col'}>
-                    <div className={'widget-row'}>
+                <div className={'widget-col middle-text'}>
+                    <div className={'widget-row middle-text'}>
                         <Autocomplete
-                            id="pickup-location"
-                            className="pickup-location"
+                            id="departure-panel"
+                            className="departure-panel"
                             minValueLength={3}
                             noOptionsMessage={noOptionsMessage}
                             placeholder="City or Airport"
@@ -103,17 +103,22 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
                             inputIconClassName="wj-car-pickup"
                             onChange={this.onDepartureChanged}
                         />
+                        <div className={'date-panel'}>
+                            <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
+                        </div>
                     </div>
-                    <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
                 </div>
-                <BudgetRangeSlider
-                    min={this.state.budgetMin}
-                    max={this.state.budgetMax}
-                    values={this.state.budgetValues}
-                    step={this.state.budgetStep}
-                    className={'range-slider max-only'}
-                    onChange={this.onBudgetChanged}
-                />
+
+                <div className="budget-panel">
+                    <BudgetRangeSlider
+                        min={this.state.budgetMin}
+                        max={this.state.budgetMax}
+                        values={this.state.budgetValues}
+                        step={this.state.budgetStep}
+                        className={'range-slider max-only'}
+                        onChange={this.onBudgetChanged}
+                    />
+                </div>
             </div>
         );
     }

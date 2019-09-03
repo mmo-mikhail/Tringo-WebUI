@@ -59,7 +59,7 @@
     "build": "cross-env CI=true react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:ci:coverage": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage",
-    "test:ci": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit"
+    "test:ci": "cross-env CI=true react-scripts test --env=jsdom --reporters=default --reporters=jest-junit ./node_modules/jest-junit"
   },
   "jest-junit": {
     "reporters": [

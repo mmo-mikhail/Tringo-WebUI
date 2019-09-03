@@ -4,7 +4,17 @@
     .App {
         min-height: 70vh;
     }
+    //.widget-container {
+    //    display: none !important;
+    //}
+}
+
+@media #{$mobile} {
     .widget-container {
-        display: none;
+        flex-direction: column;
+
+        .widget-row-fill {
+            width: 100% !important;
+        }
     }
 }
