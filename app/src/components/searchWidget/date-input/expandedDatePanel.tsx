@@ -87,26 +87,18 @@ export class ExpandedDatePanel extends React.Component<StateChangedProps, any> {
         return (
             <div className="date-panel-expanded">
                 <ToggleButtonGroup className="datetoggle" name="options">
-                    <div
-                        className="dates-selector middle-text"
-                        onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
-                    >
+                    <div>
                         <Button
                             active={!this.props.initialModel.uncertainDates}
-                            className={'btn1'}
-                            onClick={() => this.saveSelectedPanel(datePanelTypes.SPECIFIC_DATES)}
+                            onClick={() => this.selectPanel(datePanelTypes.SPECIFIC_DATES)}
                         >
                             Specific Dates
                         </Button>
                     </div>
-                    <div
-                        className="dates-selector middle-text"
-                        onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
-                    >
+                    <div>
                         <Button
                             active={!!this.props.initialModel.uncertainDates}
-                            className={'btn2'}
-                            onClick={() => this.saveSelectedPanel(datePanelTypes.UNKNOWN_DATES)}
+                            onClick={() => this.selectPanel(datePanelTypes.UNKNOWN_DATES)}
                         >
                             Flexible Dates
                         </Button>
