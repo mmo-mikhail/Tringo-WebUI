@@ -73,33 +73,20 @@ class Autocomplete extends React.Component<AutoCompleteProps, AutoCompleteState>
         return null;
     }
 
-    onSelectChanged(value: any, {action}: ActionMeta) {
+    onSelectChanged(value: any) {
         this.props.onChange(value);
 
-        if (action === 'clear' || value === null) {
-            this.setState({selectedOption: value, inputValue: ''}, () => {
-                console.log(`option is cleared value now is${  this.state.inputValue}`)
-            })
-            return;
-        }
-        this.setState({selectedOption: value, inputValue: value.optionLabel}, () => {
-        })
-
-
+        this.setState({selectedOption: value,      
+            inputValue: value?value.optionLabel:''}, () => {})
     }
 
     onInputChange = (inputValue: any) => {
         if (inputValue !== '') {
-            this.setState({inputValue: inputValue}, () => {
-                console.log(`input change triggered${  this.state.inputValue}`)
-            });
+            this.setState({inputValue: inputValue}, () => {});
         }
-
     };
 
     formatOptionLabel({optionLabel, optionSubLabel}: any, {inputValue}: any) {
-
-
         return (
             <div>
                 <div className='format-label'>
@@ -124,15 +111,12 @@ class Autocomplete extends React.Component<AutoCompleteProps, AutoCompleteState>
             </div>
         );
     }
-
-
     render() {
-        let inputValue = this.state.inputValue;
 
         return (
             <AsyncSelect
                 inputId={this.props.id}
-                isClearable
+                openMenuOnFocus={true}
                 inputValue={this.state.inputValue}
                 placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
