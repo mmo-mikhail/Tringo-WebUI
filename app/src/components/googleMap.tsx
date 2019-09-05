@@ -46,7 +46,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             destinationsRequestModel: new FlightDestinationRequest(
                 'SYD',
                 MapArea.createRandom(),
-                new Budget(0, parseInt(process.env.REACT_APP_MAX_BUDGET || '')),
+                null,
                 new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
             )
         };
@@ -155,15 +155,16 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     buildRedirectUrl(destination: IDestination): string {
-        if (!destination || !destination.flightDates) return '';
+        if (!destination || !destination.flightDates) {
+            return '';
+        }
         const reqModel = this.state.destinationsRequestModel;
         const destAirportId = destination.destAirportCode;
         const depDate = new Date(destination.flightDates.departureDate);
         const retDate = new Date(destination.flightDates.returnDate);
 
         const url =
-            process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL +
-            `?adults=1&children=0&infants=0&triptype=return&steps=` +
+            `${process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL}?adults=1&children=0&infants=0&triptype=return&steps=` +
             // departure step:
             `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-` +
             `${reqModel.departureAirportId}-${destAirportId}` +
@@ -174,7 +175,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     private formatDate(d: Date): string {
-        return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+        let date = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+        return date;
     }
 }
 

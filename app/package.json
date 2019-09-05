@@ -18,6 +18,7 @@
     "@types/rc-select": "^5.9.34",
     "@types/rc-slider": "^8.6.5",
     "@types/react": "16.8.24",
+    "@types/react-bootstrap": "^0.32.19",
     "@types/react-datepicker": "^2.8.1",
     "@types/react-day-picker": "^5.3.0",
     "@types/react-dom": "16.8.5",
@@ -36,6 +37,7 @@
     "rc-select": "^9.2.1",
     "rc-slider": "^8.6.13",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.12",
     "react-datepicker": "^2.8.0",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
@@ -59,7 +61,7 @@
     "build": "cross-env CI=true react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:ci:coverage": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit --coverage",
-    "test:ci": "cross-env CI=true react-scripts test --env=jsdom --reporters=jest-junit ./node_modules/jest-junit"
+    "test:ci": "cross-env CI=true react-scripts test --env=jsdom --reporters=default --reporters=jest-junit ./node_modules/jest-junit"
   },
   "jest-junit": {
     "reporters": [

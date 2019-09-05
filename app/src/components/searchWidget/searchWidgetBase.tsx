@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import Autocomplete from './Autocomplete';
 import BudgetRangeSlider from './budgetRangeSlider';
-import DatePanel from './date-input/datePanel';
 
 import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
+import DatePanel from './date-input/datePanel';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest) => void;
@@ -17,7 +17,6 @@ interface SearchWidgetWrapperState {
     budgetMin: number;
     budgetMax: number;
     budgetStep: number;
-    budgetValues: number[];
 }
 
 class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
@@ -26,10 +25,11 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
 
         this.state = {
             datesState: this.props.initialModel.dates,
-            budgetMin: this.props.initialModel.budget.min,
-            budgetMax: this.props.initialModel.budget.max,
-            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
-            budgetValues: [this.props.initialModel.budget.min, this.props.initialModel.budget.max]
+            budgetMin: this.props.initialModel.budget ? this.props.initialModel.budget.min : 0,
+            budgetMax: this.props.initialModel.budget
+                ? this.props.initialModel.budget.max
+                : parseInt(process.env.REACT_APP_MAX_BUDGET || ''),
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || '')
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
@@ -41,7 +41,6 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
         if (values.length !== 2) {
             throw new Error('onRangeChanged has invalid agrument: must be array 2 values length');
         }
-        this.setState({ budgetValues: values });
 
         this.props.initialModel.budget = new Budget(values[0], values[1]);
         this.props.onChange(this.props.initialModel);
@@ -90,26 +89,34 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
 
         const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
-            <div className="widgetContainer">
-                <Autocomplete
-                    id="pickup-location"
-                    className="pickup-location"
-                    minValueLength={3}
-                    noOptionsMessage={noOptionsMessage}
-                    placeholder="City or Airport"
-                    fetchOptions={fetchLocationData}
-                    inputIconClassName="wj-car-pickup"
-                    onChange={this.onDepartureChanged}
-                />
-                <BudgetRangeSlider
-                    min={this.state.budgetMin}
-                    max={this.state.budgetMax}
-                    values={this.state.budgetValues}
-                    step={this.state.budgetStep}
-                    className={'range-slider max-only'}
-                    onChange={this.onBudgetChanged}
-                />
-                <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
+            <div className="widget-container">
+                <div className={'widget-col middle-text'}>
+                    <div className={'widget-row middle-text'}>
+                        <Autocomplete
+                            id="departure-panel"
+                            className="departure-panel"
+                            minValueLength={3}
+                            noOptionsMessage={noOptionsMessage}
+                            placeholder="City or Airport"
+                            fetchOptions={fetchLocationData}
+                            inputIconClassName="wj-car-pickup"
+                            onChange={this.onDepartureChanged}
+                        />
+                        <div className={'date-panel'}>
+                            <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="budget-panel">
+                    <BudgetRangeSlider
+                        min={this.state.budgetMin}
+                        max={this.state.budgetMax}
+                        step={this.state.budgetStep}
+                        className={'range-slider max-only'}
+                        onChange={this.onBudgetChanged}
+                    />
+                </div>
             </div>
         );
     }

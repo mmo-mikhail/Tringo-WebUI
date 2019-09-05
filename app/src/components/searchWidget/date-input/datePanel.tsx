@@ -46,7 +46,9 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
     render() {
         return (
-            <div>
+            <div className={'widget-row'}>
+                <span className="wj-icon icon-label wj-calendar" />
+
                 <div className="date-panel-wrapper" ref={this.datePanelWrapper}>
                     <div className="date-panel-collapsed" onClick={this.toggleHidden.bind(this)}>
                         {this.state.currentModel && this.state.currentModel.uncertainDates && (
@@ -82,7 +84,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         const monthName = uncertainDates.monthIdx === -1 ? 'any month' : monthNames[uncertainDates.monthIdx];
         return (
             <span>
-                {durationText} in {monthName}
+                {durationText} on {monthName}
             </span>
         );
     }
@@ -92,7 +94,8 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
 
         return (
             <span>
-                from {datesModel.dateFrom.toDateString()} to {datesModel.dateUntil.toDateString()}
+                {datesModel.dateFrom.getDate()} {datesModel.dateFrom.toLocaleString('default', { month: 'short' })} -{' '}
+                {datesModel.dateUntil.getDate()} {datesModel.dateUntil.toLocaleString('default', { month: 'short' })}
             </span>
         );
     }
