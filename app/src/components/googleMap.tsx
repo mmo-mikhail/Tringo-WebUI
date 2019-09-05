@@ -5,7 +5,7 @@ import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetBase from 'components/searchWidget/searchWidgetBase';
-import { Budget, FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
+import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
