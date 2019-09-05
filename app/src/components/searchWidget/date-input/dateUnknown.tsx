@@ -104,6 +104,8 @@ export class DateUnknown extends React.Component<DateUnknownProps, DateUnknownSt
     render() {
         return (
             <div className="flexible-dates-main-area">
+                <br />
+                <hr className="hr1" />
                 <div id="monthbtgroup" className="btn-group">
                     <button
                         id="-1"
@@ -117,7 +119,7 @@ export class DateUnknown extends React.Component<DateUnknownProps, DateUnknownSt
                     {this.createMonthOptions()}
                 </div>
                 <hr className="hr" />
-                <div id="durationbtgroup" className="btn-group">
+                <div id="durationbtgroup" className="btn-group1">
                     <button
                         id={Duration[Duration.Weekend]}
                         className={
