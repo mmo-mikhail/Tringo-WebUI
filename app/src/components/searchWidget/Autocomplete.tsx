@@ -116,7 +116,7 @@ class Autocomplete extends React.Component<AutoCompleteProps, AutoCompleteState>
         return (
             <AsyncSelect
                 inputId={this.props.id}
-                openMenuOnFocus={true}
+                isClearable
                 inputValue={this.state.inputValue}
                 placeholder={this.props.placeholder}
                 isDisabled={this.props.disabled}
