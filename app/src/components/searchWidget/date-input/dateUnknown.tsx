@@ -106,7 +106,7 @@ export class DateUnknown extends React.Component<DateUnknownProps, DateUnknownSt
             <div className="flexible-dates-main-area">
                 <br />
                 <hr className="hr1" />
-                <div id="monthbtgroup" className="btn-group">
+                <div id="monthbtgroup" className="btn-group2">
                     <button
                         id="-1"
                         className={this.state.monthNameOption === -1 ? 'btn-selection' : 'btn-standard'}

@@ -24,20 +24,21 @@
     color: inherit;
 }
 
-.btn-group {
+.btn-group2 {
     position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 5px;
-    margin-left: 6px;
+    margin-left: 25px;
+    margin-right: 20px;
 }
 
 .btn-group1 {
     display: table;
     position: absolute;
     display: flex;
-    left: 105px;
+    left: 125px;
     flex-wrap: wrap;
     margin-bottom: 10%;
 }

@@ -4,6 +4,7 @@
     display: flex;
     flex-grow: 1;
     justify-content: center;
+    border-radius: 3px;
     align-items: center;
     color: #333;
     z-index: 1;
@@ -29,11 +30,11 @@
     .date-panel-expanded {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 100%;
+        left: -26%;
         background-color: #eeeeee;
-        width: 500px;
-        height: 340px;
+        width: 550px;
+        height: 338px;
         opacity: 1 !important;
 
         .top-toogler {
@@ -41,9 +42,11 @@
             flex-direction: row;
             justify-content: center;
             width: 100%;
+            margin-top: 5%;
 
             .dates-selector {
-                width: 40%;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+                width: 550px;
                 height: 30px;
                 margin: 10px 3%;
                 text-align: center;

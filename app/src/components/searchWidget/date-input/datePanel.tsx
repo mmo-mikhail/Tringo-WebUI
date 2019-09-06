@@ -84,7 +84,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         const monthName = uncertainDates.monthIdx === -1 ? 'any month' : monthNames[uncertainDates.monthIdx];
         return (
             <span>
-                {durationText} on {monthName}
+                {durationText} in {monthName}
             </span>
         );
     }
@@ -127,7 +127,7 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
             event.target.className.indexOf('rc-select') === -1 &&
             event.target.id.indexOf('react-select-') === -1
         ) {
-            if (this.state.currentModel.dateUntil == null && this.state.currentModel.uncertainDates == null) {
+            if (this.state.currentModel.dateUntil != null && this.state.currentModel.uncertainDates == null) {
                 return;
             }
 
