@@ -3,105 +3,95 @@ import classnames from 'classnames';
 import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
 import { ActionMeta, ValueType } from 'react-select/lib/types';
+import { FC } from 'react';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
 
-const Control = ({ children, ...props }: any) => {
-    const { inputIconClassName } = props.selectProps;
-    const hasIcon = inputIconClassName !== '';
-
-    return (
-        <components.Control {...props}>
-            {hasIcon && <span className={classnames('wj-icon wj-depart', inputIconClassName)} />}
-            {children}
-        </components.Control>
-    );
-};
+const Control = ({ children, ...props }: any) => (
+    <components.Control {...props}>
+        {<span className={classnames('wj-icon', 'wj-depart')} />}
+        {children}
+    </components.Control>
+);
 
 const Option = ({ data, ...props }: any) => (
     <components.Option {...props}>
-        <span>{data.optionLabel}</span>
-        <span>{data.optionSubLabel}</span>
+        <span className={classnames({ 'has-metro': data.hasMetro })}>
+            <span>{data.optionLabel}</span>
+            <span>{data.optionSubLabel}</span>
+        </span>
     </components.Option>
 );
 
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
-interface AutoCompleteProps {
+export interface AutoCompleteProps {
     onChange: (airportId: string) => void;
     id: string;
+    name: string;
     className: string;
     minValueLength: number;
     noOptionsMessage: string;
     placeholder: string;
     inputIconClassName: string;
-    fetchOptions: (args: any, callback: any) => any;
-    disabled?: boolean;
+    fetchOptions: (args: string, callback: any) => any;
+    disabled: boolean;
 }
 
-interface OptionType {
-    label?: string;
+export interface OptionType {
+    hasMetro?: boolean;
+    label: string;
     value: string;
     optionLabel?: string;
     optionSubLabel?: string;
 }
 
-class Autocomplete extends React.Component<AutoCompleteProps> {
-    constructor(props: AutoCompleteProps) {
-        super(props);
-
-        this.loadOptionsHandler = this.loadOptionsHandler.bind(this);
-        this.noOptionsMessageHandler = this.noOptionsMessageHandler.bind(this);
-        this.onSelectChanged = this.onSelectChanged.bind(this);
-    }
-
-    loadOptionsHandler(inputValue: any, callback: any) {
+const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
+    const loadOptionsHandler = (inputValue: string, callback: any) => {
         // Start loading options after minimum length of typed value
-        if (inputValue.length >= this.props.minValueLength) {
-            this.props.fetchOptions(inputValue, callback);
+        if (inputValue.length >= props.minValueLength) {
+            props.fetchOptions(inputValue, callback);
         } else {
             callback();
         }
-    }
+    };
 
-    noOptionsMessageHandler(inputValue: { inputValue: string }) {
+    const noOptionsMessageHandler = (inputValue: { inputValue: string }) => {
         // Only return no options message after minimum length of typed value
         // Otherwise do not show empty dropdown by returning null
-        if (inputValue.inputValue.length >= this.props.minValueLength) {
-            return this.props.noOptionsMessage;
+        if (inputValue.inputValue.length >= props.minValueLength) {
+            return props.noOptionsMessage;
         }
         return null;
-    }
+    };
 
-    onSelectChanged(v: ValueType<OptionType>, action: ActionMeta) {
+    const onSelectChanged = (v: ValueType<OptionType>, action: ActionMeta) => {
         const option = v as OptionType;
         if (option) {
-            this.props.onChange(option.value);
+            props.onChange(option.value);
         }
-    }
+    };
 
-    render() {
-        return (
-            <AsyncSelect
-                inputId={this.props.id}
-                isClearable
-                defaultValue={{
-                    label: process.env.REACT_APP_DEFAULT_LOCATION,
-                    value: 'SYD'
-                }}
-                placeholder={this.props.placeholder}
-                isDisabled={this.props.disabled}
-                loadOptions={this.loadOptionsHandler}
-                noOptionsMessage={this.noOptionsMessageHandler}
-                className={classnames('wj-rc-autocomplete', this.props.className)}
-                classNamePrefix="rc-autocomplete"
-                components={{ Control, Option, LoadingIndicator, Input }}
-                onChange={this.onSelectChanged}
-            />
-        );
-    }
-}
+    return (
+        <AsyncSelect
+            inputId={props.id}
+            isClearable
+            defaultValue={{
+                label: 'Sydney, Australia',
+                value: process.env.REACT_APP_DEFAULT_DEPARTURE || ''
+            }}
+            placeholder={props.placeholder}
+            isDisabled={props.disabled}
+            loadOptions={loadOptionsHandler}
+            noOptionsMessage={noOptionsMessageHandler}
+            className={classnames('wj-rc-autocomplete', props.className)}
+            classNamePrefix="rc-autocomplete"
+            components={{ Control, Option, LoadingIndicator, Input }}
+            onChange={onSelectChanged}
+        />
+    );
+};
 
 export default Autocomplete;

@@ -1,11 +1,12 @@
 import * as React from 'react';
-
+import { Component } from 'react';
 import Autocomplete from './Autocomplete';
 import BudgetRangeSlider from './budgetRangeSlider';
-
+import './styles/widget.scss';
 import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 import DatePanel from './date-input/datePanel';
+import { fetchLocationData } from 'services/dataService';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest) => void;
@@ -17,9 +18,11 @@ interface SearchWidgetWrapperState {
     budgetMin: number;
     budgetMax: number;
     budgetStep: number;
+    departureLocation: string;
+    isDropOffAutoCompleteEnabled: boolean;
 }
 
-class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
+class SearchWidgetBase extends Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
     constructor(props: SearchWidgetWrapperProps) {
         super(props);
 
@@ -29,12 +32,25 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
             budgetMax: this.props.initialModel.budget
                 ? this.props.initialModel.budget.max
                 : parseInt(process.env.REACT_APP_MAX_BUDGET || ''),
-            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || '')
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
+            isDropOffAutoCompleteEnabled: true,
+            departureLocation: process.env.REACT_APP_DEFAULT_DEPARTURE || ''
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
-
+        this.updateDeparture = this.updateDeparture.bind(this);
         this.onDepartureChanged = this.onDepartureChanged.bind(this);
+
+        // this.onDepartureChanged = this.onDepartureChanged.bind(this);
+    }
+
+    updateDeparture(data: string) {
+        if (data && !this.state.departureLocation) {
+            this.setState({
+                departureLocation: data,
+                isDropOffAutoCompleteEnabled: true
+            });
+        }
     }
 
     onBudgetChanged(values: number[]) {
@@ -61,53 +77,31 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
     }
 
     render() {
-        const fetchLocationData = (inputValue: any, callback: any) => {
-            // Mock api call
-            setTimeout(() => {
-                callback([
-                    {
-                        value: 'MEL',
-                        label: 'Melbourne International Airport, Australia',
-                        optionLabel: 'Melbourne International Airport (MEL)',
-                        optionSubLabel: 'Melbourne, Australia'
-                    },
-                    {
-                        value: 'SYD',
-                        label: 'Sydney International Airport, Australia',
-                        optionLabel: 'Sydney International Airport (SYD)',
-                        optionSubLabel: 'Sydney, Australia'
-                    },
-                    {
-                        value: 'PER',
-                        label: 'Perth International Airport, Australia',
-                        optionLabel: 'Perth International Airport (PER)',
-                        optionSubLabel: 'Perth, Australia'
-                    }
-                ]);
-            }, 500);
-        };
-
         const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
         return (
             <div className="widget-container">
                 <div className={'widget-col middle-text'}>
                     <div className={'widget-row middle-text'}>
                         <Autocomplete
-                            id="departure-panel"
-                            className="departure-panel"
-                            minValueLength={3}
-                            noOptionsMessage={noOptionsMessage}
-                            placeholder="City or Airport"
-                            fetchOptions={fetchLocationData}
-                            inputIconClassName="wj-car-pickup"
-                            onChange={this.onDepartureChanged}
+                            props={{
+                                id: 'departure-panel',
+                                name: 'departure-panel',
+                                placeholder: 'City or Airport',
+                                disabled: false,
+                                minValueLength: 3,
+                                noOptionsMessage: noOptionsMessage,
+                                fetchOptions: fetchLocationData,
+                                onChange: this.onDepartureChanged,
+                                inputIconClassName: 'wj-depart',
+                                className: 'departure-panel'
+                            }}
                         />
-                        <div className={'date-panel'}>
+
+                        <div className={'date-panel date-picker'}>
                             <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
                         </div>
                     </div>
                 </div>
-
                 <div className="budget-panel">
                     <BudgetRangeSlider
                         min={this.state.budgetMin}
