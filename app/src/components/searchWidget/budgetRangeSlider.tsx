@@ -1,7 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import './styles/slider.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
