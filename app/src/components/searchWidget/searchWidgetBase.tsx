@@ -17,7 +17,6 @@ interface SearchWidgetWrapperState {
     budgetMin: number;
     budgetMax: number;
     budgetStep: number;
-    budgetValues: number[];
 }
 
 class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
@@ -26,10 +25,11 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
 
         this.state = {
             datesState: this.props.initialModel.dates,
-            budgetMin: this.props.initialModel.budget.min,
-            budgetMax: this.props.initialModel.budget.max,
-            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
-            budgetValues: [this.props.initialModel.budget.min, this.props.initialModel.budget.max]
+            budgetMin: this.props.initialModel.budget ? this.props.initialModel.budget.min : 0,
+            budgetMax: this.props.initialModel.budget
+                ? this.props.initialModel.budget.max
+                : parseInt(process.env.REACT_APP_MAX_BUDGET || ''),
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || '')
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
@@ -41,7 +41,6 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
         if (values.length !== 2) {
             throw new Error('onRangeChanged has invalid agrument: must be array 2 values length');
         }
-        this.setState({ budgetValues: values });
 
         this.props.initialModel.budget = new Budget(values[0], values[1]);
         this.props.onChange(this.props.initialModel);
@@ -113,7 +112,6 @@ class SearchWidgetBase extends React.Component<SearchWidgetWrapperProps, SearchW
                     <BudgetRangeSlider
                         min={this.state.budgetMin}
                         max={this.state.budgetMax}
-                        values={this.state.budgetValues}
                         step={this.state.budgetStep}
                         className={'range-slider max-only'}
                         onChange={this.onBudgetChanged}

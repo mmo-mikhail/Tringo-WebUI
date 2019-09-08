@@ -6,17 +6,46 @@
 
 .hr {
     display: block;
-    margin-top: 2%;
-    margin-bottom: 7%;
+    margin-bottom: 8%;
+    margin-top: 4%;
     margin-left: auto;
     margin-right: auto;
     border-style: inset;
-    border-width: 0;
+    border-width: 2;
     color: inherit;
 }
 
-.dateContainer {
+.hr1 {
+    display: block;
+    margin-top: 0%;
+    margin-bottom: 5%;
+    border-style: inset;
+    border-width: 2;
+    color: inherit;
+}
+
+.btn-group {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-left: 6px;
+}
+
+.btn-group1 {
+    display: table;
+    position: absolute;
+    display: flex;
+    left: 105px;
+    flex-wrap: wrap;
+    margin-bottom: 10%;
+}
+
+.dateContainer {
+    position: absolute;
+    display: flex;
+    flex-wrap: nowrap;
     width: 400px;
     min-height: 240px;
     margin: 15px;

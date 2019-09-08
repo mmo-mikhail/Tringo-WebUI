@@ -4,7 +4,7 @@ export class FlightDestinationRequest {
     constructor(
         public departureAirportId: string, // as IATA
         public searchArea: MapArea,
-        public budget: Budget,
+        public budget: Budget | null, // null only when budget is 'any'
         public dates: DatesInput
     ) {}
 
