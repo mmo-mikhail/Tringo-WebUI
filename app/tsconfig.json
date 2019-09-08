@@ -11,7 +11,9 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
     "strict": true,
+    "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -22,6 +24,7 @@
   },
   "include": [
     "src",
+    "src/components",
     "src/components",
     "src/models",
     "src/actions"
