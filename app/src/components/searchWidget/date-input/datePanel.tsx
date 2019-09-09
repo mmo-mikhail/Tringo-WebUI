@@ -12,7 +12,8 @@ interface DatePanelState {
 class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     private datePanelWrapper: React.RefObject<HTMLInputElement> | undefined;
 
-    bindHandleOutsideClick(event: any) {}
+    // @ts-ignore
+    bindHandleOutsideClick(event: unknown) {}
 
     constructor(props: StateChangedProps) {
         super(props);
@@ -32,7 +33,9 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
         });
 
         // when nothing selected OR only date From is selected
-        if (dateModel.uncertainDates == null && dateModel.dateUntil == null) return; // need to handle this case to keep state updated, but do not proceed further
+        if (dateModel.uncertainDates == null && dateModel.dateUntil == null) {
+            return; // need to handle this case to keep state updated, but do not proceed further
+        }
 
         this.props.onChange(dateModel);
 
@@ -90,7 +93,9 @@ class DatePanel extends React.Component<StateChangedProps, DatePanelState> {
     }
 
     getSpecificDatesText(datesModel: DatesInput) {
-        if (!datesModel.dateFrom || !datesModel.dateUntil) return;
+        if (!datesModel.dateFrom || !datesModel.dateUntil) {
+            return;
+        }
 
         return (
             <span>

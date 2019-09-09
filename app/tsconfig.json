@@ -13,6 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitReturns": true,
     "strict": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",

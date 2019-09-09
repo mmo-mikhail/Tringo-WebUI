@@ -17,6 +17,7 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
+// @ts-ignore
 const fetchDestinationsStart = (state: DestinationsState, action: IFlightsRequestAction) =>
     state.set('error', null).set('isLoading', true);
 

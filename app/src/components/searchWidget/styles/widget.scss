@@ -1,6 +1,11 @@
 @import '../../../styles/variables';
-
 .widget-container {
+    .middle-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
@@ -81,8 +86,19 @@
         display: flex;
         justify-content: center;
     }
-
-    .has-metro {
-        padding-left: 15px;
+    .wj-rc-autocomplete {
+        span {
+            text-transform: none;
+            display: inline;
+            mark {
+                background-color: #7bbaf6;
+            }
+        }
+        .has-metro {
+            padding-left: 15px;
+        }
+        .rc-autocomplete__option {
+            line-height: 1em;
+        }
     }
 }

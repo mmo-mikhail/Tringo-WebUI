@@ -21,7 +21,7 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
             if (!response || !(response.length >= 0)) {
                 callback();
             }
-            callback(mapLocationData(response as airportLocation[]));
+            callback(mapLocationData(response as airportLocation[], inputValue));
         },
         () => {
             callback();
@@ -29,17 +29,23 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
     );
 }
 
-export function mapLocationData(data: airportLocation[]) {
-    return data.map((location: airportLocation) => {
-        return {
-            hasMetro: location.HasMetro,
-            value: location.AirportCode,
-            // eslint-disable-next-line max-len
-            label: `${location.City}, ${location.Country} - ${location.Airport} (${
-                location.IsMetro ? location.AirportCode : location.TsaAirportCode
-            })`,
-            optionLabel: `${location.City} (${location.Airport})`,
-            optionSubLabel: `${location.City}, ${location.Country}`
-        };
-    });
+export function mapLocationData(data: airportLocation[], inputValue: string) {
+    return data
+        .map((location: airportLocation) => {
+            return {
+                hasMetro: location.HasMetro,
+                value: location.AirportCode,
+                // eslint-disable-next-line max-len
+                label: `${location.City}, ${location.Country} - ${location.Airport} (${
+                    location.IsMetro ? location.AirportCode : location.TsaAirportCode
+                })`,
+                optionLabel: `${location.City} (${location.Airport})`,
+                optionSubLabel: `${location.City}, ${location.Country}`
+            };
+        })
+        .filter(
+            f =>
+                f.optionLabel.toUpperCase().includes(inputValue.toUpperCase()) ||
+                f.optionSubLabel.toUpperCase().includes(inputValue.toUpperCase())
+        );
 }

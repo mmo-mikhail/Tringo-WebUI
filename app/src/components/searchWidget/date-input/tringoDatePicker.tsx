@@ -54,6 +54,7 @@ class TringoDatePicker extends React.Component<dateProps, any> {
         );
     }
 
+    // @ts-ignore
     handleDayClick(day: any, modifiers = {}) {
         if (this.state.disabled) return;
 
@@ -68,6 +69,7 @@ class TringoDatePicker extends React.Component<dateProps, any> {
         if (onDayChanged) onDayChanged(newRange);
     }
 
+    // @ts-ignore
     handleDayMouseEnter(day: any, modifiers = {}) {
         if (this.state.disabled) return;
 
