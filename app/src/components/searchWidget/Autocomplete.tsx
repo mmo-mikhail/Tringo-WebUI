@@ -44,9 +44,9 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     const Option = ({ data, ...props }: any) => (
         <components.Option {...props}>
             <div className={classnames({ 'has-metro': data.hasMetro })}>
-                <Highlighter searchWords={[count]} textToHighlight={data.optionLabel} />
+                <Highlighter className={'auto-label'} searchWords={[count]} textToHighlight={data.optionLabel} />
                 <br />
-                <Highlighter searchWords={[count]} textToHighlight={data.optionSubLabel} />
+                <Highlighter className={'auto-sub-label'} searchWords={[count]} textToHighlight={data.optionSubLabel} />
             </div>
         </components.Option>
     );

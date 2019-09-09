@@ -1,4 +1,5 @@
 @import '../../../styles/variables';
+
 .widget-container {
     .middle-text {
         display: flex;
@@ -86,19 +87,66 @@
         display: flex;
         justify-content: center;
     }
+
     .wj-rc-autocomplete {
-        span {
+        .rc-autocomplete__option {
             text-transform: none;
-            display: inline;
+
+            .has-metro {
+                padding-left: 15px;
+            }
+
             mark {
-                background-color: #7bbaf6;
+                color: inherit;
+                background-color: #dae9f5;
+            }
+
+            span {
+                display: inline;
+                color: inherit;
+                font-size: inherit;
+            }
+
+            .auto-label {
+                color: #333 !important;
+                margin-bottom: 5px;
+            }
+
+            .auto-sub-label {
+                margin-top: 5px;
+                font-style: normal !important;
+                line-height: 1.5rem;
+                color: #646464 !important;
+                font-size: 0.9rem;
+            }
+
+            .auto-sub-label span {
+                font-style: normal;
+                font-weight: unset;
             }
         }
-        .has-metro {
-            padding-left: 15px;
-        }
-        .rc-autocomplete__option {
-            line-height: 1em;
-        }
+
+        //div.auto-option {
+        //  line-height: 1em;
+        //  text-transform: none;
+        //
+        //  span {
+        //      color: #333 !important;
+        //    display: inline;
+        //  }
+        //
+        //  mark {
+        //    background-color: #9eb2c7;
+        //  }
+        //
+        //  .sub-label {
+        //    margin-top: 5px !important;
+        //    color: #646464 !important;
+        //    font-size: 0.95rem;
+        //  }
+        //
+
+        //
+        //}
     }
 }
