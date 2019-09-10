@@ -7,6 +7,7 @@ import { Budget, FlightDestinationRequest } from 'models/request/flightDestinati
 import { DatesInput } from 'models/request/dateInput';
 import DatePanel from './date-input/datePanel';
 import { fetchLocationData } from 'services/dataService';
+import NumOfPeople from './NumOfPeople';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest) => void;
@@ -110,6 +111,9 @@ class SearchWidgetBase extends Component<SearchWidgetWrapperProps, SearchWidgetW
                         className={'range-slider max-only'}
                         onChange={this.onBudgetChanged}
                     />
+                </div>
+                <div className="number-of-people">
+                    <NumOfPeople  />
                 </div>
             </div>
         );
