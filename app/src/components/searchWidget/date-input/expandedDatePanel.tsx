@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './styles/dateInput.scss';
-import '../../common.scss';
 import './styles/DateToggle.scss';
 import { DateUnknown } from './dateUnknown';
 import TringoDatePicker from './tringoDatePicker';
