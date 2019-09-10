@@ -11,7 +11,11 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
     "strict": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -21,6 +25,10 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src",
+    "src/components",
+    "src/components",
+    "src/models",
+    "src/actions"
   ]
 }

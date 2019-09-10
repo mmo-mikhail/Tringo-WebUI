@@ -1,11 +1,18 @@
-import { put, call } from "redux-saga/effects";
+import { call, put } from 'redux-saga/effects';
 
-import axios from "./../utils/axious";
-import * as destinationAction from "../actions/destinations";
+import axios from './../utils/axious';
+import * as destinationAction from '../actions/destinations';
+import { IFlightsRequestAction } from 'models/request/flightDestinationRequest';
 
-export function* fetchDestinationsSaga() {
+export function* fetchDestinationsSaga(action: IFlightsRequestAction) {
     try {
-        const response = yield call(axios.get, "/api/v1/flights/GetDestinationPrice", );
+        const response = yield call(
+            // axios.post,
+            // '/api/v1/flights/GetDestinationPrice'
+            axios.post,
+            '/api/v1/flights/GetDestinationPrices', // note the 's' at the end
+            action.model
+        );
 
         yield put(destinationAction.fetchDestinationsSuccess(response.data));
     } catch (error) {

@@ -1,14 +1,23 @@
 import * as React from 'react';
 import './marker.scss';
 
-export default class PriceTagMarker extends React.Component<any, any> {
+interface MarkerProps {
+    key: number;
+    lat: number;
+    lng: number;
+    price: number;
+    title: string;
+    priority: number;
+    redirectUrl: string;
+}
+
+export default class PriceTagMarker extends React.Component<MarkerProps> {
     render() {
         return (
-            <p className="price-marker">
-                <span>{this.props.title}</span>
-                <br/>
-                <span className="price-text">${this.props.price}</span>
-            </p>
+            <a href={this.props.redirectUrl} className="price-marker" title={this.props.title}>
+                <div className="city-text">{this.props.title}</div>
+                <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
+            </a>
         );
     }
 }

@@ -1,0 +1,20 @@
+@import 'utulities';
+
+@media #{$mobileAndTablet} {
+    .App {
+        min-height: 70vh;
+    }
+    //.widget-container {
+    //    display: none !important;
+    //}
+}
+
+@media #{$mobile} {
+    .widget-container {
+        flex-direction: column;
+
+        .widget-row-fill {
+            width: 100% !important;
+        }
+    }
+}

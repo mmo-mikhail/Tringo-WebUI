@@ -1,5 +1,6 @@
-import { destinationActionType } from "../actions/actionTypes";
-import { DestinationsState } from "../models/destinations";
+import { destinationActionType } from '../actions/actionTypes';
+import { DestinationsState } from 'models/response/destinations';
+import { IFlightsRequestAction } from 'models/request/flightDestinationRequest';
 
 const initialState = new DestinationsState();
 
@@ -16,17 +17,14 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
-const fetchDestinationsStart = (state: DestinationsState, action: any) => {
-	return state.set("error", null).set("isLoading", true);
-};
+// @ts-ignore
+const fetchDestinationsStart = (state: DestinationsState, action: IFlightsRequestAction) =>
+    state.set('error', null).set('isLoading', true);
 
-const fetchDestinationsSuccess = (state: DestinationsState, action: any) => {
-	return state.set("destinations", action.destinations).set("isLoading", false);
-    //return copy;
-};
+const fetchDestinationsSuccess = (state: DestinationsState, action: any) =>
+    state.set('destinations', action.destinations).set('isLoading', false);
 
-const fetchDestinationsFail = (state: DestinationsState, action: any) => {
-	return state.set("error", action.error).set("isLoading", false);
-};
+const fetchDestinationsFail = (state: DestinationsState, action: any) =>
+    state.set('error', action.error).set('isLoading', false);
 
 export default reducer;

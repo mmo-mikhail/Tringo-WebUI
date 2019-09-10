@@ -1,0 +1,13 @@
+version: '3.0'
+
+services:
+  tringo-front:
+    image: tringoregistry.azurecr.io/tringo-dev:dev-50
+    ports:
+      - "3535:3535"
+    links:
+      - tringo-back
+  tringo-back:
+    image: tringoregistry.azurecr.io/tringo-service-dev:dev-47
+    ports:
+      - "5354:80"
