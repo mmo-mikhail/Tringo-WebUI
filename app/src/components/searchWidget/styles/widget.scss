@@ -1,6 +1,12 @@
 @import '../../../styles/variables';
 
 .widget-container {
+    .middle-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
@@ -82,7 +88,42 @@
         justify-content: center;
     }
 
-    .has-metro {
-        padding-left: 15px;
+    .wj-rc-autocomplete {
+        .rc-autocomplete__option {
+            text-transform: none;
+
+            .has-metro {
+                padding-left: 15px;
+            }
+
+            mark {
+                color: inherit;
+                background-color: #dae9f5;
+            }
+
+            span {
+                display: inline;
+                color: inherit;
+                font-size: inherit;
+            }
+
+            .auto-label {
+                color: #333 !important;
+                margin-bottom: 5px;
+            }
+
+            .auto-sub-label {
+                margin-top: 5px;
+                font-style: normal !important;
+                line-height: 1.5rem;
+                color: #646464 !important;
+                font-size: 0.9rem;
+            }
+
+            .auto-sub-label span {
+                font-style: normal;
+                font-weight: unset;
+            }
+        }
     }
 }
