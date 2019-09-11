@@ -11,7 +11,7 @@ const LoadingIndicator = () => <span className="loader alt" />;
 
 const Control = ({ children, ...props }: any) => (
     <components.Control {...props}>
-        {<span className={classnames('wj-icon', 'wj-depart')} />}
+        {<span className={classnames('wj-icon', 'wj-mappin')} />}
         {children}
     </components.Control>
 );
@@ -27,8 +27,7 @@ export interface AutoCompleteProps {
     minValueLength: number;
     noOptionsMessage: string;
     placeholder: string;
-    inputIconClassName: string;
-    fetchOptions: (args: string, callback: any) => unknown;
+    fetchOptions: (args: string, callback: () => {}) => unknown;
     disabled: boolean;
 }
 
@@ -44,14 +43,18 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     const Option = ({ data, ...props }: any) => (
         <components.Option {...props}>
             <div className={classnames({ 'has-metro': data.hasMetro })}>
-                <Highlighter className={'auto-label'} searchWords={[count]} textToHighlight={data.optionLabel} />
+                <Highlighter className={'auto-label'} searchWords={[highlight]} textToHighlight={data.optionLabel} />
                 <br />
-                <Highlighter className={'auto-sub-label'} searchWords={[count]} textToHighlight={data.optionSubLabel} />
+                <Highlighter
+                    className={'auto-sub-label'}
+                    searchWords={[highlight]}
+                    textToHighlight={data.optionSubLabel}
+                />
             </div>
         </components.Option>
     );
 
-    const [count, setCount] = React.useState('');
+    const [highlight, setHighlight] = React.useState('');
 
     const loadOptionsHandler = (inputValue: string, callback: any) => {
         // Start loading options after minimum length of typed value
@@ -94,7 +97,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             classNamePrefix="rc-autocomplete"
             components={{ Control, Option, LoadingIndicator, Input }}
             onChange={onSelectChanged}
-            onInputChange={(val: string) => setCount(val)}
+            onInputChange={(val: string) => setHighlight(val)}
         />
     );
 };
