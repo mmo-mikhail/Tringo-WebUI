@@ -86,13 +86,12 @@ class SearchWidgetBase extends Component<SearchWidgetWrapperProps, SearchWidgetW
                             props={{
                                 id: 'departure-panel',
                                 name: 'departure-panel',
-                                placeholder: 'City or Airport',
+                                placeholder: 'Departure City or Airport',
                                 disabled: false,
                                 minValueLength: 3,
                                 noOptionsMessage: noOptionsMessage,
                                 fetchOptions: fetchLocationData,
                                 onChange: this.onDepartureChanged,
-                                inputIconClassName: 'wj-depart',
                                 className: 'departure-panel'
                             }}
                         />

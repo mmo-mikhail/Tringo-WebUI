@@ -1,6 +1,6 @@
 import { callApi } from 'services/apiService';
 
-interface airportLocation {
+export interface airportLocation {
     TsaAirportCode: string;
     City: string;
     Airport: string;
@@ -31,6 +31,7 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
 
 export function mapLocationData(data: airportLocation[], inputValue: string) {
     return data
+        .filter(d => d.Country.toUpperCase() === process.env.REACT_APP_DEFULT_COUNTRY)
         .map((location: airportLocation) => {
             return {
                 hasMetro: location.HasMetro,
