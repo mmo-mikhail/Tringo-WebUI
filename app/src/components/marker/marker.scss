@@ -1,3 +1,10 @@
+@import '../../styles/utilities';
+
+iframe {
+    border: 0;
+    outline: none;
+}
+
 .price-marker {
     position: relative;
     width: auto;
@@ -12,10 +19,15 @@
     cursor: pointer;
     transition: background-color ease 0.15s;
     text-decoration: none !important;
+    outline: none;
 
     &:hover {
         transition: background-color ease 0.15s;
-        background-color: #dfdfdf;
+        background-color: $WebjetBtnDefaultBg;
+    }
+
+    &:active {
+        border: 0 !important;
     }
 
     &:before {
@@ -46,6 +58,6 @@
         margin-top: 2px;
         font-weight: 700;
         font-size: 15px;
-        color: #3c4043;
+        color: $darkGrey;
     }
 }

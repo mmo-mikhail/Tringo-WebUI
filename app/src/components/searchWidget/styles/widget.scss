@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@import '../../../styles/utilities';
 
 .widget-container {
     .middle-text {
@@ -56,11 +56,11 @@
     }
 
     .widget-row-fill {
-        background-color: white;
+        background-color: $white;
         width: 400px;
 
         &:hover {
-            background-color: #f6f2e7;
+            background-color: $inputHoverBackground;
             transition: background-color ease 0.15s;
         }
     }
@@ -72,7 +72,7 @@
         justify-content: space-between;
         padding: 10px;
         font-size: 1rem;
-        color: #333;
+        color: $WebjetBtnDefaultColor;
         z-index: 0;
     }
 
@@ -81,8 +81,8 @@
         border-bottom-left-radius: 3px;
         border-top-left-radius: 3px;
         width: 50px;
-        background: #dfdfdf;
-        color: #707070;
+        background: $inputIconBackground;
+        color: $inputIcon;
         align-items: center;
         display: flex;
         justify-content: center;
@@ -116,7 +116,7 @@
                 margin-top: 5px;
                 font-style: normal !important;
                 line-height: 1.5rem;
-                color: #646464 !important;
+                color: $grey !important;
                 font-size: 0.9rem;
             }
 

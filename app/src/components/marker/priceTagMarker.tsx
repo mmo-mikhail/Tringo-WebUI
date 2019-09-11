@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './marker.scss';
+import TransitionsModal from './markerSearchDialogue';
 
 interface MarkerProps {
     key: number;
@@ -14,10 +15,12 @@ interface MarkerProps {
 export default class PriceTagMarker extends React.Component<MarkerProps> {
     render() {
         return (
-            <a href={this.props.redirectUrl} className="price-marker" title={this.props.title}>
-                <div className="city-text">{this.props.title}</div>
-                <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
-            </a>
+            <TransitionsModal
+                props={{
+                    title: this.props.title,
+                    price: this.props.price
+                }}
+            />
         );
     }
 }
