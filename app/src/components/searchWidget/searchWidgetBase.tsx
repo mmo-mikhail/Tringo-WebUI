@@ -5,8 +5,8 @@ import BudgetRangeSlider from './budgetRangeSlider';
 import './styles/widget.scss';
 import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
-import DatePanel from './date-input/datePanel';
 import { fetchLocationData } from 'services/dataService';
+import MonthSelect from './date-input/monthselect';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest) => void;
@@ -66,7 +66,6 @@ class SearchWidgetBase extends Component<SearchWidgetWrapperProps, SearchWidgetW
         this.setState({
             datesState: datedModel
         });
-
         this.props.initialModel.dates = datedModel;
         this.props.onChange(this.props.initialModel);
     }
@@ -97,7 +96,7 @@ class SearchWidgetBase extends Component<SearchWidgetWrapperProps, SearchWidgetW
                         />
 
                         <div className={'date-panel date-picker'}>
-                            <DatePanel onChange={this.onDatesChanged} initialModel={this.state.datesState} />
+                            <MonthSelect props={{ onChange: this.onDatesChanged }}></MonthSelect>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { DatesInput, UncertainDates, Duration } from './dateInput';
+import { DatesInput } from './dateInput';
 
 export class FlightDestinationRequest {
     constructor(
@@ -9,12 +9,7 @@ export class FlightDestinationRequest {
     ) {}
 
     static createRandom(): FlightDestinationRequest {
-        return new FlightDestinationRequest(
-            'MEL',
-            MapArea.createRandom(),
-            new Budget(0, 1000),
-            new DatesInput(null, null, new UncertainDates(10, Duration.Weekend))
-        );
+        return new FlightDestinationRequest('MEL', MapArea.createRandom(), new Budget(0, 1000), new DatesInput(-1));
     }
 }
 
