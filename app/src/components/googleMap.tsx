@@ -9,6 +9,7 @@ import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinat
 import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
+import './googleMap.scss';
 
 interface MapProp {
     error?: string;
@@ -149,7 +150,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                 />
-                {this.props.isLoading && <div></div>}
+                {this.props.isLoading && (
+                    <div>
+                        <div className="flights-loader-wrapper">
+                            <div className="loader-linear"></div>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
