@@ -1,3 +1,3 @@
 export class DatesInput {
-    constructor(public uncertainDates: number | null) {}
+    constructor(public monthidx: number | null) {}
 }
