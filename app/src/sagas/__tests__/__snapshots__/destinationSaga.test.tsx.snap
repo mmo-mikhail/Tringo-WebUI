@@ -13,12 +13,7 @@ Object {
           "min": 0,
         },
         "dates": DatesInput {
-          "dateFrom": null,
-          "dateUntil": null,
-          "uncertainDates": UncertainDates {
-            "duration": 1,
-            "monthIdx": 10,
-          },
+          "monthidx": -1,
         },
         "departureAirportId": "MEL",
         "searchArea": MapArea {
@@ -53,12 +48,7 @@ Object {
           "min": 0,
         },
         "dates": DatesInput {
-          "dateFrom": null,
-          "dateUntil": null,
-          "uncertainDates": UncertainDates {
-            "duration": 1,
-            "monthIdx": 10,
-          },
+          "monthidx": -1,
         },
         "departureAirportId": "MEL",
         "searchArea": MapArea {

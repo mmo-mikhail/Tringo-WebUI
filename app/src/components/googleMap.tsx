@@ -6,7 +6,7 @@ import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetBase from 'components/searchWidget/searchWidgetBase';
 import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
-import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
+import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 
@@ -47,7 +47,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 'SYD',
                 MapArea.createRandom(),
                 null,
-                new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
+                new DatesInput(-1)
             )
         };
 
