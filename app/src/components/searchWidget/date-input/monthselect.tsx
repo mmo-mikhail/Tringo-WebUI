@@ -32,7 +32,7 @@ const MonthSelect: React.FC<{ props: dropdownprops }> = ({ props }) => {
     }
 
     return (
-        <div className="option-select">
+        <div className="wj-rc-select">
             <Select
                 options={options}
                 isSearchable={false}
