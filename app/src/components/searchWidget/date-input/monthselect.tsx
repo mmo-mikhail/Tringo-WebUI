@@ -3,6 +3,7 @@ import Select from 'react-select';
 import * as dateFns from 'date-fns';
 import { DatesInput } from 'models/request/dateInput';
 import { ValueType } from 'react-select/lib/types';
+import './styles/monthselect.scss';
 
 export interface dropdownprops {
     onChange: (datedModel: DatesInput) => void;
