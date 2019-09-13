@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faDollarSign} from '@fortawesome/free-solid-svg-icons';
 
 export interface SliderProps {
     min: number;
@@ -26,7 +26,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.onChangeRange = this.onChangeRange.bind(this);
         this.onChangeSlider = this.onChangeSlider.bind(this);
         this.onAfterChangeSlider = this.onAfterChangeSlider.bind(this);
-        this.getStep=this.getStep.bind(this);
+        this.getStep = this.getStep.bind(this);
     }
 
     onChangeRange(sliderValue: number[]) {
@@ -43,21 +43,26 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
     }
 
-    getStep(){
-        
-        if(this.state.currentValue>=Math.round(this.props.max*
-            (process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD?parseFloat(process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD):0.67)))
-        return process.env.REACT_APP_SLIDER_HIGHEST_STEP?parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP):this.props.step;      
-        else if(this.state.currentValue>=Math.round(this.props.max*
-            (process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD?parseFloat(process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD):0.34)))
-        return process.env.REACT_APP_SLIDER_MEDIUM_STEP?parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP):this.props.step;
-        else
-        return process.env.REACT_APP_SLIDER_LOWEST_STEP?parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP):this.props.step;
+    getStep() {
+        if (this.state.currentValue >= Math.round(this.props.max *
+            (process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD ?
+                parseFloat(process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD) : 0.67))) {
+            return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
+                parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
+        } else if (this.state.currentValue >= Math.round(this.props.max *
+            (process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD ?
+                parseFloat(process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD) : 0.34))) {
+            return process.env.REACT_APP_SLIDER_MEDIUM_STEP ?
+                parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP) : this.props.step;
+        } else {
+            return process.env.REACT_APP_SLIDER_LOWEST_STEP ?
+                parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP) : this.props.step;
+        }
     }
 
     render() {
-        const { min, max,className } = this.props;
-        const { currentValue } = this.state;
+        const {min, max, className} = this.props;
+        const {currentValue} = this.state;
 
         const sliderClassName = classnames(className, {
             'max-filtered': currentValue !== max
@@ -69,7 +74,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         return (
             <div className={'widget-row widget-row-fill'}>
                 <div className="icon-label wj-icon">
-                    <FontAwesomeIcon icon={faDollarSign} />
+                    <FontAwesomeIcon icon={faDollarSign}/>
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     {
