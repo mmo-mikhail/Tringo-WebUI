@@ -26,6 +26,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.onChangeRange = this.onChangeRange.bind(this);
         this.onChangeSlider = this.onChangeSlider.bind(this);
         this.onAfterChangeSlider = this.onAfterChangeSlider.bind(this);
+        this.getStep=this.getStep.bind(this);
     }
 
     onChangeRange(sliderValue: number[]) {
@@ -42,8 +43,18 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
     }
 
+    getStep(){
+
+        if(this.state.currentValue>=Math.round(this.props.max*0.67))
+        return process.env.REACT_APP_SLIDER_HIGHEST_STEP?parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP):this.props.step;      
+        else if(this.state.currentValue>=Math.round(this.props.max*0.34))
+        return process.env.REACT_APP_SLIDER_MEDIUM_STEP?parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP):this.props.step;
+        else
+        return process.env.REACT_APP_SLIDER_LOWEST_STEP?parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP):this.props.step;
+    }
+
     render() {
-        const { min, max, step, className } = this.props;
+        const { min, max,className } = this.props;
         const { currentValue } = this.state;
 
         const sliderClassName = classnames(className, {
@@ -64,7 +75,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                             min={min}
                             max={max}
                             value={currentValue}
-                            step={step}
+                            step={this.getStep()}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
