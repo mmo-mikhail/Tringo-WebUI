@@ -44,10 +44,12 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     getStep(){
-
-        if(this.state.currentValue>=Math.round(this.props.max*0.67))
+        
+        if(this.state.currentValue>=Math.round(this.props.max*
+            (process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD?parseFloat(process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD):0.67)))
         return process.env.REACT_APP_SLIDER_HIGHEST_STEP?parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP):this.props.step;      
-        else if(this.state.currentValue>=Math.round(this.props.max*0.34))
+        else if(this.state.currentValue>=Math.round(this.props.max*
+            (process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD?parseFloat(process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD):0.34)))
         return process.env.REACT_APP_SLIDER_MEDIUM_STEP?parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP):this.props.step;
         else
         return process.env.REACT_APP_SLIDER_LOWEST_STEP?parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP):this.props.step;
