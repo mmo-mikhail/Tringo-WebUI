@@ -44,19 +44,25 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     getStep() {
-        if (this.state.currentValue >= Math.round(this.props.max *
-            (process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD ?
-                parseFloat(process.env.REACT_APP_SLIDER_HIGHEST_TRESHOLD) : 0.67))) {
-            return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
-                parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
-        } else if (this.state.currentValue >= Math.round(this.props.max *
-            (process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD ?
-                parseFloat(process.env.REACT_APP_SLIDER_MEDIUM_TRESHOLD) : 0.34))) {
-            return process.env.REACT_APP_SLIDER_MEDIUM_STEP ?
-                parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP) : this.props.step;
-        } else {
-            return process.env.REACT_APP_SLIDER_LOWEST_STEP ?
-                parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP) : this.props.step;
+
+        let ratio=Math.floor((this.state.currentValue/this.props.max)*6);
+        switch(ratio)
+        {
+            case 0: return process.env.REACT_APP_SLIDER_LOWEST_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP) : this.props.step;
+            case 1:return process.env.REACT_APP_SLIDER_LOWEST_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP) : this.props.step;
+            case 2: return process.env.REACT_APP_SLIDER_MEDIUM_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP) : this.props.step;
+            case 3: return process.env.REACT_APP_SLIDER_MEDIUM_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP) : this.props.step;
+            case 4:return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
+            case 5:return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
+            case 6:return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
+            parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
+            default:return this.props.step;
         }
     }
 
