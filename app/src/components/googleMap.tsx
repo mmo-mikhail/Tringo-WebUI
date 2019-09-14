@@ -6,7 +6,7 @@ import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetBase from 'components/searchWidget/searchWidgetBase';
 import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
-import { DatesInput, Duration, UncertainDates } from 'models/request/dateInput';
+import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 
@@ -47,7 +47,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 'SYD',
                 MapArea.createRandom(),
                 null,
-                new DatesInput(null, null, new UncertainDates(new Date().getMonth() + 1, Duration.Weekend))
+                new DatesInput(-1)
             )
         };
 
@@ -155,28 +155,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     buildRedirectUrl(destination: IDestination): string {
-        if (!destination || !destination.flightDates) {
-            return '';
-        }
-        const reqModel = this.state.destinationsRequestModel;
-        const destAirportId = destination.destAirportCode;
-        const depDate = new Date(destination.flightDates.departureDate);
-        const retDate = new Date(destination.flightDates.returnDate);
+        if (!destination) return '';
 
-        const url =
-            `${process.env.REACT_APP_WEBJET_FLIGHT_REDIRECT_URL}?adults=1&children=0&infants=0&triptype=return&steps=` +
-            // departure step:
-            `${reqModel.departureAirportId}-${destAirportId}-${this.formatDate(depDate)}-economy-` +
-            `${reqModel.departureAirportId}-${destAirportId}` +
-            // return step:
-            `_${destAirportId}-${reqModel.departureAirportId}-${this.formatDate(retDate)}-economy-` +
-            `${destAirportId}-${reqModel.departureAirportId}`;
-        return url;
-    }
-
-    private formatDate(d: Date): string {
-        let date = d.getFullYear() + `0${d.getMonth() + 1}`.slice(-2) + `0${d.getDate()}`.slice(-2);
-        return date;
+        return 'https://www.google.com/';
     }
 }
 
