@@ -45,47 +45,71 @@
     .departure-panel {
         text-align: left;
         width: 100%;
-        max-width: 400px;
+        max-width: 525px;
         margin-right: 30px;
     }
 
     .date-panel {
         text-align: left;
-        width: 100%;
-        max-width: 250px;
+        width: 300px;
+        max-width: 300px;
     }
 
-    .widget-row-fill {
-        background-color: white;
-        width: 400px;
+    .budget-panel {
+        min-width: 460px;
 
-        &:hover {
-            background-color: #f6f2e7;
-            transition: background-color ease 0.15s;
+        .widget-row-fill {
+            background-color: white;
+            width: 100%;
+            height: 52px;
+            margin-top: 4px;
+
+            &:hover {
+                background-color: #f6f2e7;
+                transition: background-color ease 0.15s;
+            }
         }
-    }
 
-    .range-slider {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 0;
-        justify-content: space-between;
-        padding: 10px;
-        font-size: 1rem;
-        color: #333;
-        z-index: 0;
-    }
+        $icon-width: 50px;
+        $text-width: 120px;
 
-    .icon-label {
-        font-size: 28px;
-        border-bottom-left-radius: 3px;
-        border-top-left-radius: 3px;
-        width: 50px;
-        background: #dfdfdf;
-        color: #707070;
-        align-items: center;
-        display: flex;
-        justify-content: center;
+        #one-handler-range-slider {
+            width: calc(100% - #{$icon-width});
+            display: flex;
+            flex-direction: row;
+            padding: 0;
+            font-size: 1rem;
+            color: #333;
+            z-index: 0;
+            justify-content: center;
+
+            .text-container {
+                width: $text-width;
+                height: 100%;
+            }
+
+            .slider-container {
+                width: calc(100% - #{$text-width} - 20px);
+                margin-right: 20px;
+                padding-top: 1px;
+
+                .rc-slider {
+                    width: 100%;
+                }
+            }
+        }
+
+        .icon-label {
+            font-size: 28px;
+            border-bottom-left-radius: 3px;
+            border-top-left-radius: 3px;
+            width: $icon-width;
+            background: #dfdfdf;
+            color: #707070;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
     }
 
     .wj-rc-autocomplete {
