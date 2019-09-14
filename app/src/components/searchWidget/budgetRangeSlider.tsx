@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faDollarSign} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 export interface SliderProps {
     min: number;
@@ -62,8 +62,8 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     render() {
-        const {min, max, className} = this.props;
-        const {currentValue} = this.state;
+        const { min, max, className } = this.props;
+        const { currentValue } = this.state;
 
         const sliderClassName = classnames(className, {
             'max-filtered': currentValue !== max
@@ -75,10 +75,13 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         return (
             <div className={'widget-row widget-row-fill'}>
                 <div className="icon-label wj-icon">
-                    <FontAwesomeIcon icon={faDollarSign}/>
+                    <FontAwesomeIcon icon={faDollarSign} />
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
-                    {
+                    <div className="text-container middle-text">
+                        <span className="to">{sliderLabel}</span>
+                    </div>
+                    <div className="slider-container middle-text">
                         <Slider
                             min={min}
                             max={max}
@@ -87,8 +90,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
-                    }
-                    {<span className="to">{sliderLabel}</span>}
+                    </div>
                 </div>
             </div>
         );
