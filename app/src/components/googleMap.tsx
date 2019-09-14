@@ -4,7 +4,7 @@ import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react
 import PriceTagMarker from 'components/marker/priceTagMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
-import SearchWidgetBase from 'components/searchWidget/searchWidgetBase';
+import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
 import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
@@ -145,7 +145,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
-                <SearchWidgetBase
+                <SearchWidgetWrapper
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                 />
