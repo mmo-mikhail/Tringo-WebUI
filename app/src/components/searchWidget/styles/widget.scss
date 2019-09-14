@@ -56,8 +56,7 @@
     }
 
     .budget-panel {
-        width: 525px;
-        min-width: 200px;
+        min-width: 460px;
 
         .widget-row-fill {
             background-color: white;
@@ -76,7 +75,6 @@
 
         #one-handler-range-slider {
             width: calc(100% - #{$icon-width});
-            /*margin-top: -4px;*/
             display: flex;
             flex-direction: row;
             padding: 0;
