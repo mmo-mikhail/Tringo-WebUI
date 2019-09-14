@@ -122,7 +122,9 @@
 
             mark {
                 color: inherit;
-                background-color: $inputIconBackground;
+                background-color: #aacff2;
+                margin: 0;
+                padding: 2px 0;
             }
 
             span {
@@ -132,16 +134,17 @@
             }
 
             .auto-label {
+                line-height: normal;
                 color: $darkGrey !important;
                 margin-bottom: 5px;
             }
 
             .auto-sub-label {
-                margin-top: 5px;
+                font-size: 16px;
+                margin-top: 10px;
                 font-style: normal !important;
                 line-height: 1.5rem;
                 color: $grey !important;
-                font-size: 0.9rem;
             }
 
             .auto-sub-label span {
