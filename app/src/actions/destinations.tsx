@@ -9,6 +9,13 @@ export const fetchDestinationsStart = (model: FlightDestinationRequest): IFlight
     };
 };
 
+export const fetchDestinationsClear = (model: FlightDestinationRequest): IFlightsRequestAction => {
+    return {
+        type: destinationActionType.FETCH_DESTINATION_CLEAR,
+        model
+    };
+};
+
 export const fetchDestinationsSuccess = (destinations: IDestination[]) => {
     return {
         type: destinationActionType.FETCH_DESTINATION_SUCCESS,

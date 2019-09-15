@@ -64,7 +64,7 @@ export default class PriceTagMarker extends Component<MarkerProps, flightSearchP
 
     render = () => (
         <span>
-            <a className="price-marker" href="#searchWidgetModal" data-toggle="modal">
+            <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                 <div className="city-text">{this.props.destination}</div>
                 <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
             </a>

@@ -39,12 +39,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         super(props);
 
         // no matters what MapArea at this point at all,
-        // we set lat/lng and zoom for component directly and it will be overriden
+        // we set lat/lng and zoom for component directly and it will be overridden
         this.state = {
             mapProps: this.mapInitProp(),
             center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
-                'SYD',
+                process.env.REACT_APP_DEFAULT_DEPARTURE || '',
                 MapArea.createRandom(),
                 null,
                 new DatesInput(-1)
