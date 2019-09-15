@@ -44,18 +44,20 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     getStep() {
-
         let value = this.state.currentValue;
         switch (true) {
-            case (value <= 500):
-                return process.env.REACT_APP_SLIDER_LOWEST_STEP ?
-                    parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP) : this.props.step;
-            case (value > 500 && value <= 1000):
-                return process.env.REACT_APP_SLIDER_MEDIUM_STEP ?
-                    parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP) : this.props.step;
-            case (value > 1000):
-                return process.env.REACT_APP_SLIDER_HIGHEST_STEP ?
-                    parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP) : this.props.step;
+            case value <= 500:
+                return process.env.REACT_APP_SLIDER_LOWEST_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP)
+                    : this.props.step;
+            case value > 500 && value <= 1000:
+                return process.env.REACT_APP_SLIDER_MEDIUM_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP)
+                    : this.props.step;
+            case value > 1000:
+                return process.env.REACT_APP_SLIDER_HIGHEST_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP)
+                    : this.props.step;
             default:
                 return this.props.step;
         }

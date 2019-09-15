@@ -93,9 +93,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         lng={record.lng} // to be consumed only by Maps API
                         // properties used by marker component properties:
                         price={record.price}
-                        title={record.cityName}
+                        destination={record.cityName}
+                        destinationCode={record.destAirportCode}
                         priority={record.personalPriorityIdx}
-                        redirectUrl={this.buildRedirectUrl(record)}
                     />
                 );
             })
@@ -149,15 +149,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                 />
-                {this.props.isLoading && <div></div>}
+                {this.props.isLoading && <div />}
             </div>
         );
-    }
-
-    buildRedirectUrl(destination: IDestination): string {
-        if (!destination) return '';
-
-        return 'https://www.google.com/';
     }
 }
 

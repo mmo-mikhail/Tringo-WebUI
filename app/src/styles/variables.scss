@@ -1,3 +1,100 @@
+// Colours
+$white: #ffffff;
+$softWhite: #f5f5f5;
+$mildWhite: #dfdfdf;
+
+$lighterGrey: #ebebeb;
+$lightGrey: #cccccc;
+$mildGrey: #999999;
+$lightMildGrey: #878787;
+$grey: #646464;
+$lightDarkGrey: #4d4d4d;
+$darkGrey: #333333;
+
+$black: #000000;
+$lightBlue: #3d9af2;
+$blue: #0060bb;
+$darkerBlue: #00509c;
+$orange: #ff8c00;
+$green: #2db300;
+$primaryRed: #dc140a;
+$iconRed: $primaryRed;
+$iconGrey: #d5d5d5;
+
+// Links
+$standardLink: $blue;
+$standardLinkHover: $darkerBlue;
+$redLink: $primaryRed;
+$redLinkHover: #bd1209;
+$blackLink: $darkGrey;
+$blackLinkHover: #141414;
+$grayLink: $grey;
+$grayLinkHover: #454545;
+
+// Button colors
+$buttonShadow: 0 2px 3px 0 rgba(0, 0, 0, 0.3);
+$WebjetBtnActive: 0 0 0 0 rgba(0, 0, 0, 0.3) inset;
+
+$WebjetBtnDefaultBg: #dfdfdf;
+$WebjetBtnDefaultHover: #bfbfbf;
+$WebjetBtnDefaultColor: #333333;
+
+$WebjetBtnSelectiontBg: #ff8c00;
+$WebjetBtnSelectionHover: #e07b00;
+$WebjetBtnSelectionColor: #ffffff;
+
+$WebjetBtnGreenBg: #2db300;
+$WebjetBtnGreenHover: #259400;
+$WebjetBtnGreenColor: #ffffff;
+
+$WebjetBtnActiveBg: #3d9af2;
+$WebjetBtnActiveHover: #3587d4;
+$WebjetBtnActiveColor: #ffffff;
+
+$WebjetBtnLoaderBackground: rgba(255, 255, 255, 0.4);
+
+$activeItem: #3d9af2;
+$activeItemColor: #3587d4;
+
+// Form input
+$inputHoverBackground: #f6f2e7;
+$inputActiveBackground: #bfbfbf;
+$inputIcon: #707070;
+$inputIconBackground: $mildWhite;
+$inputIconHoverBackground: #bfbfbf;
+$inputCrossBtn: #a8a8a8;
+
+// Form input validation colors
+$inputErrorBackground: #f2dede;
+$inputErrorHoverBackground: #e8d5d5;
+$inputErrorText: #b94a48;
+$inputErrorIcon: #a1605f;
+$inputErrorIconBackground: #d4c3c3;
+$inputErrorIconHoverBackground: #bfb0b0;
+$inputErrorCrossBtn: #858585;
+
+// Notifications colors
+$errorBackground: #f2dede;
+$errorText: #b13312;
+
+$successBackground: #d5efcc;
+$successText: #29a300;
+
+$warningBackground: #f6f2e6;
+$warningText: $grey;
+
+// Star rating colors
+$starOn: #f2ae43;
+$starOff: #dfdfdf;
+
+// Item specific
+$serviceNavBackground: #484848;
+$serviceMenuHoverBackground: #bd1209;
+
+$specialTagShadow: #520803;
+$modalShadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+$starRating: #feb42b;
+
 // widget
 $widget__border-radius: 3px;
 
