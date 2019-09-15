@@ -1,13 +1,14 @@
 import { destinationActionType } from '../actions/actionTypes';
 import { DestinationsState } from 'models/response/destinations';
-import { IFlightsRequestAction } from 'models/request/flightDestinationRequest';
 
 const initialState = new DestinationsState();
 
 const reducer = (state = initialState, action: any) => {
     switch (action.type) {
+        case destinationActionType.FETCH_DESTINATION_CLEAR:
+            return fetchDestinationsClear(state);
         case destinationActionType.FETCH_DESTINATION_START:
-            return fetchDestinationsStart(state, action);
+            return fetchDestinationsStart(state);
         case destinationActionType.FETCH_DESTINATION_SUCCESS:
             return fetchDestinationsSuccess(state, action);
         case destinationActionType.FETCH_DESTINATION_FAIL:
@@ -17,9 +18,9 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
-// @ts-ignore
-const fetchDestinationsStart = (state: DestinationsState, action: IFlightsRequestAction) =>
-    state.set('error', null).set('isLoading', true);
+const fetchDestinationsClear = (state: DestinationsState) => state.set('destinations', null).set('isLoading', false);
+
+const fetchDestinationsStart = (state: DestinationsState) => state.set('error', null).set('isLoading', true);
 
 const fetchDestinationsSuccess = (state: DestinationsState, action: any) =>
     state.set('destinations', action.destinations).set('isLoading', false);
