@@ -26,6 +26,9 @@ const fetchDestinationsSuccess = (state: DestinationsState, action: any) =>
     state.set('destinations', action.destinations).set('isLoading', false);
 
 const fetchDestinationsFail = (state: DestinationsState, action: any) =>
-    state.set('error', action.error).set('isLoading', false);
+    state
+        .set('error', action.error)
+        .set('destinations', null)
+        .set('isLoading', false);
 
 export default reducer;
