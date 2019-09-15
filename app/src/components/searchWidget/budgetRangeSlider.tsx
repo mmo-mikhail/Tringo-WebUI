@@ -41,15 +41,15 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         const {min, max, className} = this.props;
         const {currentValue} = this.state;
 
-        let curmin = Math.log(min) >= 0 ? Math.log(min) : 0;
-        let curmax = Math.log(max);
+        let curMin = Math.log(min) >= 0 ? Math.log(min) : 0;
+        let curMax = Math.log(max);
 
         const sliderClassName = classnames(className, {
-            'max-filtered': currentValue !== curmax
+            'max-filtered': currentValue !== curMax
         });
 
         const sliderLabel =
-            currentValue === curmax ? 'Any price' : `$ ${Math.round(Math.exp(currentValue)).toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
+            currentValue === curMax ? 'Any price' : `$ ${Math.round(Math.exp(currentValue)).toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
         return (
             <div className={'widget-row widget-row-fill'}>
@@ -62,10 +62,10 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                     </div>
                     <div className="slider-container middle-text">
                         <Slider
-                            min={curmin}
-                            max={curmax}
+                            min={curMin}
+                            max={curMax}
                             value={currentValue}
-                            step={(curmax - curmin) / 5000}
+                            step={(curMax - curMin) / 5000}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
