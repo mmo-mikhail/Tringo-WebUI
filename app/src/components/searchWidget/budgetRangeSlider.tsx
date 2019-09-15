@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faDollarSign} from '@fortawesome/free-solid-svg-icons';
 
 export interface SliderProps {
     min: number;
@@ -24,7 +24,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
             currentValue: Math.log(props.max)
         };
         this.onChangeSlider = this.onChangeSlider.bind(this);
-        this.onAfterChangeSlider = this.onAfterChangeSlider.bind(this);       
+        this.onAfterChangeSlider = this.onAfterChangeSlider.bind(this);
     }
 
     onChangeSlider(sliderValue: number) {
@@ -38,23 +38,23 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     render() {
-        const { min, max, className } = this.props;      
-        const { currentValue } = this.state;
-  
-         let curmin=Math.log(min)>=0?Math.log(min):0;
-         let curmax=Math.log(max);
+        const {min, max, className} = this.props;
+        const {currentValue} = this.state;
+
+        let curmin = Math.log(min) >= 0 ? Math.log(min) : 0;
+        let curmax = Math.log(max);
 
         const sliderClassName = classnames(className, {
             'max-filtered': currentValue !== curmax
         });
 
         const sliderLabel =
-        currentValue === curmax ? 'Any price' : `$ ${Math.round(Math.exp(currentValue)).toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
+            currentValue === curmax ? 'Any price' : `$ ${Math.round(Math.exp(currentValue)).toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
         return (
             <div className={'widget-row widget-row-fill'}>
                 <div className="icon-label wj-icon">
-                    <FontAwesomeIcon icon={faDollarSign} />
+                    <FontAwesomeIcon icon={faDollarSign}/>
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     <div className="text-container middle-text">
@@ -65,7 +65,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                             min={curmin}
                             max={curmax}
                             value={currentValue}
-                            step={(curmax-curmin)/5000}
+                            step={(curmax - curmin) / 5000}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
