@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faDollarSign} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 export interface SliderProps {
     min: number;
@@ -38,8 +38,8 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     render() {
-        const {min, max, className} = this.props;
-        const {currentValue} = this.state;
+        const { min, max, className } = this.props;
+        const { currentValue } = this.state;
 
         let curMin = Math.log(min) >= 0 ? Math.log(min) : 0;
         let curMax = Math.log(max);
@@ -49,12 +49,16 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         });
 
         const sliderLabel =
-            currentValue === curMax ? 'Any price' : `$ ${Math.round(Math.exp(currentValue)).toString().replace(/\d(?=(\d{3})+)/g, '$&,')}`;
+            currentValue === curMax
+                ? 'Any price'
+                : `$ ${Math.round(Math.exp(currentValue))
+                      .toString()
+                      .replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
         return (
             <div className={'widget-row widget-row-fill'}>
                 <div className="icon-label wj-icon">
-                    <FontAwesomeIcon icon={faDollarSign}/>
+                    <FontAwesomeIcon icon={faDollarSign} />
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     <div className="text-container middle-text">
@@ -65,7 +69,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                             min={curMin}
                             max={curMax}
                             value={currentValue}
-                            step={(curMax - curMin) / 5000}
+                            step={(curMax - curMin) / parseInt(process.env.REACT_APP_MAX_BUDGET || '')}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
