@@ -12,7 +12,7 @@
     justify-content: space-around;
     text-transform: capitalize;
     padding: 10px;
-    position: absolute;
+    z-index: 1;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.67);
     transition: background-color linear 0.15s;
