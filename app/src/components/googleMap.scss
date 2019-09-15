@@ -1,0 +1,9 @@
+.overlayed-content-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .loader-container {
+        margin-top: 1px;
+        width: 100%;
+    }
+}
