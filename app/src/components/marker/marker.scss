@@ -1,9 +1,16 @@
+@import '../../styles/utilities';
+
+iframe {
+    border: 0;
+    outline: none;
+}
+
 .price-marker {
     position: relative;
     width: auto;
     height: 38px;
     text-align: left;
-    background-color: #fff;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
     font-size: larger;
@@ -12,10 +19,15 @@
     cursor: pointer;
     transition: background-color ease 0.15s;
     text-decoration: none !important;
+    outline: none;
 
     &:hover {
         transition: background-color ease 0.15s;
-        background-color: #dfdfdf;
+        background-color: $WebjetBtnDefaultBg;
+    }
+
+    &:active {
+        border: 0 !important;
     }
 
     &:before {
@@ -26,7 +38,7 @@
         left: 15px;
         top: 38px;
         border: 7px solid;
-        border-color: #7a7a7a transparent transparent #7a7a7a;
+        border-color: $lightMildGrey transparent transparent $lightMildGrey;
     }
 
     .city-text,
@@ -46,6 +58,11 @@
         margin-top: 2px;
         font-weight: 700;
         font-size: 15px;
-        color: #3c4043;
+        color: $darkGrey;
+    }
+
+    // web jet search widget overrides
+    .zsl-btn-group-flight {
+        display: none;
     }
 }
