@@ -76,17 +76,15 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
 
     const onSelectChanged = (v: ValueType<OptionType>) => {
         const option = v as OptionType;
-        if (option) {
-            props.onChange(option.value);
-        }
+        props.onChange(option ? option.value : '');
     };
 
     return (
         <AsyncSelect
             inputId={props.id}
-            isClearable
+            isClearable={true}
             defaultValue={{
-                label: 'Sydney, Australia',
+                label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
                 value: process.env.REACT_APP_DEFAULT_DEPARTURE || ''
             }}
             placeholder={props.placeholder}
