@@ -84,7 +84,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     return (
         <AsyncSelect
             inputId={props.id}
-            isClearable
+            isClearable={true}
             defaultValue={{
                 label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
                 value: process.env.REACT_APP_DEFAULT_DEPARTURE || ''

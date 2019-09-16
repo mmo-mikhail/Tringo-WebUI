@@ -9,6 +9,9 @@ import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinat
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
+import { withStyles, LinearProgress } from '@material-ui/core';
+
+import './googleMap.scss';
 
 interface MapProp {
     error?: string;
@@ -35,12 +38,21 @@ interface MapInitProps {
     scrollwheel: boolean;
 }
 
+const ColorLinearProgress = withStyles({
+    colorPrimary: {
+        backgroundColor: '#cccccc'
+    },
+    barColorPrimary: {
+        backgroundColor: '#999'
+    }
+})(LinearProgress);
+
 class SimpleMap extends React.Component<MapProp, MapState> {
     constructor(props: any) {
         super(props);
 
         // no matters what MapArea at this point at all,
-        // we set lat/lng and zoom for component directly and it will be overriden
+        // we set lat/lng and zoom for component directly and it will be overridden
         this.state = {
             mapProps: this.mapInitProp(),
             center: gMapConf.defaultCentre,
@@ -156,11 +168,17 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 >
                     {this.renderDestinations()}
                 </GoogleMapReact>
-                <SearchWidgetWrapper
-                    onChange={this.requestDestinationsUpdate}
-                    initialModel={this.state.destinationsRequestModel}
-                />
-                {this.props.isLoading && <div />}
+                <div className="overlayed-content-wrapper">
+                    <SearchWidgetWrapper
+                        onChange={this.requestDestinationsUpdate}
+                        initialModel={this.state.destinationsRequestModel}
+                    />
+                    {this.props.isLoading && (
+                        <div className="loader-container">
+                            <ColorLinearProgress />
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
