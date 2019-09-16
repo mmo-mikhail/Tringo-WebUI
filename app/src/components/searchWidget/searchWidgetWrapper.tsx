@@ -9,7 +9,7 @@ import { fetchLocationData } from 'services/dataService';
 import MonthSelect from './date-input/monthselect';
 
 interface SearchWidgetWrapperProps {
-    onChange: (model: FlightDestinationRequest) => void;
+    onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
     initialModel: FlightDestinationRequest;
 }
 
@@ -18,8 +18,6 @@ interface SearchWidgetWrapperState {
     budgetMin: number;
     budgetMax: number;
     budgetStep: number;
-    departureLocation: string;
-    isDropOffAutoCompleteEnabled: boolean;
 }
 
 class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
@@ -32,25 +30,11 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
             budgetMax: this.props.initialModel.budget
                 ? this.props.initialModel.budget.max
                 : parseInt(process.env.REACT_APP_MAX_BUDGET || ''),
-            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
-            isDropOffAutoCompleteEnabled: true,
-            departureLocation: process.env.REACT_APP_DEFAULT_DEPARTURE || ''
+            budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || '')
         };
         this.onBudgetChanged = this.onBudgetChanged.bind(this);
         this.onDatesChanged = this.onDatesChanged.bind(this);
-        this.updateDeparture = this.updateDeparture.bind(this);
         this.onDepartureChanged = this.onDepartureChanged.bind(this);
-
-        // this.onDepartureChanged = this.onDepartureChanged.bind(this);
-    }
-
-    updateDeparture(data: string) {
-        if (data && !this.state.departureLocation) {
-            this.setState({
-                departureLocation: data,
-                isDropOffAutoCompleteEnabled: true
-            });
-        }
     }
 
     onBudgetChanged(values: number[]) {
@@ -59,7 +43,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         }
 
         this.props.initialModel.budget = new Budget(values[0], values[1]);
-        this.props.onChange(this.props.initialModel);
+        this.props.onChange(this.props.initialModel, null);
     }
 
     onDatesChanged(datedModel: DatesInput) {
@@ -67,12 +51,12 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
             datesState: datedModel
         });
         this.props.initialModel.dates = datedModel;
-        this.props.onChange(this.props.initialModel);
+        this.props.onChange(this.props.initialModel, null);
     }
 
-    onDepartureChanged(airportId: string) {
+    onDepartureChanged(airportId: string, airportLabel: string) {
         this.props.initialModel.departureAirportId = airportId;
-        this.props.onChange(this.props.initialModel);
+        this.props.onChange(this.props.initialModel, airportLabel);
     }
 
     render() {
