@@ -29,6 +29,7 @@ interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
+    selectedAirportlabel: string;
 }
 
 interface MapInitProps {
@@ -60,7 +61,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 MapArea.createRandom(),
                 null,
                 new DatesInput(-1)
-            )
+            ),
+            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
         };
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
@@ -108,17 +110,26 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         destination={record.cityName}
                         destinationCode={record.destAirportCode}
                         priority={record.personalPriorityIdx}
+                        dateOut={record.flightDates.departureDate}
+                        dateBack={record.flightDates.returnDate}
+                        fromCode={this.state.destinationsRequestModel.departureAirportId}
+                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
                     />
                 );
             })
         );
     }
 
-    requestDestinationsUpdate(model: FlightDestinationRequest) {
+    requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
             isLoading: true
         });
+        if (selectedAirportLabel) {
+            this.setState({
+                selectedAirportlabel: selectedAirportLabel
+            });
+        }
         //this.props.isLoading = true;
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
@@ -129,7 +140,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
-        this.requestDestinationsUpdate(currentMode);
+        this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
     }
 
     render() {

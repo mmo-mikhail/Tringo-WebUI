@@ -14,9 +14,13 @@ interface MarkerProps {
     lat: number;
     lng: number;
     price: number;
+    fromCode: string;
+    fromLabel: string;
     destination: string;
     destinationCode: string;
     priority: number;
+    dateOut: Date;
+    dateBack: Date;
 }
 
 declare global {
@@ -42,13 +46,13 @@ export default class PriceTagMarker extends Component<MarkerProps, flightSearchP
 
     addListener(): void {
         this.param = {
-            from: 'SYD',
-            fromCity: 'Sydney, Australia - Sydney Intl (SYD)',
+            from: this.props.fromCode,
+            fromCity: this.props.fromLabel,
             to: this.props.destinationCode,
             toCity: this.props.destination,
             tripType: 'Return',
-            dateOut: '20191220',
-            dateBack: '20191225'
+            dateOut: this.formatDate(this.props.dateOut),
+            dateBack: this.formatDate(this.props.dateBack)
         };
         let tag = findDOMNode(this) as Node;
         tag.addEventListener('click', () => window.populateFlight(this.param));
@@ -70,4 +74,10 @@ export default class PriceTagMarker extends Component<MarkerProps, flightSearchP
             </a>
         </span>
     );
+
+    private formatDate(d: Date): string {
+        d = new Date(d);
+        let date = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+        return date;
+    }
 }
