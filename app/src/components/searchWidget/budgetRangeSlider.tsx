@@ -82,8 +82,8 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         });
     }
 
-    onAfterChangeSlider(sliderValue: number) {
-        this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
+    onAfterChangeSlider() {
+        this.props.onChange && this.props.onChange([this.props.min, this.state.labelCount]);
     }
 
     render() {
