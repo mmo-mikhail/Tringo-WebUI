@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import './styles/index.scss';
 import Tringo from './tringo';
 import * as serviceWorker from './serviceWorker';
 

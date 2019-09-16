@@ -26,6 +26,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.onChangeRange = this.onChangeRange.bind(this);
         this.onChangeSlider = this.onChangeSlider.bind(this);
         this.onAfterChangeSlider = this.onAfterChangeSlider.bind(this);
+        this.getStep = this.getStep.bind(this);
     }
 
     onChangeRange(sliderValue: number[]) {
@@ -42,8 +43,28 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.props.onChange && this.props.onChange([this.props.min, sliderValue]);
     }
 
+    getStep() {
+        let value = this.state.currentValue;
+        switch (true) {
+            case value <= 500:
+                return process.env.REACT_APP_SLIDER_LOWEST_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_LOWEST_STEP)
+                    : this.props.step;
+            case value > 500 && value <= 1000:
+                return process.env.REACT_APP_SLIDER_MEDIUM_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_MEDIUM_STEP)
+                    : this.props.step;
+            case value > 1000:
+                return process.env.REACT_APP_SLIDER_HIGHEST_STEP
+                    ? parseInt(process.env.REACT_APP_SLIDER_HIGHEST_STEP)
+                    : this.props.step;
+            default:
+                return this.props.step;
+        }
+    }
+
     render() {
-        const { min, max, step, className } = this.props;
+        const { min, max, className } = this.props;
         const { currentValue } = this.state;
 
         const sliderClassName = classnames(className, {
@@ -59,17 +80,19 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                     <FontAwesomeIcon icon={faDollarSign} />
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
-                    {
+                    <div className="text-container middle-text">
+                        <span className="to">{sliderLabel}</span>
+                    </div>
+                    <div className="slider-container middle-text">
                         <Slider
                             min={min}
                             max={max}
                             value={currentValue}
-                            step={step}
+                            step={this.getStep()}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
-                    }
-                    {<span className="to">{sliderLabel}</span>}
+                    </div>
                 </div>
             </div>
         );
