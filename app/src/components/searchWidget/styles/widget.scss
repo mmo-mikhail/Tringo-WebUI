@@ -47,17 +47,18 @@
         width: 100%;
         height: 52px;
         max-width: 525px;
-        margin-right: 10px;
+        margin-right: 9px;
     }
 
     .date-panel {
         text-align: left;
         width: 300px;
         max-width: 300px;
+        margin-right: 1px;
     }
 
     .budget-panel {
-        max-width: 500px;
+        max-width: 525px;
         width: 100%;
         display: flex;
         .widget-row-fill {
@@ -66,9 +67,14 @@
             height: 52px;
             margin-top: 4px;
             flex: 1 1 0;
+            border-radius: 3px;
             &:hover {
                 background-color: $inputHoverBackground;
                 transition: background-color ease 0.15s;
+                box-shadow: 0 0 0 4px rgba(135, 135, 135, 0.75);
+                .icon-label {
+                    background: #bfbfbf;
+                }
             }
         }
 
