@@ -1,0 +1,71 @@
+.date-panel-wrapper {
+    position: relative;
+    font-size: 1rem;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    z-index: 1;
+
+    .date-panel-collapsed {
+        padding-left: 8px;
+        justify-content: flex-start;
+        align-items: center;
+        flex-grow: 1;
+        display: flex;
+        cursor: pointer;
+        min-height: 50px;
+        background-color: white;
+        transition: background-color linear 0.15s;
+        border-radius: 0 3px 3px 0;
+
+        &:hover {
+            background-color: #f6f2e7;
+            transition: background-color ease 0.15s;
+        }
+    }
+
+    .date-panel-expanded {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #eeeeee;
+        width: 500px;
+        height: 340px;
+        opacity: 1 !important;
+
+        .top-toogler {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+
+            .dates-selector {
+                width: 40%;
+                height: 30px;
+                margin: 10px 3%;
+                text-align: center;
+                background-color: #a9a9a9;
+                cursor: pointer;
+            }
+
+            .flexible-dates-main-area {
+                position: relative;
+                width: 400px;
+                min-height: 240px;
+                margin: 15px;
+                background-color: #333;
+                opacity: 0.85;
+                transition: opacity linear 0.15s;
+                padding: 2% 5%;
+
+                &:hover {
+                    opacity: 0.88;
+                    transition: opacity ease 0.15s;
+                }
+            }
+        }
+    }
+}
