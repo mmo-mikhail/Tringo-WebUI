@@ -79,7 +79,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                     />
 
                     <div className={'date-panel date-picker'}>
-                        <MonthSelect props={{ onChange: this.onDatesChanged }}></MonthSelect>
+                        <MonthSelect props={{ onChange: this.onDatesChanged }} />
                     </div>
                 </div>
                 <div className="budget-panel">
