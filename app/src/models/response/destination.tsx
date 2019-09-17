@@ -9,5 +9,6 @@ export interface IDestination {
 }
 
 export interface IFlightDates {
-    flightMonthidx: number;
+    departureDate: Date;
+    returnDate: Date;
 }
