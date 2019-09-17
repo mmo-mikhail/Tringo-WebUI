@@ -58,10 +58,6 @@ export default class PriceTagMarker extends Component<MarkerProps, flightSearchP
         tag.addEventListener('click', () => window.populateFlight(this.param));
     }
 
-    componentDidMount(): void {
-        this.addListener();
-    }
-
     componentDidUpdate(): void {
         this.addListener();
     }
@@ -77,7 +73,7 @@ export default class PriceTagMarker extends Component<MarkerProps, flightSearchP
 
     private formatDate(d: Date): string {
         d = new Date(d);
-        let date = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+        let date = d.getFullYear() + `0${d.getMonth() + 1}`.slice(-2) + `0${d.getDate()}`.slice(-2);
         return date;
     }
 }
