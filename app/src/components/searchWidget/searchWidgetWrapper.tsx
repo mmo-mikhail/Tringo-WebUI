@@ -60,7 +60,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
     }
 
     render() {
-        const noOptionsMessage = 'No cities or airports were found. Please check your spelling.';
+        const noOptionsMessage = 'No cities or airports were found. Australian airports only.';
         return (
             <div className="widget-container">
                 <div className={'widget-row'}>
