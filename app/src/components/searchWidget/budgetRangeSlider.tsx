@@ -18,21 +18,26 @@ interface SliderState {
     labelCount: number;
 }
 
-interface StepBracket {
+export interface StepBracket {
     lowerLabelBound: number;
     upperLabelBound: number;
-    sliderLowerBrake: number;
     stepping: number;
 }
 
 class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
-    priceBrackets = new Array<StepBracket>();
+    priceBrackets: StepBracket[];
 
     constructor(props: SliderProps) {
         super(props);
 
-        let maxVal = this.maxVal();
+        this.priceBrackets = new Array<StepBracket>();
+        this.priceBrackets.push(
+            { lowerLabelBound: 0, upperLabelBound: 1000, stepping: 20 },
+            { lowerLabelBound: 1000, upperLabelBound: 1600, stepping: 100 },
+            { lowerLabelBound: 1600, upperLabelBound: this.props.max, stepping: 200 }
+        );
 
+        let maxVal = this.maxVal();
         this.state = {
             maxValue: maxVal,
             currentValue: maxVal,
@@ -44,35 +49,33 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     }
 
     maxVal(): number {
-        let totalSteps = 0;
-
-        this.priceBrackets.push(
-            { lowerLabelBound: 0, sliderLowerBrake: 0, upperLabelBound: 1200, stepping: 20 },
-            { lowerLabelBound: 1200, sliderLowerBrake: 60, upperLabelBound: this.props.max, stepping: 100 }
-        );
+        let sliderMaxVal = 0;
 
         for (let bracket of this.priceBrackets) {
-            totalSteps += (bracket.upperLabelBound - bracket.lowerLabelBound) / bracket.stepping;
+            sliderMaxVal += (bracket.upperLabelBound - bracket.lowerLabelBound) / bracket.stepping;
         }
 
-        return totalSteps;
+        return sliderMaxVal;
     }
 
     countLabel(sliderValue: number): number {
-        let step: number;
-        let bracketLblrFloor = this.props.min;
-        let steppUpperBrake: number;
-        if (sliderValue >= this.priceBrackets[1].sliderLowerBrake) {
-            bracketLblrFloor = this.priceBrackets[1].lowerLabelBound;
-            step = this.priceBrackets[1].stepping;
-            steppUpperBrake = this.priceBrackets[1].sliderLowerBrake;
-        } else {
-            bracketLblrFloor = 0;
-            step = 20;
-            steppUpperBrake = 0;
+        let step = this.props.min;
+        let bracketLblFloor = this.props.min;
+        let bracketSliderMinVal = 0;
+        let bracketSliderMaxVal = 0;
+
+        for (let bracket of this.priceBrackets) {
+            bracketSliderMinVal = bracketSliderMaxVal;
+            bracketSliderMaxVal += (bracket.upperLabelBound - bracket.lowerLabelBound) / bracket.stepping;
+
+            if (sliderValue >= bracketSliderMinVal && sliderValue < bracketSliderMaxVal) {
+                bracketLblFloor = bracket.lowerLabelBound;
+                step = bracket.stepping;
+                break;
+            }
         }
 
-        return (sliderValue - steppUpperBrake) * step + bracketLblrFloor;
+        return (sliderValue - bracketSliderMinVal) * step + bracketLblFloor;
     }
 
     onChangeSlider(sliderValue: number) {
@@ -115,7 +118,6 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                             min={this.props.min}
                             max={this.state.maxValue}
                             value={this.state.currentValue}
-                            step={1}
                             onChange={this.onChangeSlider}
                             onAfterChange={this.onAfterChangeSlider}
                         />
