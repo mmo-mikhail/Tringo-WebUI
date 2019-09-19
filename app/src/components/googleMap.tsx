@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
-import PriceTagMarker from 'components/marker/priceTagMarker';
+import { PriceTagMarker } from 'components/markers/priceTagMarker';
+import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
@@ -16,6 +17,7 @@ import './googleMap.scss';
 interface MapProp {
     error?: string;
     isLoading?: boolean;
+    maxNumberOfConcurrentPriceMarkers: number;
     destinations: IDestination[];
     fetchDestinations: (arg: FlightDestinationRequest) => {};
 }
@@ -88,36 +90,52 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     renderDestinations() {
-        return (
-            this.props.destinations &&
-            this.props.destinations.map((record: IDestination, idx: number) => {
-                if (
-                    record.lat === undefined ||
-                    record.lng === undefined ||
-                    record.price === undefined ||
-                    record.personalPriorityIdx === undefined ||
-                    record.cityName === undefined
-                ) {
-                    return '';
-                }
+        const dests = this.props.destinations;
+        if (!dests) return '';
+        const sortedDests = dests.sort((a: IDestination, b: IDestination) => {
+            // sorting by descending
+            if (a.personalPriorityIdx < b.personalPriorityIdx) return 1;
+            if (a.personalPriorityIdx > b.personalPriorityIdx) return -1;
+            return 0;
+        });
+        return dests.map((record: IDestination, idx: number) => {
+            if (
+                record.lat === undefined ||
+                record.lng === undefined ||
+                record.price === undefined ||
+                record.personalPriorityIdx === undefined ||
+                record.cityName === undefined
+            ) {
+                return '';
+            }
+
+            if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
                 return (
-                    <PriceTagMarker
+                    <TinyPinMarker
                         key={idx} // required for Maps API
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
-                        // properties used by marker component properties:
-                        price={record.price}
-                        destination={record.cityName}
-                        destinationCode={record.destAirportCode}
-                        priority={record.personalPriorityIdx}
-                        dateOut={record.flightDates.departureDate}
-                        dateBack={record.flightDates.returnDate}
-                        fromCode={this.state.destinationsRequestModel.departureAirportId}
-                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
                     />
                 );
-            })
-        );
+            }
+
+            return (
+                <PriceTagMarker
+                    key={idx} // required for Maps API
+                    lat={record.lat} // to be consumed only by Maps API
+                    lng={record.lng} // to be consumed only by Maps API
+                    // properties used by marker component properties:
+                    price={record.price}
+                    destination={record.cityName}
+                    destinationCode={record.destAirportCode}
+                    priority={record.personalPriorityIdx}
+                    dateOut={record.flightDates.departureDate}
+                    dateBack={record.flightDates.returnDate}
+                    fromCode={this.state.destinationsRequestModel.departureAirportId}
+                    fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                />
+            );
+        });
     }
 
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {

@@ -1,4 +1,4 @@
-import PriceTagMarker from 'components/marker/priceTagMarker';
+import { PriceTagMarker } from 'components/markers/priceTagMarker';
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import { configure } from 'enzyme';

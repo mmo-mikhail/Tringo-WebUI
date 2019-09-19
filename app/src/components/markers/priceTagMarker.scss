@@ -20,6 +20,7 @@ iframe {
     transition: background-color ease 0.15s;
     text-decoration: none !important;
     outline: none;
+    z-index:1; //just to be displayed over pin-markers
 
     &:hover {
         transition: background-color ease 0.15s;
