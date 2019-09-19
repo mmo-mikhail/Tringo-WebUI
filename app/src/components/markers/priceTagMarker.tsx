@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import './marker.scss';
+import './priceTagMarker.scss';
 import { findDOMNode } from 'react-dom';
 
 declare global {
@@ -9,10 +9,14 @@ declare global {
     }
 }
 
-interface MarkerProps {
+export interface GoogleMapRequiredProps {
     key: number;
     lat: number;
     lng: number;
+}
+
+
+interface MarkerProps extends GoogleMapRequiredProps {
     price: number;
     fromCode: string;
     fromLabel: string;
@@ -39,7 +43,7 @@ interface flightSearchParameters {
     dateBack: string;
 }
 
-export default class PriceTagMarker extends Component<MarkerProps, flightSearchParameters> {
+export class PriceTagMarker extends Component<MarkerProps, flightSearchParameters> {
     constructor(props: MarkerProps, private param: flightSearchParameters) {
         super(props);
     }
