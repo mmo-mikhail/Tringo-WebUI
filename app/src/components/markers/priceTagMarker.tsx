@@ -15,7 +15,6 @@ export interface GoogleMapRequiredProps {
     lng: number;
 }
 
-
 interface MarkerProps extends GoogleMapRequiredProps {
     price: number;
     fromCode: string;
@@ -76,8 +75,9 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
     );
 
     private formatDate(d: Date): string {
-        d = new Date(d);
-        let date = d.getFullYear() + `0${d.getMonth() + 1}`.slice(-2) + `0${d.getDate()}`.slice(-2);
+        d = new Date(d); // actually needed
+        // month + 2 to send month correctly to WebJet's modal popup
+        const date = d.getFullYear() + `0${d.getMonth() + 2}`.slice(-2) + `0${d.getDate()}`.slice(-2);
         return date;
     }
 }
