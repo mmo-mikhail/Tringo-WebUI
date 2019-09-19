@@ -68,7 +68,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
             bracketSliderMinVal = bracketSliderMaxVal;
             bracketSliderMaxVal += (bracket.upperLabelBound - bracket.lowerLabelBound) / bracket.stepping;
 
-            if (sliderValue >= bracketSliderMinVal && sliderValue < bracketSliderMaxVal) {
+            if (sliderValue > bracketSliderMinVal && sliderValue <= bracketSliderMaxVal) {
                 bracketLblFloor = bracket.lowerLabelBound;
                 step = bracket.stepping;
                 break;
