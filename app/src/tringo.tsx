@@ -10,7 +10,11 @@ class Tringo extends React.Component<any, any> {
     render() {
         return (
             <div className="App">
-                <SimpleMap maxNumberOfConcurrentPriceMarkers={25} />
+                <SimpleMap
+                    maxNumberOfConcurrentPriceMarkers={parseInt(
+                        process.env.REACT_APP_MAX_NU_CONCURRENT_PRICE_MARKERS || ''
+                    )}
+                />
             </div>
         );
     }
