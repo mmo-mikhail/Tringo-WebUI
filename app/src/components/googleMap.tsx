@@ -141,8 +141,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     renderDepartureAirport() {
-        //const dests = this.props.destinations;  
-        // let departureLocation=dests.find(x=>x.cityName===(this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''));      
         // hardcoded Sydney for now
         if (true) {
 
