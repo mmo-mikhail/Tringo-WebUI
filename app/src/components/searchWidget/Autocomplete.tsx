@@ -78,6 +78,9 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
         const option = v as OptionType;
         if (option) {
             props.onChange(option.value, option.label);
+        } else {
+            // passing empty to reset
+            props.onChange('', '');
         }
     };
 

@@ -141,14 +141,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
-            isLoading: true
+            isLoading: model.departureAirportId != null
         });
         if (selectedAirportLabel) {
             this.setState({
                 selectedAirportlabel: selectedAirportLabel
             });
         }
-        //this.props.isLoading = true;
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }

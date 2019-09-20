@@ -26,9 +26,11 @@ describe('budget range slider class', () => {
 
     describe.each`
         val   | expected
+        ${0}  | ${0}
         ${1}  | ${20}
         ${50} | ${1000}
         ${51} | ${1100}
+        ${56} | ${1600}
     `('countLabel numeric value', ({ val, expected }) => {
         test(`returns ${expected}`, () => {
             let lblVal = slider.countLabel(val);
