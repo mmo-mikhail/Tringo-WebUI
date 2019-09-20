@@ -3,17 +3,17 @@
 $markerSize: 12px;
 $markerSizehovered: 18px;
 .tiny-marker {
-    width: $markerSize;
-    height: $markerSize;
-    border-radius: 100%;
-    background: $lightBlue;
-    margin-top: -2px;
-    margin-left: -3px;
-    border: 2px solid $lighterGrey;
+  width: $markerSize;
+  height: $markerSize;
+  border-radius: 100%;
+  background: $lightBlue;
+  margin-top: -2px;
+  margin-left: -3px;
+  border: 2px solid $lighterGrey;
 
-    &:hover {
-        width: $markerSizehovered;
-        height: $markerSizehovered;
-    }
+  &:hover {
+    width: $markerSizehovered;
+    height: $markerSizehovered;
+  }
 }
 

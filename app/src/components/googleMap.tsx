@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
-import { PriceTagMarker } from 'components/markers/priceTagMarker';
-import DepartureMarker  from 'components/markers/departureMarker';
+import {connect} from 'react-redux';
+import GoogleMapReact, {ChangeEventValue, MapTypeStyle} from 'google-map-react';
+import {PriceTagMarker} from 'components/markers/priceTagMarker';
+import DepartureMarker from 'components/markers/departureMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
-import { IDestination } from 'models/response/destination';
+import {IDestination} from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
-import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
-import { DatesInput } from 'models/request/dateInput';
+import {FlightDestinationRequest, MapArea} from 'models/request/flightDestinationRequest';
+import {DatesInput} from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
-import { DestinationsState } from 'models/response/destinations';
-import { withStyles, LinearProgress } from '@material-ui/core';
+import {DestinationsState} from 'models/response/destinations';
+import {withStyles, LinearProgress} from '@material-ui/core';
 
 import './googleMap.scss';
 
@@ -77,15 +77,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         let prop =
             window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
                 ? {
-                      defaultZoom: gMapConf.defaultMobileZoom as number,
-                      zoomControl: false,
-                      scrollwheel: false
-                  }
+                    defaultZoom: gMapConf.defaultMobileZoom as number,
+                    zoomControl: false,
+                    scrollwheel: false
+                }
                 : {
-                      defaultZoom: gMapConf.defaultDesktopZoom as number,
-                      zoomControl: true,
-                      scrollwheel: true
-                  };
+                    defaultZoom: gMapConf.defaultDesktopZoom as number,
+                    zoomControl: true,
+                    scrollwheel: true
+                };
 
         // const screenHeight = window.screen.height * window.devicePixelRatio;
         return prop;
@@ -139,19 +139,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
         });
     }
-    
-    renderDepartureAirport(){
+
+    renderDepartureAirport() {
         //const dests = this.props.destinations;  
         // let departureLocation=dests.find(x=>x.cityName===(this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''));      
         // hardcoded Sydney for now
-        if(true){
+        if (true) {
 
-             return ( <DepartureMarker
-                        key={1} // required for Maps API
-                        lat={-33.94609832763672} // to be consumed only by Maps API
-                        lng={151.177001953125} // to be consumed only by Maps API                      
-                    />);
-        }             
+            return (<DepartureMarker
+                key={1} // required for Maps API
+                lat={-33.94609832763672} // to be consumed only by Maps API
+                lng={151.177001953125} // to be consumed only by Maps API
+            />);
+        }
     }
 
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
@@ -186,7 +186,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     }}
                     defaultCenter={this.state.center}
                     defaultZoom={this.state.mapProps.defaultZoom}
-                    style={{ height: '100%', width: '100%' }}
+                    style={{height: '100%', width: '100%'}}
                     onChange={this.mapChanged}
                     options={{
                         fullscreenControl: false,
@@ -200,7 +200,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     }}
                 >
                     {this.renderDestinations()}
-                    {this. renderDepartureAirport()}
+                    {this.renderDepartureAirport()}
                 </GoogleMapReact>
                 <div className="overlayed-content-wrapper">
                     <SearchWidgetWrapper
@@ -209,7 +209,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     />
                     {this.props.isLoading && (
                         <div className="loader-container">
-                            <ColorLinearProgress />
+                            <ColorLinearProgress/>
                         </div>
                     )}
                 </div>

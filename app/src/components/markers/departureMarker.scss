@@ -1,7 +1,7 @@
 @import '../../styles/utilities';
 
 $markerSize: 24px;
-$markerSizehovered: 30px;
+$markerSizeHovered: 30px;
 .departure-marker {
     width: $markerSize;
     height: $markerSize;
@@ -12,7 +12,7 @@ $markerSizehovered: 30px;
     border: 2px solid $lighterGrey;
 
     &:hover {
-        width: $markerSizehovered;
-        height: $markerSizehovered;
+        width: $markerSizeHovered;
+        height: $markerSizeHovered;
     }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Component } from 'react';
+import {Component} from 'react';
 import './priceTagMarker.scss';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 
 declare global {
     interface Window {
@@ -58,7 +58,8 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
             dateBack: this.formatDate(this.props.dateBack)
         };
         let tag = findDOMNode(this) as Node;
-        tag.removeEventListener('click', () => {});
+        tag.removeEventListener('click', () => {
+        });
         tag.addEventListener('click', () => window.populateFlight(this.param));
     }
 
