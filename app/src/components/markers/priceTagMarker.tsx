@@ -58,7 +58,12 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
             dateBack: this.formatDate(this.props.dateBack)
         };
         let tag = findDOMNode(this) as Node;
+        tag.removeEventListener('click', () => {});
         tag.addEventListener('click', () => window.populateFlight(this.param));
+    }
+
+    componentDidMount(): void {
+        this.addListener();
     }
 
     componentDidUpdate(): void {
