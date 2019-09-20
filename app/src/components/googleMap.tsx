@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
 import { PriceTagMarker } from 'components/markers/priceTagMarker';
+import DepartureMarker  from 'components/markers/departureMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
@@ -69,6 +70,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
+
     }
 
     private mapInitProp(): MapInitProps {
@@ -137,6 +139,20 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
         });
     }
+    
+    renderDepartureAirport(){
+        //const dests = this.props.destinations;  
+        // let departureLocation=dests.find(x=>x.cityName===(this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''));      
+        // hardcoded Sydney for now
+        if(true){
+
+             return ( <DepartureMarker
+                        key={1} // required for Maps API
+                        lat={-33.94609832763672} // to be consumed only by Maps API
+                        lng={151.177001953125} // to be consumed only by Maps API                      
+                    />);
+        }             
+    }
 
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
@@ -184,6 +200,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     }}
                 >
                     {this.renderDestinations()}
+                    {this. renderDepartureAirport()}
                 </GoogleMapReact>
                 <div className="overlayed-content-wrapper">
                     <SearchWidgetWrapper
