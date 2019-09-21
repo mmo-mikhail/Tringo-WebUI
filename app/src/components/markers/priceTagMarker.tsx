@@ -24,7 +24,8 @@ interface MarkerProps extends GoogleMapRequiredProps {
     priority: number;
     dateOut: Date;
     dateBack: Date;
-    onHover: (lat: number, long: number) => void;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
 }
 
 declare global {
@@ -81,7 +82,7 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
     }
 
     render = () => (
-        <span>
+        <span onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
             <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                 <div className="city-text">{this.props.destination}</div>
                 <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>

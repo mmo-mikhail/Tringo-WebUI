@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search widget wrapper class should render based on input data 1`] = `
+"<SearchWidgetWrapper onChange={[Function: onChange]} initialModel={{...}} datesState={10} budgetMin={300} budgetMax={1200} budgetStep={100}>
+  <div className=\\"widget-container\\">
+    <div className=\\"widget-row\\">
+      <Autocomplete props={{...}}>
+        <Async inputId=\\"departure-panel\\" isClearable={true} defaultValue={{...}} placeholder=\\"Departure City or Airport\\" isDisabled={false} loadOptions={[Function: loadOptionsHandler]} noOptionsMessage={[Function: noOptionsMessageHandler]} className=\\"wj-rc-autocomplete departure-panel\\" classNamePrefix=\\"rc-autocomplete\\" components={{...}} onChange={[Function: onSelectChanged]} onInputChange={[Function: onInputChange]} cacheOptions={false} defaultOptions={false} filterOption={{...}}>
+          <StateManager inputId=\\"departure-panel\\" isClearable={true} defaultValue={{...}} placeholder=\\"Departure City or Airport\\" isDisabled={false} noOptionsMessage={[Function: noOptionsMessageHandler]} className=\\"wj-rc-autocomplete departure-panel\\" classNamePrefix=\\"rc-autocomplete\\" components={{...}} onChange={[Function: onSelectChanged]} onInputChange={[Function]} cacheOptions={false} defaultOptions={false} filterOption={{...}} options={{...}} isLoading={false} defaultInputValue=\\"\\" defaultMenuIsOpen={false}>
+            <Select inputId=\\"departure-panel\\" isClearable={true} placeholder=\\"Departure City or Airport\\" isDisabled={false} noOptionsMessage={[Function: noOptionsMessageHandler]} className=\\"wj-rc-autocomplete departure-panel\\" classNamePrefix=\\"rc-autocomplete\\" components={{...}} onChange={[Function]} onInputChange={[Function]} cacheOptions={false} defaultOptions={false} filterOption={{...}} options={{...}} isLoading={false} inputValue=\\"\\" menuIsOpen={false} onMenuClose={[Function]} onMenuOpen={[Function]} value={{...}} backspaceRemovesValue={true} blurInputOnSelect={true} captureMenuScroll={false} closeMenuOnSelect={true} closeMenuOnScroll={false} controlShouldRenderValue={true} escapeClearsValue={false} formatGroupLabel={[Function: formatGroupLabel]} getOptionLabel={[Function: getOptionLabel]} getOptionValue={[Function: getOptionValue]} isMulti={false} isRtl={false} isSearchable={true} isOptionDisabled={[Function: isOptionDisabled]} loadingMessage={[Function: loadingMessage]} maxMenuHeight={300} minMenuHeight={140} menuPlacement=\\"bottom\\" menuPosition=\\"absolute\\" menuShouldBlockScroll={false} menuShouldScrollIntoView={true} openMenuOnFocus={false} openMenuOnClick={true} pageSize={5} screenReaderStatus={[Function: screenReaderStatus]} styles={{...}} tabIndex=\\"0\\" tabSelectsValue={true}>
+              <SelectContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} className=\\"wj-rc-autocomplete departure-panel\\" innerProps={{...}} isDisabled={false} isFocused={false}>
+                <div className=\\"css-10nd86i wj-rc-autocomplete departure-panel\\" id={[undefined]} onKeyDown={[Function]}>
+                  <Control cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerRef={[Function]} innerProps={{...}} isDisabled={false} isFocused={false} menuIsOpen={false}>
+                    <Control cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerRef={[Function]} innerProps={{...}} isDisabled={false} isFocused={false} menuIsOpen={false}>
+                      <div className=\\"css-vj8t7z rc-autocomplete__control\\" onMouseDown={[Function]} onTouchEnd={[Function]}>
+                        <span className=\\"wj-icon wj-mappin\\" />
+                        <ValueContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                          <div className=\\"css-1hwfws3 rc-autocomplete__value-container rc-autocomplete__value-container--has-value\\">
+                            <SingleValue cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} data={{...}} isDisabled={false}>
+                              <div className=\\"css-xp4uvy rc-autocomplete__single-value\\">
+                                Sydney, Australia
+                              </div>
+                            </SingleValue>
+                            <Input autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" cx={[Function: bound classNames]} getStyles={[Function]} id=\\"departure-panel\\" innerRef={[Function]} isDisabled={false} isHidden={false} onBlur={[Function]} onChange={[Function]} onFocus={[Function]} selectProps={{...}} spellCheck=\\"false\\" tabIndex=\\"0\\" theme={{...}} type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]}>
+                              <Input autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" cx={[Function: bound classNames]} getStyles={[Function]} id=\\"departure-panel\\" innerRef={[Function]} isDisabled={false} isHidden={false} onBlur={[Function]} onChange={[Function]} onFocus={[Function]} selectProps={{...}} spellCheck=\\"false\\" tabIndex=\\"0\\" theme={{...}} type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]} role=\\"presentation\\" name=\\"props.id\\">
+                                <div className=\\"css-1g6gooi\\">
+                                  <AutosizeInput className=\\"rc-autocomplete__input\\" inputRef={[Function]} inputStyle={{...}} disabled={false} autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" id=\\"departure-panel\\" onBlur={[Function]} onChange={[Function]} onFocus={[Function]} spellCheck=\\"false\\" tabIndex=\\"0\\" type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]} role=\\"presentation\\" name=\\"props.id\\" minWidth={1} injectStyles={true}>
+                                    <div className=\\"rc-autocomplete__input\\" style={{...}}>
+                                      <input className={[undefined]} disabled={false} autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" id=\\"departure-panel\\" onBlur={[Function]} onChange={[Function]} onFocus={[Function]} spellCheck=\\"false\\" tabIndex=\\"0\\" type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]} role=\\"presentation\\" name=\\"props.id\\" style={{...}} />
+                                      <div style={{...}} />
+                                    </div>
+                                  </AutosizeInput>
+                                </div>
+                              </Input>
+                            </Input>
+                          </div>
+                        </ValueContainer>
+                        <IndicatorsContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                          <div className=\\"css-1wy0on6 rc-autocomplete__indicators\\">
+                            <ClearIndicator cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerProps={{...}} isFocused={false}>
+                              <div onMouseDown={[Function]} onTouchEnd={[Function]} aria-hidden=\\"true\\" className=\\"css-1ep9fjw rc-autocomplete__indicator rc-autocomplete__clear-indicator\\">
+                                <CrossIcon>
+                                  <Svg size={20}>
+                                    <svg height={20} width={20} viewBox=\\"0 0 20 20\\" aria-hidden=\\"true\\" focusable=\\"false\\" className=\\"css-19bqh2r\\">
+                                      <path d=\\"M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z\\" />
+                                    </svg>
+                                  </Svg>
+                                </CrossIcon>
+                              </div>
+                            </ClearIndicator>
+                            <IndicatorSeparator cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false} isFocused={false}>
+                              <span className=\\"css-d8oujb rc-autocomplete__indicator-separator\\" />
+                            </IndicatorSeparator>
+                            <DropdownIndicator cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerProps={{...}} isDisabled={false} isFocused={false}>
+                              <div onMouseDown={[Function]} onTouchEnd={[Function]} aria-hidden=\\"true\\" className=\\"css-1ep9fjw rc-autocomplete__indicator rc-autocomplete__dropdown-indicator\\">
+                                <DownChevron>
+                                  <Svg size={20}>
+                                    <svg height={20} width={20} viewBox=\\"0 0 20 20\\" aria-hidden=\\"true\\" focusable=\\"false\\" className=\\"css-19bqh2r\\">
+                                      <path d=\\"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z\\" />
+                                    </svg>
+                                  </Svg>
+                                </DownChevron>
+                              </div>
+                            </DropdownIndicator>
+                          </div>
+                        </IndicatorsContainer>
+                      </div>
+                    </Control>
+                  </Control>
+                </div>
+              </SelectContainer>
+            </Select>
+          </StateManager>
+        </Async>
+      </Autocomplete>
+      <div className=\\"date-panel date-picker\\">
+        <MonthSelect props={{...}}>
+          <div className=\\"wj-rc-select\\">
+            <StateManager options={{...}} isSearchable={false} placeholder=\\"Select ...\\" className=\\"wj-rc-select\\" classNamePrefix=\\"rc-select\\" onChange={[Function: handleSelection]} defaultValue={{...}} defaultInputValue=\\"\\" defaultMenuIsOpen={false}>
+              <Select options={{...}} isSearchable={false} placeholder=\\"Select ...\\" className=\\"wj-rc-select\\" classNamePrefix=\\"rc-select\\" onChange={[Function]} inputValue=\\"\\" menuIsOpen={false} onInputChange={[Function]} onMenuClose={[Function]} onMenuOpen={[Function]} value={{...}} backspaceRemovesValue={true} blurInputOnSelect={true} captureMenuScroll={false} closeMenuOnSelect={true} closeMenuOnScroll={false} components={{...}} controlShouldRenderValue={true} escapeClearsValue={false} filterOption={[Function]} formatGroupLabel={[Function: formatGroupLabel]} getOptionLabel={[Function: getOptionLabel]} getOptionValue={[Function: getOptionValue]} isDisabled={false} isLoading={false} isMulti={false} isRtl={false} isOptionDisabled={[Function: isOptionDisabled]} loadingMessage={[Function: loadingMessage]} maxMenuHeight={300} minMenuHeight={140} menuPlacement=\\"bottom\\" menuPosition=\\"absolute\\" menuShouldBlockScroll={false} menuShouldScrollIntoView={true} noOptionsMessage={[Function: noOptionsMessage]} openMenuOnFocus={false} openMenuOnClick={true} pageSize={5} screenReaderStatus={[Function: screenReaderStatus]} styles={{...}} tabIndex=\\"0\\" tabSelectsValue={true}>
+                <SelectContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} className=\\"wj-rc-select\\" innerProps={{...}} isDisabled={false} isFocused={false}>
+                  <div className=\\"css-10nd86i wj-rc-select\\" id={[undefined]} onKeyDown={[Function]}>
+                    <Control cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerRef={[Function]} innerProps={{...}} isDisabled={false} isFocused={false} menuIsOpen={false}>
+                      <div className=\\"css-vj8t7z rc-select__control\\" onMouseDown={[Function]} onTouchEnd={[Function]}>
+                        <ValueContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                          <div className=\\"css-1hwfws3 rc-select__value-container rc-select__value-container--has-value\\">
+                            <SingleValue cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} data={{...}} isDisabled={false}>
+                              <div className=\\"css-xp4uvy rc-select__single-value\\">
+                                Any month
+                              </div>
+                            </SingleValue>
+                            <DummyInput id=\\"react-select-7-input\\" innerRef={[Function]} onBlur={[Function]} onChange={[Function: noop]} onFocus={[Function]} readOnly={true} disabled={false} tabIndex=\\"0\\" value=\\"\\">
+                              <input id=\\"react-select-7-input\\" onBlur={[Function]} onChange={[Function: noop]} onFocus={[Function]} readOnly={true} disabled={false} tabIndex=\\"0\\" value=\\"\\" className=\\"css-14uuagi\\" />
+                            </DummyInput>
+                          </div>
+                        </ValueContainer>
+                        <IndicatorsContainer cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                          <div className=\\"css-1wy0on6 rc-select__indicators\\">
+                            <IndicatorSeparator cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} isDisabled={false} isFocused={false}>
+                              <span className=\\"css-d8oujb rc-select__indicator-separator\\" />
+                            </IndicatorSeparator>
+                            <DropdownIndicator cx={[Function: bound classNames]} clearValue={[Function]} getStyles={[Function]} getValue={[Function: getValue]} hasValue={true} isMulti={false} isRtl={false} options={{...}} selectOption={[Function]} setValue={[Function]} selectProps={{...}} theme={{...}} innerProps={{...}} isDisabled={false} isFocused={false}>
+                              <div onMouseDown={[Function]} onTouchEnd={[Function]} aria-hidden=\\"true\\" className=\\"css-1ep9fjw rc-select__indicator rc-select__dropdown-indicator\\">
+                                <DownChevron>
+                                  <Svg size={20}>
+                                    <svg height={20} width={20} viewBox=\\"0 0 20 20\\" aria-hidden=\\"true\\" focusable=\\"false\\" className=\\"css-19bqh2r\\">
+                                      <path d=\\"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z\\" />
+                                    </svg>
+                                  </Svg>
+                                </DownChevron>
+                              </div>
+                            </DropdownIndicator>
+                          </div>
+                        </IndicatorsContainer>
+                      </div>
+                    </Control>
+                  </div>
+                </SelectContainer>
+              </Select>
+            </StateManager>
+          </div>
+        </MonthSelect>
+      </div>
+    </div>
+    <div className=\\"budget-panel\\">
+      <BudgetRangeSlider min={200} max={2000} step={20} className=\\"range-slider max-only\\" onChange={[Function: bound onBudgetChanged]}>
+        <div className=\\"widget-row widget-row-fill\\">
+          <div className=\\"icon-label wj-icon\\">
+            <FontAwesomeIcon icon={{...}} border={false} className=\\"\\" mask={{...}} fixedWidth={false} inverse={false} flip={{...}} listItem={false} pull={{...}} pulse={false} rotation={{...}} size={{...}} spin={false} symbol={false} title=\\"\\" transform={{...}}>
+              <svg aria-hidden=\\"true\\" focusable=\\"false\\" data-prefix=\\"fas\\" data-icon=\\"dollar-sign\\" className=\\"svg-inline--fa fa-dollar-sign fa-w-9 \\" role=\\"img\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 288 512\\" style={{...}}>
+                <path fill=\\"currentColor\\" d=\\"M209.2 233.4l-108-31.6C88.7 198.2 80 186.5 80 173.5c0-16.3 13.2-29.5 29.5-29.5h66.3c12.2 0 24.2 3.7 34.2 10.5 6.1 4.1 14.3 3.1 19.5-2l34.8-34c7.1-6.9 6.1-18.4-1.8-24.5C238 74.8 207.4 64.1 176 64V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48h-2.5C45.8 64-5.4 118.7.5 183.6c4.2 46.1 39.4 83.6 83.8 96.6l102.5 30c12.5 3.7 21.2 15.3 21.2 28.3 0 16.3-13.2 29.5-29.5 29.5h-66.3C100 368 88 364.3 78 357.5c-6.1-4.1-14.3-3.1-19.5 2l-34.8 34c-7.1 6.9-6.1 18.4 1.8 24.5 24.5 19.2 55.1 29.9 86.5 30v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48.2c46.6-.9 90.3-28.6 105.7-72.7 21.5-61.6-14.6-124.8-72.5-141.7z\\" style={{...}} />
+              </svg>
+            </FontAwesomeIcon>
+          </div>
+          <div id=\\"one-handler-range-slider\\" className=\\"range-slider max-only\\">
+            <div className=\\"text-container middle-text\\">
+              <span className=\\"to\\">
+                Any price
+              </span>
+            </div>
+            <div className=\\"slider-container middle-text\\">
+              <ComponentEnhancer(undefined) min={200} max={58} value={58} onChange={[Function: bound onChangeSlider]} onAfterChange={[Function: bound onAfterChangeSlider]} prefixCls=\\"rc-slider\\" className=\\"\\" step={1} marks={{...}} handle={[Function: handle]} onBeforeChange={[Function: noop]} included={true} disabled={false} dots={false} vertical={false} trackStyle={{...}} handleStyle={{...}} railStyle={{...}} dotStyle={{...}} activeDotStyle={{...}}>
+                <div className=\\"rc-slider\\" onTouchStart={[Function]} onMouseDown={[Function]} onMouseUp={[Function]} onKeyDown={[Function]} onFocus={[Function]} onBlur={[Function]} style={[undefined]}>
+                  <div className=\\"rc-slider-rail\\" style={{...}} />
+                  <Track className=\\"rc-slider-track\\" vertical={false} included={true} offset={0} length={100} style={{...}}>
+                    <div className=\\"rc-slider-track\\" style={{...}} />
+                  </Track>
+                  <Steps prefixCls=\\"rc-slider\\" vertical={false} marks={{...}} dots={false} step={1} included={true} lowerBound={200} upperBound={58} max={58} min={200} dotStyle={{...}} activeDotStyle={{...}}>
+                    <div className=\\"rc-slider-step\\" />
+                  </Steps>
+                  <Handle className=\\"rc-slider-handle\\" prefixCls=\\"rc-slider\\" vertical={false} offset={100} value={58} disabled={false} min={200} max={58} tabIndex={[undefined]} style={{...}}>
+                    <div tabIndex={0} className=\\"rc-slider-handle\\" style={{...}} onBlur={[Function]} onKeyDown={[Function]} onMouseDown={[Function]} role=\\"slider\\" aria-valuemin={200} aria-valuemax={58} aria-valuenow={58} aria-disabled={false} />
+                  </Handle>
+                  <Marks className=\\"rc-slider-mark\\" onClickLabel={[Function]} vertical={false} marks={{...}} included={true} lowerBound={200} upperBound={58} max={58} min={200}>
+                    <div className=\\"rc-slider-mark\\" />
+                  </Marks>
+                </div>
+              </ComponentEnhancer(undefined)>
+            </div>
+          </div>
+        </div>
+      </BudgetRangeSlider>
+    </div>
+  </div>
+</SearchWidgetWrapper>"
+`;
