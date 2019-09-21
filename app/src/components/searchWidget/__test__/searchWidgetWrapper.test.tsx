@@ -8,6 +8,7 @@ import { DatesInput } from '../../../models/request/dateInput';
 configure({ adapter: new Adapter() });
 describe('search widget wrapper class', () => {
     const SearchWidgetWrapperProps = {
+        // @ts-ignore
         onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void true,
         initialModel: new FlightDestinationRequest(
             'Mel',
