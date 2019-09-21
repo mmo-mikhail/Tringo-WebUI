@@ -40,6 +40,11 @@ interface MapInitProps {
     scrollwheel: boolean;
 }
 
+interface GoogleMapObj {
+    map: {};
+    maps: { Polyline: any };
+}
+
 const ColorLinearProgress = withStyles({
     colorPrimary: {
         backgroundColor: '#cccccc'
@@ -50,6 +55,9 @@ const ColorLinearProgress = withStyles({
 })(LinearProgress);
 
 class SimpleMap extends React.Component<MapProp, MapState> {
+    private googleMaps?: GoogleMapObj;
+    private flightPathPolyLine: any;
+
     constructor(props: any) {
         super(props);
 
@@ -69,6 +77,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
+        this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
+        this.drawPolyLine = this.drawPolyLine.bind(this);
+        this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
     }
 
     private mapInitProp(): MapInitProps {
@@ -87,6 +98,30 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         // const screenHeight = window.screen.height * window.devicePixelRatio;
         return prop;
+    }
+
+    onGoogleApiLoaded(maps: GoogleMapObj) {
+        this.googleMaps = maps;
+    }
+
+    drawPolyLine(destLat: number, destLng: number): void {
+        if (!this.googleMaps) return;
+
+        const pointsline = [{ lat: destLat, lng: destLng }, { lat: -33.8688, lng: 151.2093 }];
+        this.flightPathPolyLine = new this.googleMaps.maps.Polyline({
+            path: pointsline,
+            geodesic: true,
+            strokeColor: '#454545',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+        this.flightPathPolyLine.setMap(this.googleMaps.map);
+    }
+
+    cleanupPolyLines(): void {
+        if (this.flightPathPolyLine) {
+            this.flightPathPolyLine.setMap(null);
+        }
     }
 
     renderDestinations() {
@@ -133,6 +168,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     dateBack={record.flightDates.returnDate}
                     fromCode={this.state.destinationsRequestModel.departureAirportId}
                     fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                    onMouseEnter={() => {
+                        this.drawPolyLine(record.lat, record.lng);
+                    }}
+                    onMouseLeave={this.cleanupPolyLines}
                 />
             );
         });
@@ -172,6 +211,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     defaultZoom={this.state.mapProps.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
+                    onGoogleApiLoaded={this.onGoogleApiLoaded}
                     options={{
                         fullscreenControl: false,
                         maxZoom: this.state.mapProps.defaultZoom * 1.5,
