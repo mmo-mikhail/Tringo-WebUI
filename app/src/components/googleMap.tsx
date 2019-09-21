@@ -32,8 +32,6 @@ interface MapState {
     isLoading?: boolean;
     error?: string;
     selectedAirportlabel: string;
-    linelat: number;
-    linelong: number;
 }
 
 interface MapInitProps {
@@ -74,12 +72,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 null,
                 new DatesInput(-1)
             ),
-            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-            linelat: -33.8688,
-            linelong: 151.2093
+            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
         };
-        this.handleGoogleMapApi = this.handleGoogleMapApi.bind(this);
-        this.onMarkerHovered = this.onMarkerHovered.bind(this);
+
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
@@ -182,13 +177,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         });
     }
 
-    onMarkerHovered(lat: number, long: number) {
-        this.setState({
-            linelat: lat,
-            linelong: long
-        });
-    }
-
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
@@ -210,32 +198,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         currentMode.searchArea.se = changeEvent.marginBounds.se;
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
     }
-
-    handleGoogleMapApi = (map: any, maps: any) => {
-        const self = this;
-        init();
-        function init() {
-            map.addListener('click', addLine);
-        }
-        function addLine() {
-            const pointsline = [
-                { lat: self.state.linelat, lng: self.state.linelong },
-                { lat: -33.8688, lng: 151.2093 }
-            ];
-            var flightPath = new maps.Polyline({
-                path: pointsline,
-                geodesic: true,
-                strokeColor: '#000000',
-                strokeOpacity: 1.0,
-                strokeWeight: 3
-            });
-            flightPath.setMap(map);
-            map.addListener('click', removeLine);
-            function removeLine() {
-                flightPath.setMap(null);
-            }
-        }
-    };
 
     render() {
         return (

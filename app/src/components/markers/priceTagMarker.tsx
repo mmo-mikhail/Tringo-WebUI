@@ -47,7 +47,6 @@ interface flightSearchParameters {
 export class PriceTagMarker extends Component<MarkerProps, flightSearchParameters> {
     constructor(props: MarkerProps, private param: flightSearchParameters) {
         super(props);
-        this.onHover = this.onHover.bind(this);
     }
 
     addListener(): void {
@@ -66,19 +65,11 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
     }
 
     componentDidMount(): void {
-        this.onHover();
         this.addListener();
     }
 
     componentDidUpdate(): void {
         this.addListener();
-    }
-
-    onHover(): void {
-        let tag = findDOMNode(this) as Node;
-        tag.addEventListener('click', () => {
-            this.props.onHover(this.props.lat, this.props.lng);
-        });
     }
 
     render = () => (
