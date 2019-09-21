@@ -32,6 +32,8 @@ interface MapState {
     isLoading?: boolean;
     error?: string;
     selectedAirportlabel: string;
+    linelat: number | 0;
+    linelong: number | 0;
 }
 
 interface MapInitProps {
@@ -64,9 +66,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 null,
                 new DatesInput(-1)
             ),
-            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
+            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+            linelat: -33.8688,
+            linelong: 151.2093
         };
-
+        this.handleGoogleMapApi = this.handleGoogleMapApi.bind(this);
+        this.onMarkerHovered = this.onMarkerHovered.bind(this);
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
     }
@@ -133,8 +138,16 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     dateBack={record.flightDates.returnDate}
                     fromCode={this.state.destinationsRequestModel.departureAirportId}
                     fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                    onHover={this.onMarkerHovered}
                 />
             );
+        });
+    }
+
+    onMarkerHovered(lat: number, long: number) {
+        this.setState({
+            linelat: lat,
+            linelong: long
         });
     }
 
@@ -160,6 +173,32 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
     }
 
+    handleGoogleMapApi = (map: any, maps: any) => {
+        const self = this;
+        init();
+        function init() {
+            map.addListener('click', addLine);
+        }
+        function addLine() {
+            const pointsline = [
+                { lat: self.state.linelat, lng: self.state.linelong },
+                { lat: -33.8688, lng: 151.2093 }
+            ];
+            var flightPath = new maps.Polyline({
+                path: pointsline,
+                geodesic: true,
+                strokeColor: '#000000',
+                strokeOpacity: 1.0,
+                strokeWeight: 3
+            });
+            flightPath.setMap(map);
+            map.addListener('click', removeLine);
+            function removeLine() {
+                flightPath.setMap(null);
+            }
+        }
+    };
+
     render() {
         return (
             <div>
@@ -172,6 +211,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     defaultZoom={this.state.mapProps.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
+                    yesIWantToUseGoogleMapApiInternals={true}
+                    onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
                     options={{
                         fullscreenControl: false,
                         maxZoom: this.state.mapProps.defaultZoom * 1.5,
