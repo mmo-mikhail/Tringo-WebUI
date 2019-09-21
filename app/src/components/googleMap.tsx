@@ -32,8 +32,8 @@ interface MapState {
     isLoading?: boolean;
     error?: string;
     selectedAirportlabel: string;
-    linelat: number | 0;
-    linelong: number | 0;
+    linelat: number;
+    linelong: number;
 }
 
 interface MapInitProps {
