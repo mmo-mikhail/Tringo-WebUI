@@ -76,7 +76,7 @@ export class PriceTagMarker extends Component<MarkerProps, flightSearchParameter
         <span onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
             <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                 <div className="city-text">{this.props.destination}</div>
-                <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
+                <div className="price-text">From ${Number(this.props.price.toFixed(1)).toLocaleString()}+</div>
             </a>
         </span>
     );
