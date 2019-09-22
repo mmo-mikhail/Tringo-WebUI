@@ -96,7 +96,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             isDisabled={props.disabled}
             loadOptions={loadOptionsHandler}
             noOptionsMessage={noOptionsMessageHandler}
-            className={classnames('wj-rc-autocomplete', props.className)}
+            className={classnames('wj-rc-autocomplete wj-rc-select', props.className)}
             classNamePrefix="rc-autocomplete"
             components={{ Control, Option, LoadingIndicator, Input }}
             onChange={onSelectChanged}

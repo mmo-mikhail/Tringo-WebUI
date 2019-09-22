@@ -2,7 +2,7 @@
 
 .App {
     text-align: center;
-    min-height: 70vh;
+    min-height: 768px;
 }
 
 .App-logo {
@@ -19,4 +19,22 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+
+.zsl-tab-btn-group-container {
+    .zsl-btn-group-justified {
+        .zsl-btn-group:last-child {
+            display: none !important;
+        }
+        .zsl-btn-group:nth-child(2) {
+            //border-top-right-radius: 3px!important;
+            //border-bottom-right-radius: 3px!important;
+
+            border-radius: 3px !important;
+            .zsl-btn {
+                border-top-right-radius: 3px !important;
+                border-bottom-right-radius: 3px !important;
+            }
+        }
+    }
 }
