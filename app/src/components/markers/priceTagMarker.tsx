@@ -155,7 +155,9 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                         {destinations
                             .filter((_, idx: number) => idx !== 0)
                             .map((destination: DestinationProp, idx: number) => (
-                                <div>{this.PriceMarker(destination, () => this.onHover(idx), undefined, idx)}</div>
+                                <div>
+                                    {this.PriceMarker(destination, () => this.onHover(idx + 1), undefined, idx + 1)}
+                                </div>
                             ))}
                     </div>
                 )}
