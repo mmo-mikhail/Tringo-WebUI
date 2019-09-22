@@ -173,7 +173,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     lat={record.lat} // to be consumed only by Maps API
                     lng={record.lng} // to be consumed only by Maps API
                     // properties used by marker component properties:
-                    price={record.price}
                     destinations={group.values}
                     fromCode={this.state.destinationsRequestModel.departureAirportId}
                     fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
@@ -210,7 +209,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     destinationCode: item.destAirportCode,
                     priority: item.personalPriorityIdx,
                     dateOut: item.flightDates.departureDate,
-                    dateBack: item.flightDates.returnDate
+                    dateBack: item.flightDates.returnDate,
+                    price: item.price
                 });
             } else {
                 // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
@@ -222,7 +222,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             destinationCode: item.destAirportCode,
                             priority: item.personalPriorityIdx,
                             dateOut: item.flightDates.departureDate,
-                            dateBack: item.flightDates.returnDate
+                            dateBack: item.flightDates.returnDate,
+                            price: item.price
                         }
                     ]
                 });
