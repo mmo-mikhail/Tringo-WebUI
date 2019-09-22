@@ -66,7 +66,9 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     showModal() {
-        if (!this.state.hoveredDestination) return;
+        if (!this.state.hoveredDestination) {
+            return;
+        }
 
         const param: flightSearchParameters = {
             from: this.props.fromCode,
@@ -111,12 +113,21 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
 
     render = () => {
         const destinations = this.props.destinations;
-        if (!destinations || destinations.length === 0) return '';
+        if (!destinations || destinations.length === 0) {
+            return '';
+        }
         const destination = destinations[0];
         if (destinations.length === 1) {
             // Simple price tag marker
             return (
-                <span onMouseEnter={() => this.onHover(0)} onMouseLeave={this.onMouseLeave} onClick={this.showModal}>
+                <span
+                    role={'button'}
+                    onMouseEnter={() => this.onHover(0)}
+                    onMouseLeave={this.onMouseLeave}
+                    onClick={this.showModal}
+                    onKeyDown={this.showModal}
+                    tabIndex={-1}
+                >
                     <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                         <div className="city-text">{destination.destination}</div>
                         <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
@@ -128,9 +139,12 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             return (
                 <div className="expandale-marker-container">
                     <span
+                        role={'button'}
                         onMouseEnter={() => this.onHoverExpandable()}
                         onMouseLeave={this.onMouseLeave}
                         onClick={this.showModal}
+                        onKeyDown={this.showModal}
+                        tabIndex={-1}
                     >
                         <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                             <div className="city-text">{destination.destination}</div>
@@ -142,28 +156,29 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                         <div className="expandale-markers">
                             {destinations
                                 .filter((_, idx: number) => idx !== 0)
-                                .map((destination: DestinationProp, idx: number) => {
-                                    return (
-                                        <span
-                                            key={idx}
-                                            onMouseEnter={() => this.onHover(idx)}
-                                            onMouseLeave={this.onMouseLeave}
-                                            onClick={this.showModal}
+                                .map((destination: DestinationProp, idx: number) => (
+                                    <span
+                                        role={'button'}
+                                        key={idx}
+                                        onMouseEnter={() => this.onHover(idx)}
+                                        onMouseLeave={this.onMouseLeave}
+                                        onClick={this.showModal}
+                                        onKeyDown={this.showModal}
+                                        tabIndex={-1}
+                                    >
+                                        <a
+                                            role="button"
+                                            className="price-marker"
+                                            href="#searchWidgetModal"
+                                            data-toggle="modal"
                                         >
-                                            <a
-                                                role="button"
-                                                className="price-marker"
-                                                href="#searchWidgetModal"
-                                                data-toggle="modal"
-                                            >
-                                                <div className="city-text">{destination.destination}</div>
-                                                <div className="price-text">
-                                                    ${Number(this.props.price.toFixed(1)).toLocaleString()}
-                                                </div>
-                                            </a>
-                                        </span>
-                                    );
-                                })}
+                                            <div className="city-text">{destination.destination}</div>
+                                            <div className="price-text">
+                                                ${Number(this.props.price.toFixed(1)).toLocaleString()}
+                                            </div>
+                                        </a>
+                                    </span>
+                                ))}
                         </div>
                     )}
                 </div>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
-import { PriceTagMarker, DestinationProp } from 'components/markers/priceTagMarker';
+import { DestinationProp, PriceTagMarker } from 'components/markers/priceTagMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
@@ -10,7 +10,7 @@ import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinat
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
-import { withStyles, LinearProgress } from '@material-ui/core';
+import { LinearProgress, withStyles } from '@material-ui/core';
 
 import './googleMap.scss';
 
@@ -110,7 +110,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     drawPolyLine(destLat: number, destLng: number): void {
-        if (!this.googleMaps) return;
+        if (!this.googleMaps) {
+            return;
+        }
 
         const pointsline = [{ lat: destLat, lng: destLng }, { lat: -33.8688, lng: 151.2093 }];
         this.flightPathPolyLine = new this.googleMaps.maps.Polyline({
@@ -131,11 +133,17 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     renderDestinations() {
         const dests = this.props.destinations;
-        if (!dests) return '';
+        if (!dests) {
+            return '';
+        }
         const sortedDests = dests.sort((a: IDestination, b: IDestination) => {
             // sorting by descending
-            if (a.personalPriorityIdx < b.personalPriorityIdx) return 1;
-            if (a.personalPriorityIdx > b.personalPriorityIdx) return -1;
+            if (a.personalPriorityIdx < b.personalPriorityIdx) {
+                return 1;
+            }
+            if (a.personalPriorityIdx > b.personalPriorityIdx) {
+                return -1;
+            }
             return 0;
         });
         const groupedDests = this.groupDestinations(dests);
@@ -179,7 +187,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
-        if (!this.googleMaps) return d1.lat === d2.lat && d1.lng === d2.lng; //if something is wrong, just don't show clusterization
+        if (!this.googleMaps) {
+            return d1.lat === d2.lat && d1.lng === d2.lng;
+        } //if something is wrong, just don't show clusterization
 
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
