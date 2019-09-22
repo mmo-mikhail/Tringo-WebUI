@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
-import { PriceTagMarker } from 'components/markers/priceTagMarker';
+import { DestinationProp, PriceTagMarker } from 'components/markers/priceTagMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
@@ -10,9 +10,10 @@ import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinat
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
-import { withStyles, LinearProgress } from '@material-ui/core';
+import { LinearProgress, withStyles } from '@material-ui/core';
 
 import './googleMap.scss';
+import MobileFilterCaller from './searchWidget/mobileFilterCaller';
 
 interface MapProp {
     error?: string;
@@ -41,8 +42,13 @@ interface MapInitProps {
 }
 
 interface GoogleMapObj {
-    map: {};
+    map: { zoom: number };
     maps: { Polyline: any };
+}
+
+interface IDestinationGroup {
+    key: IDestination;
+    values: DestinationProp[];
 }
 
 const ColorLinearProgress = withStyles({
@@ -105,7 +111,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     drawPolyLine(destLat: number, destLng: number): void {
-        if (!this.googleMaps) return;
+        if (!this.googleMaps) {
+            return;
+        }
 
         const pointsline = [{ lat: destLat, lng: destLng }, { lat: -33.8688, lng: 151.2093 }];
         this.flightPathPolyLine = new this.googleMaps.maps.Polyline({
@@ -126,14 +134,22 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     renderDestinations() {
         const dests = this.props.destinations;
-        if (!dests) return '';
+        if (!dests) {
+            return '';
+        }
         const sortedDests = dests.sort((a: IDestination, b: IDestination) => {
             // sorting by descending
-            if (a.personalPriorityIdx < b.personalPriorityIdx) return 1;
-            if (a.personalPriorityIdx > b.personalPriorityIdx) return -1;
+            if (a.personalPriorityIdx < b.personalPriorityIdx) {
+                return 1;
+            }
+            if (a.personalPriorityIdx > b.personalPriorityIdx) {
+                return -1;
+            }
             return 0;
         });
-        return dests.map((record: IDestination, idx: number) => {
+        const groupedDests = this.groupDestinations(dests);
+        return groupedDests.map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
+            const record = group.key;
             if (
                 record.lat === undefined ||
                 record.lng === undefined ||
@@ -143,29 +159,22 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             ) {
                 return '';
             }
-
             if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
                 return (
                     <TinyPinMarker
-                        key={idx} // required for Maps API
+                        key={idx}
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
                     />
                 );
             }
-
             return (
                 <PriceTagMarker
-                    key={idx} // required for Maps API
+                    key={idx}
                     lat={record.lat} // to be consumed only by Maps API
                     lng={record.lng} // to be consumed only by Maps API
                     // properties used by marker component properties:
-                    price={record.price}
-                    destination={record.cityName}
-                    destinationCode={record.destAirportCode}
-                    priority={record.personalPriorityIdx}
-                    dateOut={record.flightDates.departureDate}
-                    dateBack={record.flightDates.returnDate}
+                    destinations={group.values}
                     fromCode={this.state.destinationsRequestModel.departureAirportId}
                     fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
                     onMouseEnter={() => {
@@ -177,16 +186,65 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         });
     }
 
+    areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
+        if (!this.googleMaps) {
+            return d1.lat === d2.lat && d1.lng === d2.lng;
+        } //if something is wrong, just don't show clusterization
+
+        // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
+        const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
+        const maxDiffLat = 4 / zoomLevel;
+        const maxDiffLlg = 4 / zoomLevel;
+
+        return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
+    }
+
+    groupDestinations(dests: IDestination[]): IDestinationGroup[] {
+        const self = this;
+        const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
+            // get the first instance of the key by which we're grouping
+            const existingStorageItem = storage.find(g => self.areDestinationsCloseEnough(g.key, item));
+            if (existingStorageItem) {
+                existingStorageItem.values.push({
+                    destination: item.cityName,
+                    destinationCode: item.destAirportCode,
+                    priority: item.personalPriorityIdx,
+                    dateOut: item.flightDates.departureDate,
+                    dateBack: item.flightDates.returnDate,
+                    price: item.price
+                });
+            } else {
+                // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
+                storage.push({
+                    key: item,
+                    values: [
+                        {
+                            destination: item.cityName,
+                            destinationCode: item.destAirportCode,
+                            priority: item.personalPriorityIdx,
+                            dateOut: item.flightDates.departureDate,
+                            dateBack: item.flightDates.returnDate,
+                            price: item.price
+                        }
+                    ]
+                });
+            }
+            // return the updated storage to the reduce function, which will then loop through the next
+            return storage;
+        }, []);
+        return group;
+    }
+
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-        if (selectedAirportLabel) {
-            this.setState({
-                selectedAirportlabel: selectedAirportLabel
-            });
-        }
+
+        this.setState({
+            selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
+        });
+
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
@@ -212,6 +270,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
+                    yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
                         fullscreenControl: false,
                         maxZoom: this.state.mapProps.defaultZoom * 1.5,
@@ -236,6 +295,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         </div>
                     )}
                 </div>
+                <MobileFilterCaller
+                    props={{
+                        onChange: this.requestDestinationsUpdate,
+                        initialModel: this.state.destinationsRequestModel
+                    }}
+                />
             </div>
         );
     }

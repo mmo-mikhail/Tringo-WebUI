@@ -1,19 +1,27 @@
 @import '../../../styles/utilities';
 
+@media #{$not-mobile} {
+    .widget-container {
+        .date-panel {
+            margin-left: 1%;
+        }
+
+        .budget-panel {
+            margin-left: 1%;
+        }
+    }
+}
+
 .widget-container {
-    .middle-text {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .wj-rc-select {
+        width: auto !important;
     }
 
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
+    align-items: stretch;
     text-transform: capitalize;
     padding: 10px;
     z-index: 1;
-    width: 100%;
     background-color: rgba(0, 0, 0, 0.67);
     transition: background-color linear 0.15s;
 
@@ -22,103 +30,12 @@
         transition: background-color ease 0.15s;
     }
 
-    .widget-col {
-        flex: 1 1 0;
-    }
-
-    .widget-row {
-        margin: 4px;
-        flex: 1 1 0;
-        display: flex;
-        flex-wrap: nowrap;
-        border-radius: $widget__border-radius;
-        transition: background-color linear 0.15s;
-        justify-content: left;
-
-        input {
-            &:read-only {
-                cursor: pointer !important;
-            }
-        }
-    }
-
     .departure-panel {
         text-align: left;
-        width: 100%;
         height: 52px;
-        max-width: 525px;
-        margin-right: 9px;
-    }
+        flex-grow: 2;
+        min-width: 150px;
 
-    .date-panel {
-        text-align: left;
-        width: 300px;
-        max-width: 300px;
-        margin-right: 1px;
-    }
-
-    .budget-panel {
-        max-width: 525px;
-        width: 100%;
-        display: flex;
-        .widget-row-fill {
-            background-color: white;
-            width: 100%;
-            height: 52px;
-            margin-top: 4px;
-            flex: 1 1 0;
-            border-radius: 3px;
-            &:hover {
-                transition: background-color ease 0.15s;
-                .icon-label {
-                    background: #bfbfbf;
-                }
-            }
-        }
-
-        $icon-width: 50px;
-        $text-width: 120px;
-
-        #one-handler-range-slider {
-            width: calc(100% - #{$icon-width});
-            display: flex;
-            flex-direction: row;
-            padding: 0;
-            font-size: 16px;
-            color: #333;
-            z-index: 0;
-            justify-content: center;
-
-            .text-container {
-                width: $text-width;
-                height: 100%;
-            }
-
-            .slider-container {
-                width: calc(100% - #{$text-width} - 20px);
-                margin-right: 20px;
-                padding-top: 1px;
-
-                .rc-slider {
-                    width: 100%;
-                }
-            }
-        }
-
-        .icon-label {
-            font-size: 28px;
-            border-bottom-left-radius: 3px;
-            border-top-left-radius: 3px;
-            width: $icon-width;
-            background: $inputIconBackground;
-            color: $inputIcon;
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-    }
-
-    .wj-rc-autocomplete {
         .rc-autocomplete__option {
             text-transform: none;
 
@@ -156,6 +73,82 @@
             .auto-sub-label span {
                 font-style: normal;
                 font-weight: unset;
+            }
+        }
+    }
+
+    .date-panel {
+        text-align: left;
+        flex-grow: 1;
+        min-width: 20%;
+    }
+
+    .budget-panel {
+        background-color: white;
+        flex-grow: 3;
+        border-radius: 3px;
+
+        .widget-row-fill {
+            display: flex;
+            align-items: stretch;
+            height: 52px;
+
+            &:hover {
+                transition: background-color ease 0.15s;
+
+                .icon-label {
+                    background: #bfbfbf;
+                }
+            }
+
+            $text-width: 120px;
+            $icon-width: 120px;
+
+            .icon-label {
+                flex-grow: 1;
+                font-size: 28px;
+                border-bottom-left-radius: 3px;
+                border-top-left-radius: 3px;
+                background: $inputIconBackground;
+                color: $inputIcon;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            #one-handler-range-slider {
+                flex-grow: 9;
+                display: flex;
+                flex-direction: row;
+                padding: 0;
+                font-size: 16px;
+                color: #333;
+                z-index: 0;
+                justify-content: center;
+
+                .text-container {
+                    min-width: $text-width;
+                    height: 100%;
+                    flex-grow: 3;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slider-container {
+                    flex-grow: 9;
+                    width: calc(100% - #{$text-width} - 20px);
+                    margin-right: 20px;
+                    padding-top: 1px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .rc-slider {
+                        flex-grow: 1;
+                    }
+                }
             }
         }
     }
