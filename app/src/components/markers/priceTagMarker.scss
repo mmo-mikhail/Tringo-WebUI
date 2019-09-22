@@ -52,7 +52,10 @@ iframe {
     }
 
     .city-text {
-        color: #3c4043;
+        text-align: center;
+        color: $darkGrey;
+        font-weight: 700;
+        font-size: 15px;
     }
 
     .price-text {
@@ -60,6 +63,13 @@ iframe {
         font-weight: 700;
         font-size: 15px;
         color: $darkGrey;
+    }
+
+    .price-text-wrapper{
+        display: flex;
+        .right{
+            flex:left;
+        }
     }
 
     // web jet search widget overrides
