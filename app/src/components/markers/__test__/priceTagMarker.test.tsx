@@ -12,13 +12,17 @@ describe('marker Resposne', () => {
         lat: 2,
         lng: 3,
         price: 100,
+        destinations: [
+            {
+                destination: 'Lon',
+                destinationCode: 'London',
+                priority: 2,
+                dateOut: new Date(2019, 10, 1),
+                dateBack: new Date(2019, 10, 16)
+            }
+        ],
         fromCode: 'mel',
-        fromLabel: 'Melbourne',
-        destination: 'Lon',
-        destinationCode: 'London',
-        priority: 2,
-        dateOut: new Date(2019, 10, 1),
-        dateBack: new Date(2019, 10, 16)
+        fromLabel: 'Melbourne'
     };
 
     it('should not be null', () => {

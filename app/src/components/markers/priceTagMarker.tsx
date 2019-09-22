@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './priceTagMarker.scss';
-import { findDOMNode } from 'react-dom';
 
 declare global {
     interface Window {
@@ -10,22 +9,30 @@ declare global {
 }
 
 export interface GoogleMapRequiredProps {
-    key: number;
     lat: number;
     lng: number;
+}
+
+export interface DestinationProp {
+    destination: string;
+    destinationCode: string;
+    priority: number;
+    dateOut: Date;
+    dateBack: Date;
 }
 
 interface MarkerProps extends GoogleMapRequiredProps {
     price: number;
     fromCode: string;
     fromLabel: string;
-    destination: string;
-    destinationCode: string;
-    priority: number;
-    dateOut: Date;
-    dateBack: Date;
+    destinations: DestinationProp[];
     onMouseEnter: () => void;
     onMouseLeave: () => void;
+}
+
+interface MarkerState {
+    expanded: boolean;
+    hoveredDestination: DestinationProp | null;
 }
 
 declare global {
@@ -44,42 +51,125 @@ interface flightSearchParameters {
     dateBack: string;
 }
 
-export class PriceTagMarker extends Component<MarkerProps, flightSearchParameters> {
-    constructor(props: MarkerProps, private param: flightSearchParameters) {
+export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
+    constructor(props: MarkerProps) {
         super(props);
+
+        this.state = {
+            expanded: false,
+            hoveredDestination: null
+        };
+
+        this.showModal = this.showModal.bind(this);
+        this.onHoverExpandable = this.onHoverExpandable.bind(this);
+        this.onMouseLeave = this.onMouseLeave.bind(this);
     }
 
-    addListener(): void {
-        this.param = {
+    showModal() {
+        if (!this.state.hoveredDestination) return;
+
+        const param: flightSearchParameters = {
             from: this.props.fromCode,
             fromCity: this.props.fromLabel,
-            to: this.props.destinationCode,
-            toCity: this.props.destination,
+            to: this.state.hoveredDestination.destinationCode,
+            toCity: this.state.hoveredDestination.destination,
             tripType: 'Return',
-            dateOut: this.formatDate(this.props.dateOut),
-            dateBack: this.formatDate(this.props.dateBack)
+            dateOut: this.formatDate(this.state.hoveredDestination.dateOut),
+            dateBack: this.formatDate(this.state.hoveredDestination.dateBack)
         };
-        let tag = findDOMNode(this) as Node;
-        tag.removeEventListener('click', () => {});
-        tag.addEventListener('click', () => window.populateFlight(this.param));
+        window.populateFlight(param);
     }
 
-    componentDidMount(): void {
-        this.addListener();
+    onHover(selectedIdx: number) {
+        this.setState({
+            hoveredDestination: this.props.destinations[selectedIdx]
+        });
+        this.props.onMouseEnter();
     }
 
-    componentDidUpdate(): void {
-        this.addListener();
+    onHoverExpandable() {
+        this.setState({
+            expanded: true,
+            hoveredDestination: this.props.destinations[0]
+        });
+        this.props.onMouseEnter();
     }
 
-    render = () => (
-        <span onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
-            <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
-                <div className="city-text">{this.props.destination}</div>
-                <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
-            </a>
-        </span>
-    );
+    onMouseLeave() {
+        this.setState({
+            hoveredDestination: null
+        });
+        setTimeout(() => {
+            if (!this.state.hoveredDestination) {
+                this.setState({
+                    expanded: false
+                });
+            }
+        }, 200);
+        this.props.onMouseLeave();
+    }
+
+    render = () => {
+        const destinations = this.props.destinations;
+        if (!destinations || destinations.length === 0) return '';
+        const destination = destinations[0];
+        if (destinations.length === 1) {
+            // Simple price tag marker
+            return (
+                <span onMouseEnter={() => this.onHover(0)} onMouseLeave={this.onMouseLeave} onClick={this.showModal}>
+                    <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
+                        <div className="city-text">{destination.destination}</div>
+                        <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
+                    </a>
+                </span>
+            );
+        } else {
+            // Expanding price tag marker
+            return (
+                <div className="expandale-marker-container">
+                    <span
+                        onMouseEnter={() => this.onHoverExpandable()}
+                        onMouseLeave={this.onMouseLeave}
+                        onClick={this.showModal}
+                    >
+                        <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
+                            <div className="city-text">{destination.destination}</div>
+                            <div className="price-text">${Number(this.props.price.toFixed(1)).toLocaleString()}</div>
+                            <div className="more-text">{destinations.length - 1} more</div>
+                        </a>
+                    </span>
+                    {this.state.expanded && (
+                        <div className="expandale-markers">
+                            {destinations
+                                .filter((_, idx: number) => idx !== 0)
+                                .map((destination: DestinationProp, idx: number) => {
+                                    return (
+                                        <span
+                                            key={idx}
+                                            onMouseEnter={() => this.onHover(idx)}
+                                            onMouseLeave={this.onMouseLeave}
+                                            onClick={this.showModal}
+                                        >
+                                            <a
+                                                role="button"
+                                                className="price-marker"
+                                                href="#searchWidgetModal"
+                                                data-toggle="modal"
+                                            >
+                                                <div className="city-text">{destination.destination}</div>
+                                                <div className="price-text">
+                                                    ${Number(this.props.price.toFixed(1)).toLocaleString()}
+                                                </div>
+                                            </a>
+                                        </span>
+                                    );
+                                })}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+    };
 
     private formatDate(d: Date): string {
         d = new Date(d); // actually needed
