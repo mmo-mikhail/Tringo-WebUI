@@ -13,6 +13,7 @@ import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
 
 import './googleMap.scss';
+import MobileFilterCaller from './searchWidget/mobileFilterCaller';
 
 interface MapProp {
     error?: string;
@@ -239,11 +240,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-        if (selectedAirportLabel) {
-            this.setState({
-                selectedAirportlabel: selectedAirportLabel
-            });
-        }
+
+        this.setState({
+            selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
+        });
+
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
@@ -294,6 +295,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         </div>
                     )}
                 </div>
+                <MobileFilterCaller
+                    props={{
+                        onChange: this.requestDestinationsUpdate,
+                        initialModel: this.state.destinationsRequestModel
+                    }}
+                />
             </div>
         );
     }

@@ -2,12 +2,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import './priceTagMarker.scss';
 
-declare global {
-    interface Window {
-        modal: () => void;
-    }
-}
-
 export interface GoogleMapRequiredProps {
     lat: number;
     lng: number;
