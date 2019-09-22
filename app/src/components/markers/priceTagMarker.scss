@@ -78,6 +78,7 @@ iframe {
 
         .price-marker {
             margin-top: 0;
+            z-index: 2; //just to be displayed over regular markers
         }
 
         .price-marker:before {
