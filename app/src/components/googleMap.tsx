@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
 import { DestinationProp, PriceTagMarker } from 'components/markers/priceTagMarker';
+import DepartureMakrer from 'components/markers/departureMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
 import {IDestination} from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
@@ -187,7 +188,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     renderDepartureAirport(){
-        
+        return (
+            <DepartureMakrer
+                key={-33.8688}
+                lat={-33.8688} // to be consumed only by Maps API
+                lng={151.2093} // to be consumed only by Maps API                
+            />
+        );
     }
 
     areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
