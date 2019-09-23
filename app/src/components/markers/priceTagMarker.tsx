@@ -142,7 +142,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }
         // Expanding price tag marker
         return (
-            <div className="expandale-marker-container">
+            <div className="expandable-marker-container">
                 <div>
                     {this.PriceMarker(
                         destination,
@@ -151,7 +151,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                     )}
                 </div>
                 {this.state.expanded && (
-                    <div className="expandale-markers">
+                    <div className="expandable-markers">
                         {destinations
                             .filter((_, idx: number) => idx !== 0)
                             .map((destination: DestinationProp, idx: number) => (
