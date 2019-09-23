@@ -216,13 +216,6 @@
         color: #d5d5d5;
     }
 
-    .footerdisclaimer {
-        color: #000000;
-        font-size: 12px;
-        margin: 0;
-        padding: 4px;
-    }
-
     // end cut & paste from wj mobile-css
 
     .overlayed-content-wrapper {
@@ -231,6 +224,13 @@
 
     .App {
         min-height: 100vh !important;
+    }
+
+    .footer-disclaimer {
+        color: #000000;
+        font-size: 12px;
+        margin: 0;
+        padding: 4px;
     }
 
     #mobile-filter-caller {
