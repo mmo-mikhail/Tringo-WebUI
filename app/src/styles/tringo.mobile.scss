@@ -226,6 +226,10 @@
         min-height: 100vh !important;
     }
 
+    .modal-dialog {
+        overflow: visible;
+    }
+
     .footer-disclaimer {
         color: #000000;
         font-size: 12px;
