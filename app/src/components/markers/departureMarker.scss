@@ -1,14 +1,15 @@
 @import '../../styles/utilities';
 
 .departure-marker {
-    position: relative;
-    left: 0px; 
-    top: 0px; 
+    position: absolute;
+    top: -20px;
+    left: -7px; 
     user-select: none; 
     width: 19px; 
     height: 27px;
     border: 0px;
     padding: 0px; 
     margin: 0px; 
-    max-width: none;    
+    max-width: none;  
+
 }
