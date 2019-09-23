@@ -117,7 +117,10 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             >
                 <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                     <div className="city-text">{destination.destination}</div>
-                    <div className="price-text">${Number(destination.price.toFixed(1)).toLocaleString()}</div>
+                    <div className="price-text-wrapper">
+                        <div className='from-text'>from </div>
+                        <div className="price-text">${Number(destination.price.toFixed(1)).toLocaleString()}*</div>
+                    </div>                  
                     {moreText && <div className="more-text">{moreText}</div>}
                 </a>
             </span>
