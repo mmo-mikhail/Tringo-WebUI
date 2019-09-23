@@ -12,7 +12,7 @@ export function* fetchDestinationsSaga(action: IFlightsRequestAction) {
     try {
         const response = yield call(
             axios.post,
-            '/api/v1/flights/GetDestinationPrices', // note the 's' at the end
+            '/api/v1/flights/GetLowestPrices', // note the 's' at the end
             action.model
         );
         yield put(destinationAction.fetchDestinationsSuccess(response.data));
