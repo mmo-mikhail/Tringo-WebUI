@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
-import { DestinationProp, PriceTagMarker } from 'components/markers/priceTagMarker';
+import {connect} from 'react-redux';
+import GoogleMapReact, {ChangeEventValue, MapTypeStyle} from 'google-map-react';
+import {DestinationProp, PriceTagMarker} from 'components/markers/priceTagMarker';
 import TinyPinMarker from 'components/markers/tinyPinMarker';
-import { IDestination } from 'models/response/destination';
+import {IDestination} from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
-import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
-import { DatesInput } from 'models/request/dateInput';
+import {FlightDestinationRequest, MapArea} from 'models/request/flightDestinationRequest';
+import {DatesInput} from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
-import { DestinationsState } from 'models/response/destinations';
-import { LinearProgress, withStyles } from '@material-ui/core';
+import {DestinationsState} from 'models/response/destinations';
+import {LinearProgress, withStyles} from '@material-ui/core';
 
 import './googleMap.scss';
 import MobileFilterCaller from './searchWidget/mobileFilterCaller';
@@ -92,15 +92,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         let prop =
             window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
                 ? {
-                      defaultZoom: gMapConf.defaultMobileZoom as number,
-                      zoomControl: false,
-                      scrollwheel: false
-                  }
+                    defaultZoom: gMapConf.defaultMobileZoom as number,
+                    zoomControl: false,
+                    scrollwheel: false
+                }
                 : {
-                      defaultZoom: gMapConf.defaultDesktopZoom as number,
-                      zoomControl: true,
-                      scrollwheel: true
-                  };
+                    defaultZoom: gMapConf.defaultDesktopZoom as number,
+                    zoomControl: true,
+                    scrollwheel: true
+                };
 
         // const screenHeight = window.screen.height * window.devicePixelRatio;
         return prop;
@@ -115,7 +115,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             return;
         }
 
-        const pointsline = [{ lat: destLat, lng: destLng }, { lat: -33.8688, lng: 151.2093 }];
+        const pointsline = [{lat: destLat, lng: destLng}, {lat: -33.8688, lng: 151.2093}];
         this.flightPathPolyLine = new this.googleMaps.maps.Polyline({
             path: pointsline,
             geodesic: true,
@@ -201,7 +201,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     groupDestinations(dests: IDestination[]): IDestinationGroup[] {
         const self = this;
-        const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
+        const group = dests.reduce(function (storage: IDestinationGroup[], item: IDestination) {
             // get the first instance of the key by which we're grouping
             const existingStorageItem = storage.find(g => self.areDestinationsCloseEnough(g.key, item));
             if (existingStorageItem) {
@@ -267,7 +267,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     }}
                     defaultCenter={this.state.center}
                     defaultZoom={this.state.mapProps.defaultZoom}
-                    style={{ height: '100%', width: '100%' }}
+                    style={{height: '100%', width: '100%'}}
                     onChange={this.mapChanged}
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
@@ -291,7 +291,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     />
                     {this.props.isLoading && (
                         <div className="loader-container">
-                            <ColorLinearProgress />
+                            <ColorLinearProgress/>
                         </div>
                     )}
                 </div>

@@ -48,22 +48,22 @@ interface flightSearchParameters {
 export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     constructor(props: MarkerProps) {
         super(props);
-
+        
         this.state = {
             expanded: false,
             hoveredDestination: null
         };
-
+        
         this.showModal = this.showModal.bind(this);
         this.onHoverExpandable = this.onHoverExpandable.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
     }
-
+    
     showModal() {
         if (!this.state.hoveredDestination) {
             return;
         }
-
+        
         const param: flightSearchParameters = {
             from: this.props.fromCode,
             fromCity: this.props.fromLabel,
@@ -75,14 +75,14 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         };
         window.populateFlight(param);
     }
-
+    
     onHover(selectedIdx: number) {
         this.setState({
             hoveredDestination: this.props.destinations[selectedIdx]
         });
         this.props.onMouseEnter();
     }
-
+    
     onHoverExpandable() {
         this.setState({
             expanded: true,
@@ -90,7 +90,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         });
         this.props.onMouseEnter();
     }
-
+    
     onMouseLeave() {
         this.setState({
             hoveredDestination: null
@@ -104,7 +104,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }, 200);
         this.props.onMouseLeave();
     }
-
+    
     PriceMarker(destination: DestinationProp, onHover: () => void, moreText?: string, key?: number) {
         return (
             <span
@@ -114,19 +114,20 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onMouseEnter={onHover}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.showModal}
+                onKeyDown={this.showModal}
             >
                 <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                     <div className="city-text">{destination.destination}</div>
                     <div className="price-text-wrapper">
                         <div className='from-text'>from </div>
                         <div className="price-text">${Number(destination.price.toFixed(1)).toLocaleString()}*</div>
-                    </div>                  
+                    </div>
                     {moreText && <div className="more-text">{moreText}</div>}
                 </a>
             </span>
         );
     }
-
+    
     render = () => {
         const destinations = this.props.destinations;
         if (!destinations || destinations.length === 0) {
@@ -144,7 +145,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                     {this.PriceMarker(
                         destination,
                         () => this.onHoverExpandable(),
-                        (destinations.length - 1).toString() + 'more'
+                        `${(destinations.length - 1).toString()  }more`
                     )}
                 </div>
                 {this.state.expanded && (
@@ -161,7 +162,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             </div>
         );
     };
-
+    
     private formatDate(d: Date): string {
         d = new Date(d); // actually needed
         // month + 2 to send month correctly to WebJet's modal popup
