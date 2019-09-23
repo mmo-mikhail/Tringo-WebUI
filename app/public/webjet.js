@@ -88,16 +88,16 @@
             }
         }, 150);
     });
-    
+
 
     $(document).on("click", function () {
         closeFlexMenu();
         closeServiceNavMenu();
-    }).on("click", "a[href=#]", function (e) {
+    }).on("click", "a[href=\\#]", function (e) {
         e.preventDefault();
     });
 
-    //// render footer 
+    //// render footer
     var footer = $("#footer");
     var footerHeader = footer.find(".footer-header");
     var footerList = footer.find(".footer-list");
@@ -130,7 +130,7 @@
         }
     });
 
-    //// handle for button loader 
+    //// handle for button loader
     $("#content").on("click", "a[data-type=loader], button[data-type=loader]", function () {
         Webjet.Shared.addButtonLoader(this);
         return false;

@@ -13,6 +13,7 @@ import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
 
 import './googleMap.scss';
+import MobileFilterCaller from './searchWidget/mobileFilterCaller';
 
 interface MapProp {
     error?: string;
@@ -173,7 +174,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     lat={record.lat} // to be consumed only by Maps API
                     lng={record.lng} // to be consumed only by Maps API
                     // properties used by marker component properties:
-                    price={record.price}
                     destinations={group.values}
                     fromCode={this.state.destinationsRequestModel.departureAirportId}
                     fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
@@ -210,7 +210,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     destinationCode: item.destAirportCode,
                     priority: item.personalPriorityIdx,
                     dateOut: item.flightDates.departureDate,
-                    dateBack: item.flightDates.returnDate
+                    dateBack: item.flightDates.returnDate,
+                    price: item.price
                 });
             } else {
                 // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
@@ -222,7 +223,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             destinationCode: item.destAirportCode,
                             priority: item.personalPriorityIdx,
                             dateOut: item.flightDates.departureDate,
-                            dateBack: item.flightDates.returnDate
+                            dateBack: item.flightDates.returnDate,
+                            price: item.price
                         }
                     ]
                 });
@@ -238,11 +240,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-        if (selectedAirportLabel) {
-            this.setState({
-                selectedAirportlabel: selectedAirportLabel
-            });
-        }
+
+        this.setState({
+            selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
+        });
+
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
@@ -293,6 +295,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         </div>
                     )}
                 </div>
+                <MobileFilterCaller
+                    props={{
+                        onChange: this.requestDestinationsUpdate,
+                        initialModel: this.state.destinationsRequestModel
+                    }}
+                />
             </div>
         );
     }

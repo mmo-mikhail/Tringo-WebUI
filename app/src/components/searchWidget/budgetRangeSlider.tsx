@@ -105,15 +105,15 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
                       .replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
         return (
-            <div className={'widget-row widget-row-fill'}>
+            <div className={'widget-row-fill wj-rc-select'}>
                 <div className="icon-label wj-icon">
                     <FontAwesomeIcon icon={faDollarSign} />
                 </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
-                    <div className="text-container middle-text">
+                    <div className="text-container">
                         <span className="to">{sliderLabel}</span>
                     </div>
-                    <div className="slider-container middle-text">
+                    <div className="slider-container">
                         <Slider
                             min={this.props.min}
                             max={this.state.maxValue}
