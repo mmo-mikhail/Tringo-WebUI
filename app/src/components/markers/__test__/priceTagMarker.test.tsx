@@ -1,7 +1,6 @@
 import { PriceTagMarker } from 'components/markers/priceTagMarker';
 import * as React from 'react';
-import { mount } from 'enzyme';
-import { configure } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
@@ -32,32 +31,32 @@ describe('marker Resposne', () => {
         expect(wrapper != null);
     });
 
-    it.skip('should return a span', () => {
+    it('should return an anchor tag', () => {
         let wrapper = mount(<PriceTagMarker {...MarkerProps} />);
-        expect(wrapper.type()).toBe('span');
+        expect(wrapper.findWhere(el => el.hasClass('price-marker')).type()).toBe('a');
     });
 
     it('should have price-marker class ', () => {
         const wrapper = mount(<PriceTagMarker {...MarkerProps} />);
-        expect(wrapper.hasClass('price-marker '));
+        expect(wrapper.hasClass('price-marker'));
     });
 
     it('should have a flight price of 100 ', () => {
         const wrapper = mount(<PriceTagMarker {...MarkerProps} />);
-        expect(wrapper.containsMatchingElement(<div className="price-text">${Number('100')}</div>)).toBeTruthy();
+        expect(
+            wrapper.containsMatchingElement(
+                <div className="price-text">
+                    <span className="from-text">from </span>${MarkerProps.destinations[0].price}*
+                </div>
+            )
+        ).toBeTruthy();
     });
 
     it('should render based on input data', () => {
         const wrapper = mount(<PriceTagMarker {...MarkerProps} />);
+
         expect(
-            wrapper.containsMatchingElement(
-                <span>
-                    <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
-                        <div className="city-text">{'Lon'}</div>
-                        <div className="price-text">${Number('100')}</div>
-                    </a>
-                </span>
-            )
+            wrapper.containsMatchingElement(<div className="city-text">{MarkerProps.destinations[0].destination}</div>)
         ).toBeTruthy();
     });
 });
