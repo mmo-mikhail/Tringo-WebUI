@@ -11,6 +11,8 @@ describe('marker Resposne', () => {
         key: 1,
         lat: 2,
         lng: 3,
+        onMouseEnter: () => {},
+        onMouseLeave: () => {},
         destinations: [
             {
                 destination: 'Lon',

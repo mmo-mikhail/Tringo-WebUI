@@ -145,7 +145,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                     {this.PriceMarker(
                         destination,
                         () => this.onHoverExpandable(),
-                        `${(destinations.length - 1).toString()  }more`
+                        `${(destinations.length - 1).toString()}more`
                     )}
                 </div>
                 {this.state.expanded && (
