@@ -82,7 +82,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                     <MonthSelect props={{ onChange: this.onDatesChanged }} />
                 </div>
 
-                <div className="budget-panel ">
+                <div className="budget-panel">
                     <BudgetRangeSlider
                         min={this.state.budgetMin}
                         max={this.state.budgetMax}
