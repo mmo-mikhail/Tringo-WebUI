@@ -63,24 +63,26 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         const noOptionsMessage = 'No cities or airports were found. Australian airports only.';
         return (
             <div className="widget-container">
-                <Autocomplete
-                    props={{
-                        id: 'departure-panel',
-                        name: 'departure-panel',
-                        placeholder: 'Departure City or Airport',
-                        disabled: false,
-                        minValueLength: 3,
-                        noOptionsMessage: noOptionsMessage,
-                        fetchOptions: fetchLocationData,
-                        onChange: this.onDepartureChanged,
-                        className: 'departure-panel'
-                    }}
-                />
-                <div className={'date-panel date-picker'}>
+                <div className="search-cell">
+                    <Autocomplete
+                        props={{
+                            id: 'departure-panel',
+                            name: 'departure-panel',
+                            placeholder: 'Departure City or Airport',
+                            disabled: false,
+                            minValueLength: 3,
+                            noOptionsMessage: noOptionsMessage,
+                            fetchOptions: fetchLocationData,
+                            onChange: this.onDepartureChanged,
+                            className: 'departure-panel'
+                        }}
+                    />
+                </div>
+                <div className="date-panel date-picker">
                     <MonthSelect props={{ onChange: this.onDatesChanged }} />
                 </div>
 
-                <div className="budget-panel">
+                <div className="budget-panel ">
                     <BudgetRangeSlider
                         min={this.state.budgetMin}
                         max={this.state.budgetMax}
