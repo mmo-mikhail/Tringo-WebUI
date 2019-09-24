@@ -62,7 +62,6 @@
                 "selector": "CallExpression[callee.object.name='console']",
                 "message": "Use of console prohibited. Use a logger instead. (See logger.ts)"
             }
-        ],
-        "@typescript-eslint/no-angle-bracket-type-assertion": "off"
+        ]
     }
 }
