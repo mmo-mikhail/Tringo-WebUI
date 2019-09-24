@@ -21,16 +21,24 @@
     color: white;
 }
 
+.footer-disclaimer {
+    color: black;
+}
+
+// search widget overrides  begin
+
 .zsl-tab-btn-group-container {
     .zsl-btn-group-justified {
         .zsl-btn-group:last-child {
             display: none !important;
         }
+
         .zsl-btn-group:nth-child(2) {
             //border-top-right-radius: 3px!important;
             //border-bottom-right-radius: 3px!important;
 
             border-radius: 3px !important;
+
             .zsl-btn {
                 border-top-right-radius: 3px !important;
                 border-bottom-right-radius: 3px !important;
@@ -38,3 +46,11 @@
         }
     }
 }
+
+.ui-zsl-date-picker-current-day {
+    i {
+        display: none !important;
+    }
+}
+
+// search widget overrides  end

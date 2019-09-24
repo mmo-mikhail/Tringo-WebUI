@@ -114,10 +114,16 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onMouseEnter={onHover}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.showModal}
+                onKeyDown={this.showModal}
             >
                 <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                     <div className="city-text">{destination.destination}</div>
-                    <div className="price-text">${Number(destination.price.toFixed(1)).toLocaleString()}</div>
+                    <div className="price-text-wrapper">
+                        <div className="price-text">
+                            <span className="from-text">from </span>$
+                            {Number(destination.price.toFixed(1)).toLocaleString()}*
+                        </div>
+                    </div>
                     {moreText && <div className="more-text">{moreText}</div>}
                 </a>
             </span>
@@ -136,16 +142,16 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }
         // Expanding price tag marker
         return (
-            <div className="expandale-marker-container">
+            <div className="expandable-marker-container">
                 <div>
                     {this.PriceMarker(
                         destination,
                         () => this.onHoverExpandable(),
-                        (destinations.length - 1).toString() + 'more'
+                        `${(destinations.length - 1).toString()} more`
                     )}
                 </div>
                 {this.state.expanded && (
-                    <div className="expandale-markers">
+                    <div className="expandable-markers">
                         {destinations
                             .filter((_, idx: number) => idx !== 0)
                             .map((destination: DestinationProp, idx: number) => (

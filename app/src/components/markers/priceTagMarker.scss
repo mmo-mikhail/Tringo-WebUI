@@ -51,7 +51,18 @@ iframe {
     }
 
     .city-text {
-        color: #3c4043;
+        text-align: left;
+        color: $darkGrey;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .price-text-wrapper {
+        display: flex;
+        .from-text {
+            font-weight: normal;
+            color: grey;
+        }
     }
 
     .price-text {
@@ -66,13 +77,13 @@ iframe {
     }
 }
 
-.expandale-marker-container {
+.expandable-marker-container {
     .price-marker {
         margin-top: -73px;
         padding-bottom: 4px;
     }
 
-    .expandale-markers {
+    .expandable-markers {
         display: flex;
         flex-direction: column;
 
