@@ -114,10 +114,16 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onMouseEnter={onHover}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.showModal}
+                onKeyDown={this.showModal}
             >
                 <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
                     <div className="city-text">{destination.destination}</div>
-                    <div className="price-text">${Number(destination.price.toFixed(1)).toLocaleString()}</div>
+                    <div className="price-text-wrapper">
+                        <div className="price-text">
+                            <span className="from-text">from </span>$
+                            {Number(destination.price.toFixed(1)).toLocaleString()}*
+                        </div>
+                    </div>
                     {moreText && <div className="more-text">{moreText}</div>}
                 </a>
             </span>
@@ -136,16 +142,16 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }
         // Expanding price tag marker
         return (
-            <div className="expandale-marker-container">
+            <div className="expandable-marker-container">
                 <div>
                     {this.PriceMarker(
                         destination,
                         () => this.onHoverExpandable(),
-                        (destinations.length - 1).toString() + 'more'
+                        `${(destinations.length - 1).toString()} more`
                     )}
                 </div>
                 {this.state.expanded && (
-                    <div className="expandale-markers">
+                    <div className="expandable-markers">
                         {destinations
                             .filter((_, idx: number) => idx !== 0)
                             .map((destination: DestinationProp, idx: number) => (
@@ -161,8 +167,8 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
 
     private formatDate(d: Date): string {
         d = new Date(d); // actually needed
-        // month + 2 to send month correctly to WebJet's modal popup
-        const date = d.getFullYear() + `0${d.getMonth() + 2}`.slice(-2) + `0${d.getDate()}`.slice(-2);
+        // month + 1 to send month correctly to WebJet's modal popup
+        const date = d.getFullYear() + `0${d.getMonth() + 1}`.slice(-2) + `0${d.getDate()}`.slice(-2);
         return date;
     }
 }
