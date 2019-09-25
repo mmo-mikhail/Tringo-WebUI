@@ -22,7 +22,7 @@
 }
 
 .footer-disclaimer {
-    color: black;
+    margin-bottom: 0.5rem;
 }
 
 // search widget overrides  begin
@@ -34,11 +34,7 @@
         }
 
         .zsl-btn-group:nth-child(2) {
-            //border-top-right-radius: 3px!important;
-            //border-bottom-right-radius: 3px!important;
-
             border-radius: 3px !important;
-
             .zsl-btn {
                 border-top-right-radius: 3px !important;
                 border-bottom-right-radius: 3px !important;
