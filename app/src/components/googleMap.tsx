@@ -24,6 +24,8 @@ interface MapProp {
     fetchDestinations: (arg: FlightDestinationRequest) => {};
 }
 
+type DrawerSide = 'cooperative' | 'auto';
+
 interface MapState {
     center: {
         lat: number;
@@ -40,6 +42,7 @@ interface MapInitProps {
     defaultZoom: number;
     zoomControl: boolean;
     scrollwheel: boolean;
+    gestureHandling: DrawerSide;
 }
 
 interface GoogleMapObj {
@@ -62,16 +65,30 @@ const ColorLinearProgress = withStyles({
 })(LinearProgress);
 
 class SimpleMap extends React.Component<MapProp, MapState> {
+    private static mapInitProp = (): MapInitProps =>
+        window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
+            ? {
+                  defaultZoom: gMapConf.defaultMobileZoom as number,
+                  zoomControl: false,
+                  scrollwheel: false,
+                  gestureHandling: 'cooperative'
+              }
+            : {
+                  defaultZoom: gMapConf.defaultDesktopZoom as number,
+                  zoomControl: true,
+                  scrollwheel: true,
+                  gestureHandling: 'auto'
+              };
+
     private googleMaps?: GoogleMapObj;
     private flightPathPolyLine: any;
 
     constructor(props: any) {
         super(props);
-
         // no matters what MapArea at this point at all,
         // we set lat/lng and zoom for component directly and it will be overridden
         this.state = {
-            mapProps: this.mapInitProp(),
+            mapProps: SimpleMap.mapInitProp(),
             center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
                 process.env.REACT_APP_DEFAULT_DEPARTURE || '',
@@ -87,24 +104,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
         this.drawPolyLine = this.drawPolyLine.bind(this);
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
-    }
-
-    private mapInitProp(): MapInitProps {
-        let prop =
-            window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
-                ? {
-                      defaultZoom: gMapConf.defaultMobileZoom as number,
-                      zoomControl: false,
-                      scrollwheel: false
-                  }
-                : {
-                      defaultZoom: gMapConf.defaultDesktopZoom as number,
-                      zoomControl: true,
-                      scrollwheel: true
-                  };
-
-        // const screenHeight = window.screen.height * window.devicePixelRatio;
-        return prop;
     }
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
@@ -283,8 +282,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
-                        fullscreenControl: false,
-                        maxZoom: this.state.mapProps.defaultZoom * 1.5,
+                        gestureHandling: 'cooperative',
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: 6
+                        },
+                        maxZoom: this.state.mapProps.defaultZoom * 3,
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
                         disableDefaultUI: true,
