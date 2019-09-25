@@ -265,6 +265,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
+        if (this.flightPathPolyLine) {
+            this.flightPathPolyLine.setMap(null);
+        }
     }
 
     render() {
