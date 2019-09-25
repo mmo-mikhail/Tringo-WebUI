@@ -146,7 +146,13 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                         </div>
                     </div>
                 </div>
-                <div className={classnames('background', { hidden: !this.state.mobilePanelOpenState })} />
+                <div
+                    tabIndex={-1}
+                    className={classnames('background', { hidden: !this.state.mobilePanelOpenState })}
+                    onClick={this.mobileFilterViewToggle}
+                    onKeyDown={this.mobileFilterViewToggle}
+                    role={'button'}
+                />
             </div>
         );
     }
