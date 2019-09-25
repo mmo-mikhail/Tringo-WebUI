@@ -6,7 +6,7 @@ import { ValueType } from 'react-select/lib/types';
 import './styles/monthselect.scss';
 
 export interface dropdownprops {
-    onChange: (datedModel: DatesInput) => void;
+    onChange: (datedModel: DatesInput, value: string) => void;
 }
 
 export interface MyOptionType {
@@ -14,21 +14,29 @@ export interface MyOptionType {
     label: string;
 }
 
+export const DateNumberOptionHelper = (indx: number): [number, string] => {
+    if (indx === -1) {
+        return [indx, 'Any month'];
+    }
+    let month = dateFns.addMonths(new Date(), indx);
+    let monthNum = month.getMonth();
+    let monthStr = dateFns.format(month, 'MMMM yyyy');
+    return [monthNum, monthStr];
+};
+
 const MonthSelect: React.FC<{ props: dropdownprops }> = ({ props }) => {
     const handleSelection = (value: ValueType<MyOptionType>) => {
-        const valuenumber = value as MyOptionType;
-        const dates = new DatesInput(valuenumber.value);
-        props.onChange(dates);
+        const valueNumber = value as MyOptionType;
+        const dates = new DatesInput(valueNumber.value);
+        props.onChange(dates, valueNumber.label);
     };
 
     let options = [];
-    options.push({ value: -1, label: 'Any month' });
+    // options.push({ value: -1, label: 'Any month' });
     let numberOfMonthsAhead = 11;
-    for (let i = 0; i < numberOfMonthsAhead + 1; i++) {
-        let month = dateFns.addMonths(new Date(), i);
-        let monthNum = month.getMonth();
-        let monthStr = dateFns.format(month, 'MMMM yyyy');
-        options.push({ value: monthNum, label: monthStr });
+    for (let i = -1; i < numberOfMonthsAhead + 1; i++) {
+        let option = DateNumberOptionHelper(i);
+        options.push({ value: option[0], label: option[1] });
     }
 
     return (

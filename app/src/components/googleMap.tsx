@@ -12,9 +12,7 @@ import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
-
 import './googleMap.scss';
-import MobileFilterCaller from './searchWidget/mobileFilterCaller';
 
 interface MapProp {
     error?: string;
@@ -65,8 +63,12 @@ const ColorLinearProgress = withStyles({
 })(LinearProgress);
 
 class SimpleMap extends React.Component<MapProp, MapState> {
+    public static IsMobile(): boolean {
+        return window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '');
+    }
+
     private static mapInitProp = (): MapInitProps =>
-        window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
+        SimpleMap.IsMobile()
             ? {
                   defaultZoom: gMapConf.defaultMobileZoom as number,
                   zoomControl: false,
@@ -104,6 +106,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
         this.drawPolyLine = this.drawPolyLine.bind(this);
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
+        SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
     }
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
@@ -285,15 +288,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
-                        gestureHandling: 'cooperative',
                         fullscreenControl: true,
                         fullscreenControlOptions: {
                             position: 6
                         },
+                        gestureHandling: 'cooperative',
                         maxZoom: this.state.mapProps.defaultZoom * 3,
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
-                        disableDefaultUI: true,
+                        // disableDefaultUI: true,
                         zoomControl: this.state.mapProps.zoomControl,
                         scrollwheel: this.state.mapProps.scrollwheel,
                         styles: gMapConf.styles as MapTypeStyle[]
@@ -302,23 +305,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     {this.renderDestinations()}
                     {this.renderDepartureAirport()}
                 </GoogleMapReact>
-                <div className="overlayed-content-wrapper">
-                    <SearchWidgetWrapper
-                        onChange={this.requestDestinationsUpdate}
-                        initialModel={this.state.destinationsRequestModel}
-                    />
-                </div>
+                <SearchWidgetWrapper
+                    onChange={this.requestDestinationsUpdate}
+                    initialModel={this.state.destinationsRequestModel}
+                />
                 {this.props.isLoading && (
                     <div className="loader-container">
                         <ColorLinearProgress />
                     </div>
                 )}
-                <MobileFilterCaller
-                    props={{
-                        onChange: this.requestDestinationsUpdate,
-                        initialModel: this.state.destinationsRequestModel
-                    }}
-                />
             </div>
         );
     }

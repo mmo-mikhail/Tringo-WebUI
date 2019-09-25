@@ -34,6 +34,7 @@ export function mapLocationData(data: airportLocation[], inputValue: string) {
         .filter(d => d.Country.toUpperCase() === process.env.REACT_APP_DEFULT_COUNTRY)
         .map((location: airportLocation) => {
             return {
+                city: location.City,
                 hasMetro: location.HasMetro,
                 value: location.AirportCode,
                 // eslint-disable-next-line max-len

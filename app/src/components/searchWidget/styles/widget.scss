@@ -2,151 +2,172 @@
 
 @media #{$not-mobile} {
     .widget-container {
-        .date-panel {
-            margin-left: 1%;
+        .background {
+            display: none;
+        }
+        background-color: rgba(0, 0, 0, 0.75);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transition: background-color ease 0.15s;
+        }
+        .widget-row {
+            align-items: stretch;
+            .date-panel {
+                margin-left: 1%;
+            }
+
+            .budget-panel {
+                margin-left: 1%;
+            }
         }
 
-        .budget-panel {
-            margin-left: 1%;
+        .widget-summary {
+            display: none !important;
         }
     }
 }
 
 .widget-container {
-    .wj-rc-select {
-        width: auto !important;
-    }
-
-    display: flex;
-    align-items: stretch;
     text-transform: capitalize;
     padding: 10px;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.67);
+
     transition: background-color linear 0.15s;
+    text-align: left;
 
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.76);
-        transition: background-color ease 0.15s;
-    }
+    .widget-row {
+        display: flex;
+        .wj-rc-select {
+            width: auto !important;
+        }
 
-    .departure-panel {
-        text-align: left;
-        height: 52px;
-        flex-grow: 2;
-        min-width: 150px;
+        span.filter-title {
+            margin-bottom: 0.3em;
+            display: inline-block;
+            color: $mildWhite;
+        }
 
-        .rc-autocomplete__option {
-            text-transform: none;
+        .departure-panel {
+            text-align: left;
+            height: 52px;
+            flex-grow: 2;
+            min-width: 350px;
 
-            .has-metro {
-                padding-left: 15px;
-            }
+            .rc-autocomplete__option {
+                text-transform: none;
 
-            mark {
-                color: inherit;
-                background-color: #aacff2;
-                margin: 0;
-                padding: 2px 0;
-            }
+                .has-metro {
+                    padding-left: 15px;
+                }
 
-            span {
-                display: inline;
-                color: inherit;
-                font-size: inherit;
-            }
+                mark {
+                    color: inherit;
+                    background-color: #aacff2;
+                    margin: 0;
+                    padding: 2px 0;
+                }
 
-            .auto-label {
-                line-height: normal;
-                color: $darkGrey !important;
-                margin-bottom: 5px;
-            }
+                span {
+                    display: inline;
+                    color: inherit;
+                    font-size: inherit;
+                }
 
-            .auto-sub-label {
-                font-size: 16px;
-                margin-top: 10px;
-                font-style: normal !important;
-                line-height: 1.5rem;
-                color: $grey !important;
-            }
+                .auto-label {
+                    line-height: normal;
+                    color: $darkGrey !important;
+                    margin-bottom: 5px;
+                }
 
-            .auto-sub-label span {
-                font-style: normal;
-                font-weight: unset;
+                .auto-sub-label {
+                    font-size: 16px;
+                    margin-top: 10px;
+                    font-style: normal !important;
+                    line-height: 1.5rem;
+                    color: $grey !important;
+                }
+
+                .auto-sub-label span {
+                    font-style: normal;
+                    font-weight: unset;
+                }
             }
         }
-    }
 
-    .date-panel {
-        text-align: left;
-        flex-grow: 1;
-        min-width: 20%;
-    }
+        .date-panel {
+            text-align: left;
+            flex-grow: 1;
+            min-width: 20%;
+        }
 
-    .budget-panel {
-        background-color: white;
-        flex-grow: 3;
-        border-radius: 3px;
+        .budget-panel {
+            flex-grow: 3;
 
-        .widget-row-fill {
-            display: flex;
-            align-items: stretch;
-            height: 52px;
+            .range-slider {
+                background-color: white;
+                border-radius: 3px;
+            }
 
-            &:hover {
-                transition: background-color ease 0.15s;
+            .widget-row-fill {
+                display: flex;
+                align-items: stretch;
+                height: 52px;
+
+                &:hover {
+                    transition: background-color ease 0.15s;
+
+                    .icon-label {
+                        background: #bfbfbf;
+                    }
+                }
+
+                $text-width: 120px;
+                $icon-width: 120px;
 
                 .icon-label {
-                    background: #bfbfbf;
-                }
-            }
-
-            $text-width: 120px;
-            $icon-width: 120px;
-
-            .icon-label {
-                flex-grow: 1;
-                font-size: 28px;
-                border-bottom-left-radius: 3px;
-                border-top-left-radius: 3px;
-                background: $inputIconBackground;
-                color: $inputIcon;
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            #one-handler-range-slider {
-                flex-grow: 9;
-                display: flex;
-                flex-direction: row;
-                padding: 0;
-                font-size: 16px;
-                color: #333;
-                z-index: 0;
-                justify-content: center;
-
-                .text-container {
-                    min-width: $text-width;
-                    height: 100%;
-                    flex-grow: 3;
-                    display: flex;
+                    flex-grow: 1;
+                    font-size: 28px;
+                    border-bottom-left-radius: 3px;
+                    border-top-left-radius: 3px;
+                    background: $inputIconBackground;
+                    color: $inputIcon;
                     align-items: center;
+                    display: flex;
                     justify-content: center;
                 }
 
-                .slider-container {
+                #one-handler-range-slider {
                     flex-grow: 9;
-                    width: calc(100% - #{$text-width} - 20px);
-                    margin-right: 20px;
-                    padding-top: 1px;
-
                     display: flex;
-                    align-items: center;
+                    flex-direction: row;
+                    padding: 0;
+                    font-size: 16px;
+                    color: #333;
+                    z-index: 0;
                     justify-content: center;
 
-                    .rc-slider {
-                        flex-grow: 1;
+                    .text-container {
+                        min-width: $text-width;
+                        height: 100%;
+                        flex-grow: 3;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .slider-container {
+                        flex-grow: 9;
+                        width: calc(100% - #{$text-width} - 20px);
+                        margin-right: 20px;
+                        padding-top: 1px;
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        .rc-slider {
+                            flex-grow: 1;
+                        }
                     }
                 }
             }
