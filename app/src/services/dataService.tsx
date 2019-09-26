@@ -12,6 +12,11 @@ export interface airportLocation {
     CityAirportName: string;
 }
 
+export interface departureCoordinates {
+    lat: number;
+    lng: number;
+}
+
 export function fetchLocationData(inputValue: string, callback: (arg?: any) => {}) {
     const method = 'GET';
     const endpoint = process.env.REACT_APP_WEBJET_DEPARTURE_API_URL;
@@ -27,6 +32,21 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
             callback();
         }
     );
+}
+
+export function fetchDepartureAirport(inputValue: string, callback: (arg?: any) => void) {
+    const method = 'GET';
+    const endpoint = process.env.REACT_APP_TRINGO_API;
+    const url = inputValue ? endpoint!.concat('/api/v1/airports/GetAirportCoordinates?airportCode=').concat(inputValue)
+        : inputValue;
+    callApi(url, method).then(
+        (response: Object) => {
+            if (response !== null) {
+                callback(Object.values(response) as number[]);
+            } else {
+                callback();
+            }
+        });
 }
 
 export function mapLocationData(data: airportLocation[], inputValue: string) {

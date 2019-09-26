@@ -10,6 +10,7 @@ import MonthSelect from './date-input/monthselect';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
+    updateDepartureAirport: (departureAirportCode: string) => void;
     initialModel: FlightDestinationRequest;
 }
 
@@ -23,7 +24,7 @@ interface SearchWidgetWrapperState {
 class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidgetWrapperState> {
     constructor(props: SearchWidgetWrapperProps) {
         super(props);
-
+        
         this.state = {
             datesState: this.props.initialModel.dates,
             budgetMin: this.props.initialModel.budget ? this.props.initialModel.budget.min : 0,
@@ -36,16 +37,16 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         this.onDatesChanged = this.onDatesChanged.bind(this);
         this.onDepartureChanged = this.onDepartureChanged.bind(this);
     }
-
+    
     onBudgetChanged(values: number[]) {
         if (values.length !== 2) {
             throw new Error('onRangeChanged has invalid agrument: must be array 2 values length');
         }
-
+        
         this.props.initialModel.budget = new Budget(values[0], values[1]);
         this.props.onChange(this.props.initialModel, null);
     }
-
+    
     onDatesChanged(datedModel: DatesInput) {
         this.setState({
             datesState: datedModel
@@ -53,12 +54,13 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         this.props.initialModel.dates = datedModel;
         this.props.onChange(this.props.initialModel, null);
     }
-
+    
     onDepartureChanged(airportId: string, airportLabel: string) {
         this.props.initialModel.departureAirportId = airportId;
+        this.props.updateDepartureAirport(airportId);
         this.props.onChange(this.props.initialModel, airportLabel);
     }
-
+    
     render() {
         const noOptionsMessage = 'No cities or airports were found. Australian airports only.';
         return (
@@ -77,9 +79,9 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                     }}
                 />
                 <div className={'date-panel date-picker'}>
-                    <MonthSelect props={{ onChange: this.onDatesChanged }} />
+                    <MonthSelect props={{ onChange: this.onDatesChanged }}/>
                 </div>
-
+                
                 <div className="budget-panel">
                     <BudgetRangeSlider
                         min={this.state.budgetMin}

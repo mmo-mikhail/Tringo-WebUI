@@ -12,6 +12,7 @@ import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
+import { fetchDepartureAirport } from 'services/dataService';
 
 import './googleMap.scss';
 import MobileFilterCaller from './searchWidget/mobileFilterCaller';
@@ -36,6 +37,9 @@ interface MapState {
     isLoading?: boolean;
     error?: string;
     selectedAirportlabel: string;
+    departureAirportCode: string;
+    departureLat: number;
+    departureLng: number;
 }
 
 interface MapInitProps {
@@ -68,21 +72,21 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     private static mapInitProp = (): MapInitProps =>
         window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
             ? {
-                  defaultZoom: gMapConf.defaultMobileZoom as number,
-                  zoomControl: false,
-                  scrollwheel: false,
-                  gestureHandling: 'cooperative'
-              }
+                defaultZoom: gMapConf.defaultMobileZoom as number,
+                zoomControl: false,
+                scrollwheel: false,
+                gestureHandling: 'cooperative'
+            }
             : {
-                  defaultZoom: gMapConf.defaultDesktopZoom as number,
-                  zoomControl: true,
-                  scrollwheel: true,
-                  gestureHandling: 'auto'
-              };
-
+                defaultZoom: gMapConf.defaultDesktopZoom as number,
+                zoomControl: true,
+                scrollwheel: true,
+                gestureHandling: 'auto'
+            };
+    
     private googleMaps?: GoogleMapObj;
     private flightPathPolyLine: any;
-
+    
     constructor(props: any) {
         super(props);
         // no matters what MapArea at this point at all,
@@ -96,25 +100,32 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 null,
                 new DatesInput(-1)
             ),
-            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
+            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+            departureAirportCode: process.env.REACT_APP_DEFAULT_DEPARTURE || '',
+            departureLat: process.env.REACT_APP_DEFAULT_DEPARTURE_LAT ?
+                parseInt(process.env.REACT_APP_DEFAULT_DEPARTURE_LAT) : 0,
+            departureLng: process.env.REACT_APP_DEFAULT_DEPARTURE_LNG ?
+                parseInt(process.env.REACT_APP_DEFAULT_DEPARTURE_LNG) : 0
         };
-
+        
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
         this.drawPolyLine = this.drawPolyLine.bind(this);
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
+        this.updateDepartureAirport = this.updateDepartureAirport.bind(this);
+        this.setDepartureCoordinates = this.setDepartureCoordinates.bind(this);
     }
-
+    
     onGoogleApiLoaded(maps: GoogleMapObj) {
         this.googleMaps = maps;
     }
-
+    
     drawPolyLine(destLat: number, destLng: number): void {
         if (!this.googleMaps) {
             return;
         }
-
+        
         const pointsline = [{ lat: destLat, lng: destLng }, { lat: -33.8688, lng: 151.2093 }];
         this.flightPathPolyLine = new this.googleMaps.maps.Polyline({
             path: pointsline,
@@ -125,13 +136,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         });
         this.flightPathPolyLine.setMap(this.googleMaps.map);
     }
-
+    
     cleanupPolyLines(): void {
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
     }
-
+    
     renderDestinations() {
         const dests = this.props.destinations;
         if (!dests) {
@@ -185,30 +196,42 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
         });
     }
-
+    
+    setDepartureCoordinates(values?: number[]) {
+        if (values && values.length === 2) {
+            this.setState(
+                {
+                    departureLat: values[0],
+                    departureLng: values[1]
+                }
+            );
+        }
+    }
+    
     renderDepartureAirport() {
+        fetchDepartureAirport(this.state.departureAirportCode, this.setDepartureCoordinates);
         return (
             <DepartureMarker
                 key={-33.8688}
-                lat={-33.8688} // to be consumed only by Maps API
-                lng={151.2093} // to be consumed only by Maps API
+                lat={this.state.departureLat} // to be consumed only by Maps API
+                lng={this.state.departureLng} // to be consumed only by Maps API
             />
         );
     }
-
+    
     areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
         if (!this.googleMaps) {
             return d1.lat === d2.lat && d1.lng === d2.lng;
         } //if something is wrong, just don't show clusterization
-
+        
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
         const maxDiffLat = 4 / zoomLevel;
         const maxDiffLlg = 4 / zoomLevel;
-
+        
         return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
     }
-
+    
     groupDestinations(dests: IDestination[]): IDestinationGroup[] {
         const self = this;
         const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
@@ -244,21 +267,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }, []);
         return group;
     }
-
+    
+    updateDepartureAirport(departureAirportCode: string) {
+        this.setState({
+            departureAirportCode: departureAirportCode ? departureAirportCode : ''
+        });
+    }
+    
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-
+        
         this.setState({
             selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
         });
-
+        
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
-
+    
     // mapChanged. Get fired on: drag end/zoom/on initial load
     mapChanged(changeEvent: ChangeEventValue) {
         const currentMode = this.state.destinationsRequestModel;
@@ -269,7 +298,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             this.flightPathPolyLine.setMap(null);
         }
     }
-
+    
     render() {
         return (
             <div>
@@ -305,17 +334,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 <div className="overlayed-content-wrapper">
                     <SearchWidgetWrapper
                         onChange={this.requestDestinationsUpdate}
+                        updateDepartureAirport={this.updateDepartureAirport}
                         initialModel={this.state.destinationsRequestModel}
                     />
                 </div>
                 {this.props.isLoading && (
                     <div className="loader-container">
-                        <ColorLinearProgress />
+                        <ColorLinearProgress/>
                     </div>
                 )}
                 <MobileFilterCaller
                     props={{
                         onChange: this.requestDestinationsUpdate,
+                        updateDepartureAirport: this.updateDepartureAirport,
                         initialModel: this.state.destinationsRequestModel
                     }}
                 />
