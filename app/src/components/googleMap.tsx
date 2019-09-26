@@ -234,7 +234,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             const existingStorageItem = storage.find(g => self.areDestinationsCloseEnough(g.key, item));
             if (existingStorageItem) {
                 existingStorageItem.values.push({
-                    destination: item.cityName,
+                    destination: item.airportName ? item.airportName : item.cityName,
                     destinationCode: item.destAirportCode,
                     priority: item.personalPriorityIdx,
                     dateOut: item.flightDates.departureDate,
