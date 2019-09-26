@@ -1,21 +1,20 @@
 import React from 'react';
 import classnames from 'classnames';
 import Slider from 'rc-slider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 export interface SliderProps {
     min: number;
     max: number;
     step: number;
     className: string;
-    onChange: (sliderChange: number[]) => void;
+    onChange: (sliderChange: number[], sliderLabel: string) => void;
 }
 
 interface SliderState {
     currentValue: number;
     maxValue: number;
     labelCount: number;
+    sliderLabel: string;
 }
 
 export interface StepBracket {
@@ -26,6 +25,8 @@ export interface StepBracket {
 
 class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     priceBrackets: StepBracket[];
+
+    public static MAX_VALUE: string = 'Any price';
 
     constructor(props: SliderProps) {
         super(props);
@@ -41,7 +42,8 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         this.state = {
             maxValue: maxVal,
             currentValue: maxVal,
-            labelCount: this.props.max
+            labelCount: this.props.max,
+            sliderLabel: BudgetRangeSlider.MAX_VALUE
         };
 
         this.onChangeSlider = this.onChangeSlider.bind(this);
@@ -81,13 +83,22 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
     onChangeSlider(sliderValue: number) {
         this.setState({
             currentValue: sliderValue,
-            labelCount: this.countLabel(sliderValue)
+            labelCount: this.countLabel(sliderValue),
+            sliderLabel: this.sliderLabel()
         });
     }
 
     onAfterChangeSlider() {
-        this.props.onChange && this.props.onChange([this.props.min, this.state.labelCount]);
+        this.props.onChange && this.props.onChange([this.props.min, this.state.labelCount], this.sliderLabel());
     }
+
+    sliderLabel = (): string =>
+        this.state.currentValue === this.state.maxValue
+            ? BudgetRangeSlider.MAX_VALUE
+            : `$ ${this.state.labelCount
+                  .toFixed()
+                  .toString()
+                  .replace(/\d(?=(\d{3})+)/g, '$&,')}`;
 
     render() {
         const { className } = this.props;
@@ -96,19 +107,10 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
             'max-filtered': this.state.currentValue !== this.state.maxValue
         });
 
-        const sliderLabel =
-            this.state.currentValue === this.state.maxValue
-                ? 'Any price'
-                : `$ ${this.state.labelCount
-                      .toFixed()
-                      .toString()
-                      .replace(/\d(?=(\d{3})+)/g, '$&,')}`;
+        const sliderLabel = this.sliderLabel();
 
         return (
             <div className={'widget-row-fill wj-rc-select'}>
-                <div className="icon-label wj-icon">
-                    <FontAwesomeIcon icon={faDollarSign} />
-                </div>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     <div className="text-container">
                         <span className="to">{sliderLabel}</span>
