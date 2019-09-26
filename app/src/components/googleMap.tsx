@@ -15,6 +15,7 @@ import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
 
 import './googleMap.scss';
+import { IDepartureAirport } from '../models/response/departureAirport';
 
 interface MapProp {
     error?: string;
@@ -216,12 +217,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
     }
     
-    setDepartureCoordinates(values?: number[]) {
-        if (values && values.length === 2) {
+    setDepartureCoordinates(values? :IDepartureAirport) {
+        if (values) {
             this.setState(
                 {
-                    departureLat: values[0],
-                    departureLng: values[1]
+                    departureLat: values.lat,
+                    departureLng: values.lng
                 }
             );
         }
