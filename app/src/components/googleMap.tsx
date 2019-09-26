@@ -219,7 +219,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
     }
     
-    setDepartureCoordinates(values? :IDepartureAirport) {
+    setDepartureCoordinates(values?: IDepartureAirport) {
         if (values) {
             this.setState(
                 {
@@ -290,10 +290,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     updateDepartureAirport(departureAirportCode: string) {
-        if(this.state.departureAirportId!==departureAirportCode){
+        if (this.state.departureAirportId !== departureAirportCode) {
             this.setState({
                 departureAirportId: departureAirportCode ? departureAirportCode : ''
-            },()=>{
+            }, () => {
                 fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
             });
         }
