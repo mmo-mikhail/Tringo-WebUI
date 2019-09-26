@@ -35,7 +35,7 @@ interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
-    selectedAirportlabel: string;
+    selectedAirportlabel: string;  //label and Id is not the same thing
     departureAirportId: string;
     departureLat: number;
     departureLng: number;
@@ -71,7 +71,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     public static IsMobile(): boolean {
         return window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '');
     }
-
+    
     private static mapInitProp = (): MapInitProps =>
         SimpleMap.IsMobile()
             ? {
@@ -247,7 +247,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
         const maxDiffLat = 8 / zoomLevel;
         const maxDiffLlg = 16 / zoomLevel;
-
+        
         return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
     }
     
@@ -312,13 +312,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
-
+        
         // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
         if (currentMode.searchArea.nw.lng > 180) currentMode.searchArea.nw.lng -= 360;
         if (currentMode.searchArea.se.lng > 180) currentMode.searchArea.se.lng -= 360;
         if (currentMode.searchArea.nw.lng < -180) currentMode.searchArea.nw.lng += 360;
         if (currentMode.searchArea.se.lng < -180) currentMode.searchArea.se.lng += 360;
-
+        
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
