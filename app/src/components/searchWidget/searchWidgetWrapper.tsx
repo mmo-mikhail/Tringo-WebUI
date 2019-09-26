@@ -50,14 +50,14 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         this.onDepartureChanged = this.onDepartureChanged.bind(this);
         this.mobileFilterViewToggle = this.mobileFilterViewToggle.bind(this);
     }
-
+    
     mobileFilterViewToggle() {
         let toggle = this.state.mobilePanelOpenState;
         this.setState({
             mobilePanelOpenState: !toggle
         });
     }
-
+    
     onBudgetChanged(values: number[], label: string) {
         if (values.length !== 2) {
             throw new Error('onRangeChanged has invalid agrument: must be array 2 values length');
@@ -66,7 +66,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         this.props.initialModel.budget = new Budget(values[0], values[1]);
         this.props.onChange(this.props.initialModel, null);
     }
-
+    
     onDatesChanged(datedModel: DatesInput, label: string) {
         this.setState({
             datesState: datedModel,
@@ -75,7 +75,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
         this.props.initialModel.dates = datedModel;
         this.props.onChange(this.props.initialModel, null);
     }
-
+    
     onDepartureChanged(airportId: string, airportLabel: string, city: string) {
         this.props.initialModel.departureAirportId = airportId;
         this.setState({ airportLabel: airportLabel, departureCity: city });
@@ -86,7 +86,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
     render() {
         const noOptionsMessage = 'No cities or airports were found. Australian airports only.';
         const isMobile = googleMap.IsMobile();
-
+        
         return (
             <div className="overlaid-content-wrapper">
                 <div className="widget-container">
@@ -134,7 +134,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                         </div>
                         <div className="date-panel date-picker">
                             <span className="filter-title">Month</span>
-                            <MonthSelect props={{ onChange: this.onDatesChanged }} />
+                            <MonthSelect props={{ onChange: this.onDatesChanged }}/>
                         </div>
                         <div className="budget-panel">
                             <span className="filter-title">Price</span>
