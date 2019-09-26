@@ -220,13 +220,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     setDepartureCoordinates(values: Coordinates) {
-        if (values) {
-            this.setState(
-                {
-                    departureCoordinate: values
-                }
-            );
-        }
+        this.setState(
+            {
+                departureCoordinate: values
+            }
+        );
     }
     
     renderDepartureAirport() {
