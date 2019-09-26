@@ -107,9 +107,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
             departureLat: process.env.REACT_APP_DEFAULT_DEPARTURE_LAT ?
-                parseInt(process.env.REACT_APP_DEFAULT_DEPARTURE_LAT) : 0,
+                parseFloat(process.env.REACT_APP_DEFAULT_DEPARTURE_LAT) : 0,
             departureLng: process.env.REACT_APP_DEFAULT_DEPARTURE_LNG ?
-                parseInt(process.env.REACT_APP_DEFAULT_DEPARTURE_LNG) : 0
+                parseFloat(process.env.REACT_APP_DEFAULT_DEPARTURE_LNG) : 0
         };
         
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
@@ -229,7 +229,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     renderDepartureAirport() {
-        fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
         return (
             <DepartureMarker
                 key={this.state.departureLat}
@@ -289,9 +288,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     updateDepartureAirport(departureAirportCode: string) {
-        this.setState({
-            departureAirportId: departureAirportCode ? departureAirportCode : ''
-        });
+        if(this.state.departureAirportId!==departureAirportCode){
+            this.setState({
+                departureAirportId: departureAirportCode ? departureAirportCode : ''
+            },()=>{
+                fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
+            });
+        }
     }
     
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
