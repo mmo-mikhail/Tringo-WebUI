@@ -33,14 +33,15 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
 export function fetchDepartureAirport(inputValue: string, callback: (arg: Coordinates) => void) {
     const method = 'GET';
     const endpoint = process.env.REACT_APP_TRINGO_API;
-    const url = inputValue ? endpoint!.concat('/api/v1/airports/GetAirportCoordinates?airportCode=').concat(inputValue)
+    const departureURL = process.env.REACT_APP_TRINGO_API_DEPARTURE_URL ? process.env.REACT_APP_TRINGO_API_DEPARTURE_URL : '';
+    const url = inputValue ? endpoint!.concat(departureURL).concat(inputValue)
         : inputValue;
     callApi(url, method).then(
-        (response:Coordinates) => {
+        (response: Coordinates) => {
             if (response !== null) {
                 callback(response);
             } else {
-                callback(new Coordinates(0,0));
+                callback(new Coordinates(0, 0));
             }
         });
 }
