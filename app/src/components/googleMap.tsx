@@ -360,6 +360,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 <SearchWidgetWrapper
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
+                    updateDepartureAirport={this.updateDepartureAirport}
                 />
                 {this.props.isLoading && (
                     <div className="loader-container">
