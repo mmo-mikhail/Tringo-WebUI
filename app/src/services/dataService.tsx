@@ -12,11 +12,6 @@ export interface airportLocation {
     CityAirportName: string;
 }
 
-export interface departureCoordinates {
-    lat: number;
-    lng: number;
-}
-
 export function fetchLocationData(inputValue: string, callback: (arg?: any) => {}) {
     const method = 'GET';
     const endpoint = process.env.REACT_APP_WEBJET_DEPARTURE_API_URL;
