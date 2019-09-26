@@ -106,10 +106,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             ),
             selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
-            departureLat: process.env.REACT_APP_DEFAULT_DEPARTURE_LAT ?
-                parseFloat(process.env.REACT_APP_DEFAULT_DEPARTURE_LAT) : 0,
-            departureLng: process.env.REACT_APP_DEFAULT_DEPARTURE_LNG ?
-                parseFloat(process.env.REACT_APP_DEFAULT_DEPARTURE_LNG) : 0
+            departureLat: 0,
+            departureLng: 0
         };
         
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
@@ -120,6 +118,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.updateDepartureAirport = this.updateDepartureAirport.bind(this);
         this.setDepartureCoordinates = this.setDepartureCoordinates.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
+    }
+    
+    componentDidMount(): void {
+        fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
     }
     
     onGoogleApiLoaded(maps: GoogleMapObj) {
