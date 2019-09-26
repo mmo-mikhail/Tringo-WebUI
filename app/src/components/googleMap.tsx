@@ -219,7 +219,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
     }
     
-    setDepartureCoordinates(values?: Coordinates) {
+    setDepartureCoordinates(values: Coordinates) {
         if (values) {
             this.setState(
                 {

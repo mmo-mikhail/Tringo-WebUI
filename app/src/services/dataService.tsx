@@ -1,4 +1,5 @@
 import { callApi } from 'services/apiService';
+import { Coordinates } from '../models/request/flightDestinationRequest';
 
 export interface airportLocation {
     TsaAirportCode: string;
@@ -29,7 +30,7 @@ export function fetchLocationData(inputValue: string, callback: (arg?: any) => {
     );
 }
 
-export function fetchDepartureAirport(inputValue: string, callback: (arg?: any) => void) {
+export function fetchDepartureAirport(inputValue: string, callback: (arg: Coordinates) => void) {
     const method = 'GET';
     const endpoint = process.env.REACT_APP_TRINGO_API;
     const url = inputValue ? endpoint!.concat('/api/v1/airports/GetAirportCoordinates?airportCode=').concat(inputValue)
@@ -39,7 +40,7 @@ export function fetchDepartureAirport(inputValue: string, callback: (arg?: any) 
             if (response !== null) {
                 callback(response);
             } else {
-                callback();
+                callback(new Coordinates(0,0));
             }
         });
 }
