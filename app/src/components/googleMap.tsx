@@ -7,7 +7,7 @@ import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
-import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
+import { Coordinates, FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
@@ -15,7 +15,7 @@ import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
 
 import './googleMap.scss';
-import { IDepartureAirport } from '../models/response/departureAirport';
+
 
 interface MapProp {
     error?: string;
@@ -38,8 +38,8 @@ interface MapState {
     error?: string;
     selectedAirportlabel: string;  //label and Id is not the same thing
     departureAirportId: string;
-    departureLat: number;
-    departureLng: number;
+    departureCoordinate: Coordinates;
+    
 }
 
 interface MapInitProps {
@@ -106,8 +106,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             ),
             selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
-            departureLat: 0,
-            departureLng: 0
+            departureCoordinate: new Coordinates(0, 0)
+            
         };
         
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
@@ -219,12 +219,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
     }
     
-    setDepartureCoordinates(values?: IDepartureAirport) {
+    setDepartureCoordinates(values?: Coordinates) {
         if (values) {
             this.setState(
                 {
-                    departureLat: values.lat,
-                    departureLng: values.lng
+                    departureCoordinate: values
                 }
             );
         }
@@ -233,9 +232,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     renderDepartureAirport() {
         return (
             <DepartureMarker
-                key={this.state.departureLat}
-                lat={this.state.departureLat} // to be consumed only by Maps API
-                lng={this.state.departureLng} // to be consumed only by Maps API
+                key={this.state.departureCoordinate.lat}
+                lat={this.state.departureCoordinate.lat} // to be consumed only by Maps API
+                lng={this.state.departureCoordinate.lng} // to be consumed only by Maps API
             />
         );
     }

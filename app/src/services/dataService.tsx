@@ -1,5 +1,4 @@
 import { callApi } from 'services/apiService';
-import { IDepartureAirport } from '../models/response/departureAirport';
 
 export interface airportLocation {
     TsaAirportCode: string;
@@ -36,7 +35,7 @@ export function fetchDepartureAirport(inputValue: string, callback: (arg?: any) 
     const url = inputValue ? endpoint!.concat('/api/v1/airports/GetAirportCoordinates?airportCode=').concat(inputValue)
         : inputValue;
     callApi(url, method).then(
-        (response:IDepartureAirport) => {
+        (response:Coordinates) => {
             if (response !== null) {
                 callback(response);
             } else {
