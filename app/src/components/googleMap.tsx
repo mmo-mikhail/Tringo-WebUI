@@ -36,7 +36,7 @@ interface MapState {
     isLoading?: boolean;
     error?: string;
     selectedAirportlabel: string;
-    departureAirportCode: string;
+    departureAirportId: string;
     departureLat: number;
     departureLng: number;
 }
@@ -104,7 +104,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 new DatesInput(-1)
             ),
             selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-            departureAirportCode: process.env.REACT_APP_DEFAULT_DEPARTURE || '',
+            departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
             departureLat: process.env.REACT_APP_DEFAULT_DEPARTURE_LAT ?
                 parseInt(process.env.REACT_APP_DEFAULT_DEPARTURE_LAT) : 0,
             departureLng: process.env.REACT_APP_DEFAULT_DEPARTURE_LNG ?
@@ -228,10 +228,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     renderDepartureAirport() {
-        fetchDepartureAirport(this.state.departureAirportCode, this.setDepartureCoordinates);
+        fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
         return (
             <DepartureMarker
-                key={-33.8688}
+                key={this.state.departureLat}
                 lat={this.state.departureLat} // to be consumed only by Maps API
                 lng={this.state.departureLng} // to be consumed only by Maps API
             />
@@ -289,7 +289,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     
     updateDepartureAirport(departureAirportCode: string) {
         this.setState({
-            departureAirportCode: departureAirportCode ? departureAirportCode : ''
+            departureAirportId: departureAirportCode ? departureAirportCode : ''
         });
     }
     
