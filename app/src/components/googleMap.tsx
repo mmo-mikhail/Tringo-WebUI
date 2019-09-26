@@ -267,6 +267,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
+
+        // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
+        if (currentMode.searchArea.nw.lng > 180) currentMode.searchArea.nw.lng -= 360;
+        if (currentMode.searchArea.se.lng > 180) currentMode.searchArea.se.lng -= 360;
+        if (currentMode.searchArea.nw.lng < -180) currentMode.searchArea.nw.lng += 360;
+        if (currentMode.searchArea.se.lng < -180) currentMode.searchArea.se.lng += 360;
+
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
