@@ -140,7 +140,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         if (!dests) {
             return '';
         }
-        const sortedDests = dests.sort((a: IDestination, b: IDestination) => {
+        const noPriceDests = dests.filter(d => d.price === -1);
+        const hasPriceDests = dests.filter(d => d.price !== -1);
+        const sortedDests = hasPriceDests.sort((a: IDestination, b: IDestination) => {
             // sorting by descending
             if (a.personalPriorityIdx < b.personalPriorityIdx) {
                 return 1;
@@ -150,43 +152,56 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             }
             return 0;
         });
-        const groupedDests = this.groupDestinations(dests);
-        return groupedDests.map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
-            const record = group.key;
-            if (
-                record.lat === undefined ||
-                record.lng === undefined ||
-                record.price === undefined ||
-                record.personalPriorityIdx === undefined ||
-                record.cityName === undefined
-            ) {
-                return '';
-            }
-            if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+        const groupedDests = this.groupDestinations(hasPriceDests);
+        return groupedDests
+            .map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
+                const record = group.key;
+                if (
+                    record.lat === undefined ||
+                    record.lng === undefined ||
+                    record.price === undefined ||
+                    record.personalPriorityIdx === undefined ||
+                    record.cityName === undefined
+                ) {
+                    return '';
+                }
+                if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+                    return (
+                        <TinyPinMarker
+                            key={idx}
+                            lat={record.lat} // to be consumed only by Maps API
+                            lng={record.lng} // to be consumed only by Maps API
+                        />
+                    );
+                }
                 return (
-                    <TinyPinMarker
+                    <PriceTagMarker
                         key={idx}
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
+                        // properties used by marker component properties:
+                        destinations={group.values}
+                        fromCode={this.state.destinationsRequestModel.departureAirportId}
+                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                        onMouseEnter={() => {
+                            this.drawPolyLine(record.lat, record.lng);
+                        }}
+                        onMouseLeave={this.cleanupPolyLines}
                     />
                 );
-            }
-            return (
-                <PriceTagMarker
-                    key={idx}
-                    lat={record.lat} // to be consumed only by Maps API
-                    lng={record.lng} // to be consumed only by Maps API
-                    // properties used by marker component properties:
-                    destinations={group.values}
-                    fromCode={this.state.destinationsRequestModel.departureAirportId}
-                    fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
-                    onMouseEnter={() => {
-                        this.drawPolyLine(record.lat, record.lng);
-                    }}
-                    onMouseLeave={this.cleanupPolyLines}
-                />
+            })
+            .concat(
+                noPriceDests.map((d: IDestination, idx: number) => {
+                    return (
+                        <TinyPinMarker
+                            key={groupedDests.length + idx}
+                            lat={d.lat} // to be consumed only by Maps API
+                            lng={d.lng} // to be consumed only by Maps API
+                            disabled={true}
+                        />
+                    );
+                })
             );
-        });
     }
 
     renderDepartureAirport() {
@@ -206,8 +221,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
-        const maxDiffLat = 4 / zoomLevel;
-        const maxDiffLlg = 4 / zoomLevel;
+        const maxDiffLat = 8 / zoomLevel;
+        const maxDiffLlg = 16 / zoomLevel;
 
         return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
     }
