@@ -7,7 +7,6 @@ import { Drawer } from '@material-ui/core';
 
 export interface MobileFilterCallerProps {
     onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
-    updateDepartureAirport: (departureAirportCode: string) => void;
     initialModel: FlightDestinationRequest;
 }
 
@@ -15,7 +14,7 @@ const MobileFilterCaller: FC<{ props: MobileFilterCallerProps }> = ({ props }) =
     const [state, setState] = React.useState({
         top: false
     });
-    
+
     type DrawerSide = 'top';
     const toggleDrawer = (side: DrawerSide, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -25,22 +24,20 @@ const MobileFilterCaller: FC<{ props: MobileFilterCallerProps }> = ({ props }) =
         ) {
             return;
         }
-        
+
         setState({ ...state, [side]: open });
     };
-    
+
     return (
         <Box display={{ xs: 'flex', sm: 'none', md: 'none' }}>
             <div id="mobile-filter-caller">
                 <div className="filter-container">
                     <button id="filter-btn" className="btn-active btn-icon-left" onClick={toggleDrawer('top', true)}>
                         <span className="filter-text">Filter Results</span>
-                        <span className="wj-icon wj-filter"/>
+                        <span className="wj-icon wj-filter" />
                     </button>
                     <Drawer anchor="top" open={state.top} onClose={toggleDrawer('top', false)}>
-                        <SearchWidgetWrapper onChange={props.onChange}
-                                             updateDepartureAirport={props.updateDepartureAirport}
-                                             initialModel={props.initialModel}/>
+                        <SearchWidgetWrapper onChange={props.onChange} initialModel={props.initialModel} />
                     </Drawer>
                 </div>
             </div>
