@@ -93,7 +93,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             mapProps: SimpleMap.mapInitProp(),
             center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
-                process.env.REACT_APP_DEFAULT_DEPARTURE || '',
+                process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
                 MapArea.createRandom(),
                 null,
                 new DatesInput(-1)
