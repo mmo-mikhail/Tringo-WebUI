@@ -56,7 +56,8 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
 
         this.showModal = this.showModal.bind(this);
         this.onHoverExpandable = this.onHoverExpandable.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onSpecificDestinationLeave = this.onSpecificDestinationLeave.bind(this);
+        this.delayedLeave = this.delayedLeave.bind(this);
     }
 
     showModal() {
@@ -80,7 +81,6 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         this.setState({
             hoveredDestination: this.props.destinations[selectedIdx]
         });
-        this.props.onMouseEnter();
     }
 
     onHoverExpandable() {
@@ -88,10 +88,9 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             expanded: true,
             hoveredDestination: this.props.destinations[0]
         });
-        this.props.onMouseEnter();
     }
 
-    onMouseLeave() {
+    onSpecificDestinationLeave() {
         this.setState({
             hoveredDestination: null
         });
@@ -100,9 +99,14 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 this.setState({
                     expanded: false
                 });
-            }
-        }, 200);
-        this.props.onMouseLeave();
+            } // else it was moved to other destination from 'more' option
+        }, 50); // add tiny delay to let it detect mouse move over other destinations from sub-list for multiple-destinations case
+    }
+
+    delayedLeave() {
+        setTimeout(() => {
+            this.props.onMouseLeave();
+        }, 50);
     }
 
     PriceMarker(destination: DestinationProp, onHover: () => void, moreText?: string, key?: number) {
@@ -112,7 +116,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 tabIndex={-1}
                 key={key}
                 onMouseEnter={onHover}
-                onMouseLeave={this.onMouseLeave}
+                onMouseLeave={this.onSpecificDestinationLeave}
                 onClick={this.showModal}
                 onKeyDown={this.showModal}
             >
@@ -138,11 +142,19 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         const destination = destinations[0];
         if (destinations.length === 1) {
             // Simple price tag marker
-            return <div>{this.PriceMarker(destination, () => this.onHover(0))}</div>;
+            return (
+                <div onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.delayedLeave}>
+                    {this.PriceMarker(destination, () => this.onHover(0))}
+                </div>
+            );
         }
         // Expanding price tag marker
         return (
-            <div className="expandable-marker-container">
+            <div
+                className="expandable-marker-container"
+                onMouseEnter={this.props.onMouseEnter}
+                onMouseLeave={this.delayedLeave}
+            >
                 <div>
                     {this.PriceMarker(
                         destination,
