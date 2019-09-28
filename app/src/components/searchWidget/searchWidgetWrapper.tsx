@@ -40,7 +40,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
             budgetStep: parseInt(process.env.REACT_APP_SLIDER_STEP || ''),
             budgetLabel: BudgetRangeSlider.MAX_VALUE,
             airportLabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-            departureCity: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+            departureCity: process.env.REACT_APP_DEFAULT_DEPARTURE_CITY || '',
             dateLabel: DateNumberOptionHelper(-1)[1],
             mobilePanelOpenState: false
         };
@@ -96,7 +96,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                         onClick={this.mobileFilterViewToggle}
                     >
                         <div className="search-cell">
-                            <div className={'city'}>{this.state.departureCity}</div>
+                            <div className={'city'}>Departing: {this.state.departureCity}</div>
                             <div className={'date'}>{this.state.dateLabel}</div>
                             <div className={'price'}>{this.state.budgetLabel}</div>
                         </div>

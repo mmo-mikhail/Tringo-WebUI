@@ -191,16 +191,14 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 );
             })
             .concat(
-                noPriceDests.map((d: IDestination, idx: number) => {
-                    return (
-                        <TinyPinMarker
-                            key={groupedDests.length + idx}
-                            lat={d.lat} // to be consumed only by Maps API
-                            lng={d.lng} // to be consumed only by Maps API
-                            disabled={true}
-                        />
-                    );
-                })
+                noPriceDests.map((d: IDestination, idx: number) => (
+                    <TinyPinMarker
+                        key={groupedDests.length + idx}
+                        lat={d.lat} // to be consumed only by Maps API
+                        lng={d.lng} // to be consumed only by Maps API
+                        disabled={true}
+                    />
+                ))
             );
     }
 
@@ -284,10 +282,18 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         currentMode.searchArea.se = changeEvent.marginBounds.se;
 
         // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
-        if (currentMode.searchArea.nw.lng > 180) currentMode.searchArea.nw.lng -= 360;
-        if (currentMode.searchArea.se.lng > 180) currentMode.searchArea.se.lng -= 360;
-        if (currentMode.searchArea.nw.lng < -180) currentMode.searchArea.nw.lng += 360;
-        if (currentMode.searchArea.se.lng < -180) currentMode.searchArea.se.lng += 360;
+        if (currentMode.searchArea.nw.lng > 180) {
+            currentMode.searchArea.nw.lng -= 360;
+        }
+        if (currentMode.searchArea.se.lng > 180) {
+            currentMode.searchArea.se.lng -= 360;
+        }
+        if (currentMode.searchArea.nw.lng < -180) {
+            currentMode.searchArea.nw.lng += 360;
+        }
+        if (currentMode.searchArea.se.lng < -180) {
+            currentMode.searchArea.se.lng += 360;
+        }
 
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
