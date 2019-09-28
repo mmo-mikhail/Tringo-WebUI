@@ -9,18 +9,13 @@ import Highlighter from 'react-highlight-words';
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
 
-const Control = ({ children, ...props }: any) => (
-    <components.Control {...props}>
-        {<span className={classnames('wj-icon', 'wj-mappin')} />}
-        {children}
-    </components.Control>
-);
+const Control = ({ children, ...props }: any) => <components.Control {...props}>{children}</components.Control>;
 
 const Input = (props: any) => <components.Input {...props} role="presentation" name="props.id" />;
 
 // Autocomplete component starts from here
 export interface AutoCompleteProps {
-    onChange: (airportId: string, displayValue: string) => void;
+    onChange: (airportId: string, displayValue: string, city: string) => void;
     id: string;
     name: string;
     className: string;
@@ -37,6 +32,7 @@ export interface OptionType {
     value: string;
     optionLabel?: string;
     optionSubLabel?: string;
+    city: string;
 }
 
 const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
@@ -77,10 +73,10 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     const onSelectChanged = (v: ValueType<OptionType>) => {
         const option = v as OptionType;
         if (option) {
-            props.onChange(option.value, option.label);
+            props.onChange(option.value, option.label, option.city);
         } else {
             // passing empty to reset
-            props.onChange('', '');
+            props.onChange('', '', '');
         }
     };
 
@@ -90,7 +86,8 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             isClearable={true}
             defaultValue={{
                 label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-                value: process.env.REACT_APP_DEFAULT_DEPARTURE || ''
+                value: process.env.REACT_APP_DEFAULT_DEPARTURE || '',
+                city: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
             }}
             placeholder={props.placeholder}
             isDisabled={props.disabled}

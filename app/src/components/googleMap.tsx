@@ -12,9 +12,7 @@ import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
-
 import './googleMap.scss';
-import MobileFilterCaller from './searchWidget/mobileFilterCaller';
 
 interface MapProp {
     error?: string;
@@ -65,8 +63,12 @@ const ColorLinearProgress = withStyles({
 })(LinearProgress);
 
 class SimpleMap extends React.Component<MapProp, MapState> {
+    public static IsMobile(): boolean {
+        return window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '');
+    }
+
     private static mapInitProp = (): MapInitProps =>
-        window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '')
+        SimpleMap.IsMobile()
             ? {
                   defaultZoom: gMapConf.defaultMobileZoom as number,
                   zoomControl: false,
@@ -91,7 +93,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             mapProps: SimpleMap.mapInitProp(),
             center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
-                process.env.REACT_APP_DEFAULT_DEPARTURE || '',
+                process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
                 MapArea.createRandom(),
                 null,
                 new DatesInput(-1)
@@ -104,6 +106,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
         this.drawPolyLine = this.drawPolyLine.bind(this);
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
+        SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
     }
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
@@ -137,7 +140,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         if (!dests) {
             return '';
         }
-        const sortedDests = dests.sort((a: IDestination, b: IDestination) => {
+        const noPriceDests = dests.filter(d => d.price === -1);
+        const hasPriceDests = dests.filter(d => d.price !== -1);
+        const sortedDests = hasPriceDests.sort((a: IDestination, b: IDestination) => {
             // sorting by descending
             if (a.personalPriorityIdx < b.personalPriorityIdx) {
                 return 1;
@@ -147,43 +152,56 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             }
             return 0;
         });
-        const groupedDests = this.groupDestinations(dests);
-        return groupedDests.map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
-            const record = group.key;
-            if (
-                record.lat === undefined ||
-                record.lng === undefined ||
-                record.price === undefined ||
-                record.personalPriorityIdx === undefined ||
-                record.cityName === undefined
-            ) {
-                return '';
-            }
-            if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+        const groupedDests = this.groupDestinations(hasPriceDests);
+        return groupedDests
+            .map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
+                const record = group.key;
+                if (
+                    record.lat === undefined ||
+                    record.lng === undefined ||
+                    record.price === undefined ||
+                    record.personalPriorityIdx === undefined ||
+                    record.cityName === undefined
+                ) {
+                    return '';
+                }
+                if (sortedDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+                    return (
+                        <TinyPinMarker
+                            key={idx}
+                            lat={record.lat} // to be consumed only by Maps API
+                            lng={record.lng} // to be consumed only by Maps API
+                        />
+                    );
+                }
                 return (
-                    <TinyPinMarker
+                    <PriceTagMarker
                         key={idx}
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
+                        // properties used by marker component properties:
+                        destinations={group.values}
+                        fromCode={this.state.destinationsRequestModel.departureAirportId}
+                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                        onMouseEnter={() => {
+                            this.drawPolyLine(record.lat, record.lng);
+                        }}
+                        onMouseLeave={this.cleanupPolyLines}
                     />
                 );
-            }
-            return (
-                <PriceTagMarker
-                    key={idx}
-                    lat={record.lat} // to be consumed only by Maps API
-                    lng={record.lng} // to be consumed only by Maps API
-                    // properties used by marker component properties:
-                    destinations={group.values}
-                    fromCode={this.state.destinationsRequestModel.departureAirportId}
-                    fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
-                    onMouseEnter={() => {
-                        this.drawPolyLine(record.lat, record.lng);
-                    }}
-                    onMouseLeave={this.cleanupPolyLines}
-                />
+            })
+            .concat(
+                noPriceDests.map((d: IDestination, idx: number) => {
+                    return (
+                        <TinyPinMarker
+                            key={groupedDests.length + idx}
+                            lat={d.lat} // to be consumed only by Maps API
+                            lng={d.lng} // to be consumed only by Maps API
+                            disabled={true}
+                        />
+                    );
+                })
             );
-        });
     }
 
     renderDepartureAirport() {
@@ -203,8 +221,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
-        const maxDiffLat = 4 / zoomLevel;
-        const maxDiffLlg = 4 / zoomLevel;
+        const maxDiffLat = 8 / zoomLevel;
+        const maxDiffLlg = 16 / zoomLevel;
 
         return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
     }
@@ -216,7 +234,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             const existingStorageItem = storage.find(g => self.areDestinationsCloseEnough(g.key, item));
             if (existingStorageItem) {
                 existingStorageItem.values.push({
-                    destination: item.cityName,
+                    destination: item.airportName ? item.airportName : item.cityName,
                     destinationCode: item.destAirportCode,
                     priority: item.personalPriorityIdx,
                     dateOut: item.flightDates.departureDate,
@@ -264,6 +282,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
+
+        // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
+        if (currentMode.searchArea.nw.lng > 180) currentMode.searchArea.nw.lng -= 360;
+        if (currentMode.searchArea.se.lng > 180) currentMode.searchArea.se.lng -= 360;
+        if (currentMode.searchArea.nw.lng < -180) currentMode.searchArea.nw.lng += 360;
+        if (currentMode.searchArea.se.lng < -180) currentMode.searchArea.se.lng += 360;
+
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
@@ -285,15 +310,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
-                        gestureHandling: 'cooperative',
                         fullscreenControl: true,
                         fullscreenControlOptions: {
                             position: 6
                         },
+                        gestureHandling: 'cooperative',
                         maxZoom: this.state.mapProps.defaultZoom * 3,
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
-                        disableDefaultUI: true,
+                        // disableDefaultUI: true,
                         zoomControl: this.state.mapProps.zoomControl,
                         scrollwheel: this.state.mapProps.scrollwheel,
                         styles: gMapConf.styles as MapTypeStyle[]
@@ -302,23 +327,15 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     {this.renderDestinations()}
                     {this.renderDepartureAirport()}
                 </GoogleMapReact>
-                <div className="overlayed-content-wrapper">
-                    <SearchWidgetWrapper
-                        onChange={this.requestDestinationsUpdate}
-                        initialModel={this.state.destinationsRequestModel}
-                    />
-                </div>
+                <SearchWidgetWrapper
+                    onChange={this.requestDestinationsUpdate}
+                    initialModel={this.state.destinationsRequestModel}
+                />
                 {this.props.isLoading && (
                     <div className="loader-container">
                         <ColorLinearProgress />
                     </div>
                 )}
-                <MobileFilterCaller
-                    props={{
-                        onChange: this.requestDestinationsUpdate,
-                        initialModel: this.state.destinationsRequestModel
-                    }}
-                />
             </div>
         );
     }
