@@ -12,6 +12,7 @@ import googleMap from '../googleMap';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
+    updateDepartureAirport: (departureAirportCode: string) => void;
     initialModel: FlightDestinationRequest;
 }
 
@@ -78,6 +79,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
     onDepartureChanged(airportId: string, airportLabel: string, city: string) {
         this.props.initialModel.departureAirportId = airportId;
         this.setState({ airportLabel: airportLabel, departureCity: city });
+        this.props.updateDepartureAirport(airportId);
         this.props.onChange(this.props.initialModel, airportLabel);
     }
 
