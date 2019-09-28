@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './tinyPinMarker.scss';
 import { GoogleMapRequiredProps } from './priceTagMarker';
+import classnames from 'classnames';
 
 interface TinyMakrerProps extends GoogleMapRequiredProps {
     disabled?: boolean;
@@ -11,7 +12,7 @@ interface TinyMakrerProps extends GoogleMapRequiredProps {
 const TinyPinMarker: React.FC<TinyMakrerProps> = props => {
     return (
         <div
-            className={'tiny-marker ' + (props.disabled ? 'disabled' : '')}
+            className={classnames('tiny-marker', { disabled: props.disabled })}
             onMouseEnter={() => {
                 if (props.onHover) props.onHover();
             }}
