@@ -5,6 +5,7 @@ import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
 import { ValueType } from 'react-select/lib/types';
 import Highlighter from 'react-highlight-words';
+import { useMediaQuery } from '@material-ui/core';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -28,8 +29,8 @@ export interface AutoCompleteProps {
 
 export interface OptionType {
     hasMetro?: boolean;
-    label: string;
-    value: string;
+    label: string | null;
+    value: string | null;
     optionLabel?: string;
     optionSubLabel?: string;
     city: string;
@@ -49,8 +50,19 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             </div>
         </components.Option>
     );
-
+    const isMobileVIew = useMediaQuery('(max-width: 767px)');
+    const [willResetField, setWillResetField] = React.useState<boolean>(false);
     const [highlight, setHighlight] = React.useState('');
+    const [currentValue, setCurrentValue] = React.useState<OptionType | null>({
+        label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+        value: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
+        city: process.env.REACT_APP_DEFAULT_DEPARTURE_CITY || ''
+    });
+    const [nonEmptyValue, setNonEmptyValue] = React.useState<OptionType>({
+        label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+        value: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
+        city: process.env.REACT_APP_DEFAULT_DEPARTURE_CITY || ''
+    });
 
     const loadOptionsHandler = (inputValue: string, callback: any) => {
         // Start loading options after minimum length of typed value
@@ -73,10 +85,25 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     const onSelectChanged = (v: ValueType<OptionType>) => {
         const option = v as OptionType;
         if (option) {
-            props.onChange(option.value, option.label, option.city);
+            setCurrentValue(option);
+            setNonEmptyValue(option);
+            props.onChange(option.value || '', option.label || '', option.city || '');
         } else {
-            // passing empty to reset
-            props.onChange('', '', '');
+            setCurrentValue(null);
+            if (isMobileVIew) setWillResetField(true);
+        }
+    };
+
+    const onFocus = () => {
+        if (!currentValue) {
+            setWillResetField(true);
+        }
+    };
+
+    const ondBlur = () => {
+        if (!currentValue && willResetField) {
+            setCurrentValue(nonEmptyValue);
+            setWillResetField(false);
         }
     };
 
@@ -84,20 +111,18 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
         <AsyncSelect
             inputId={props.id}
             isClearable={true}
-            defaultValue={{
-                label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-                value: process.env.REACT_APP_DEFAULT_DEPARTURE || '',
-                city: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
-            }}
             placeholder={props.placeholder}
             isDisabled={props.disabled}
             loadOptions={loadOptionsHandler}
             noOptionsMessage={noOptionsMessageHandler}
-            className={classnames('wj-rc-autocomplete wj-rc-select', props.className)}
+            className={classnames('wj-rc-autocomplete', props.className)}
             classNamePrefix="rc-autocomplete"
             components={{ Control, Option, LoadingIndicator, Input }}
             onChange={onSelectChanged}
             onInputChange={(val: string) => setHighlight(val)}
+            onBlur={ondBlur}
+            onFocus={onFocus}
+            value={currentValue}
         />
     );
 };

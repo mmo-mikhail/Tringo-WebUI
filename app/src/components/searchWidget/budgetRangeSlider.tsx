@@ -110,7 +110,7 @@ class BudgetRangeSlider extends React.Component<SliderProps, SliderState> {
         const sliderLabel = this.sliderLabel();
 
         return (
-            <div className={'widget-row-fill wj-rc-select'}>
+            <div className={'widget-row-fill'}>
                 <div id="one-handler-range-slider" className={sliderClassName}>
                     <div className="text-container">
                         <span className="to">{sliderLabel}</span>

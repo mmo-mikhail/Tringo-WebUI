@@ -7,11 +7,13 @@ import TinyPinMarker from 'components/markers/tinyPinMarker';
 import { IDestination } from 'models/response/destination';
 import * as destinationActions from 'actions/destinations';
 import SearchWidgetWrapper from 'components/searchWidget/searchWidgetWrapper';
-import { FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
+import { Coordinates, FlightDestinationRequest, MapArea } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
 import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
+import { fetchDepartureAirport } from 'services/dataService';
+
 import './googleMap.scss';
 
 interface MapProp {
@@ -33,7 +35,9 @@ interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
-    selectedAirportlabel: string;
+    selectedAirportlabel: string; //label and Id is not the same thing
+    departureAirportId: string;
+    departureCoordinate: Coordinates;
 }
 
 interface MapInitProps {
@@ -98,7 +102,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 null,
                 new DatesInput(-1)
             ),
-            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || ''
+            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+            departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
+            departureCoordinate: new Coordinates(0, 0)
         };
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
@@ -106,7 +112,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
         this.drawPolyLine = this.drawPolyLine.bind(this);
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
+        this.updateDepartureAirport = this.updateDepartureAirport.bind(this);
+        this.setDepartureCoordinates = this.setDepartureCoordinates.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
+    }
+
+    componentDidMount(): void {
+        fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
     }
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
@@ -191,25 +203,29 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 );
             })
             .concat(
-                noPriceDests.map((d: IDestination, idx: number) => {
-                    return (
-                        <TinyPinMarker
-                            key={groupedDests.length + idx}
-                            lat={d.lat} // to be consumed only by Maps API
-                            lng={d.lng} // to be consumed only by Maps API
-                            disabled={true}
-                        />
-                    );
-                })
+                noPriceDests.map((d: IDestination, idx: number) => (
+                    <TinyPinMarker
+                        key={groupedDests.length + idx}
+                        lat={d.lat} // to be consumed only by Maps API
+                        lng={d.lng} // to be consumed only by Maps API
+                        disabled={true}
+                    />
+                ))
             );
+    }
+
+    setDepartureCoordinates(values: Coordinates) {
+        this.setState({
+            departureCoordinate: values
+        });
     }
 
     renderDepartureAirport() {
         return (
             <DepartureMarker
-                key={-33.8688}
-                lat={-33.8688} // to be consumed only by Maps API
-                lng={151.2093} // to be consumed only by Maps API
+                key={this.state.departureCoordinate.lat}
+                lat={this.state.departureCoordinate.lat} // to be consumed only by Maps API
+                lng={this.state.departureCoordinate.lng} // to be consumed only by Maps API
             />
         );
     }
@@ -263,6 +279,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         return group;
     }
 
+    updateDepartureAirport(departureAirportCode: string) {
+        if (this.state.departureAirportId !== departureAirportCode) {
+            this.setState(
+                {
+                    departureAirportId: departureAirportCode ? departureAirportCode : ''
+                },
+                () => {
+                    fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
+                }
+            );
+        }
+    }
+
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
@@ -284,10 +313,18 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         currentMode.searchArea.se = changeEvent.marginBounds.se;
 
         // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
-        if (currentMode.searchArea.nw.lng > 180) currentMode.searchArea.nw.lng -= 360;
-        if (currentMode.searchArea.se.lng > 180) currentMode.searchArea.se.lng -= 360;
-        if (currentMode.searchArea.nw.lng < -180) currentMode.searchArea.nw.lng += 360;
-        if (currentMode.searchArea.se.lng < -180) currentMode.searchArea.se.lng += 360;
+        if (currentMode.searchArea.nw.lng > 180) {
+            currentMode.searchArea.nw.lng -= 360;
+        }
+        if (currentMode.searchArea.se.lng > 180) {
+            currentMode.searchArea.se.lng -= 360;
+        }
+        if (currentMode.searchArea.nw.lng < -180) {
+            currentMode.searchArea.nw.lng += 360;
+        }
+        if (currentMode.searchArea.se.lng < -180) {
+            currentMode.searchArea.se.lng += 360;
+        }
 
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
@@ -330,6 +367,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 <SearchWidgetWrapper
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
+                    updateDepartureAirport={this.updateDepartureAirport}
                 />
                 {this.props.isLoading && (
                     <div className="loader-container">
