@@ -2,7 +2,7 @@
 
 .App {
     text-align: center;
-    min-height: 70vh;
+    min-height: 768px;
 }
 
 .App-logo {
@@ -20,3 +20,33 @@
     font-size: calc(10px + 2vmin);
     color: white;
 }
+
+.footer-disclaimer {
+    margin-bottom: 0.5rem;
+}
+
+// search widget overrides  begin
+
+.zsl-tab-btn-group-container {
+    .zsl-btn-group-justified {
+        .zsl-btn-group:last-child {
+            display: none !important;
+        }
+
+        .zsl-btn-group:nth-child(2) {
+            border-radius: 3px !important;
+            .zsl-btn {
+                border-top-right-radius: 3px !important;
+                border-bottom-right-radius: 3px !important;
+            }
+        }
+    }
+}
+
+.ui-zsl-date-picker-current-day {
+    i {
+        display: none !important;
+    }
+}
+
+// search widget overrides  end

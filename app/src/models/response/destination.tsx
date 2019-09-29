@@ -3,11 +3,13 @@ export interface IDestination {
     lng: number;
     price: number;
     cityName: string;
+    airportName?: string;
     destAirportCode: string;
     personalPriorityIdx: number;
     flightDates: IFlightDates;
 }
 
 export interface IFlightDates {
-    flightMonthidx: number;
+    departureDate: Date;
+    returnDate: Date;
 }

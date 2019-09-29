@@ -37,7 +37,6 @@
         "import/newline-after-import": 0,
         "import/no-extraneous-dependencies": 0,
         "import/no-named-as-default": 0,
-        //"import/no-unresolved": 2,  //Has problem
         "import/prefer-default-export": 0,
         "jsx-a11y/aria-props": 2,
         "jsx-a11y/heading-has-content": 0,
@@ -47,7 +46,22 @@
         "react/self-closing-comp": 0,
         "react/jsx-indent": ["warn", 4],
         "react/jsx-indent-props": ["warn", 4],
+        "react/jsx-uses-react": 1,
+        "react/jsx-no-bind": 0,
         "react/forbid-prop-types": 0,
-        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }]
+        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }],
+        "react-hooks/exhaustive-deps": [
+            "warn",
+            {
+                "additionalHooks": "useAsync"
+            }
+        ],
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "CallExpression[callee.object.name='console']",
+                "message": "Use of console prohibited. Use a logger instead. (See logger.ts)"
+            }
+        ]
     }
 }

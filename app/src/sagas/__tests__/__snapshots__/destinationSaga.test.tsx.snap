@@ -6,7 +6,7 @@ Object {
   "combinator": false,
   "payload": Object {
     "args": Array [
-      "/api/v1/flights/GetDestinationPrices",
+      "/api/v1/flights/GetLowestPrices",
       FlightDestinationRequest {
         "budget": Budget {
           "max": 1000,
@@ -41,7 +41,7 @@ Object {
   "combinator": false,
   "payload": Object {
     "args": Array [
-      "/api/v1/flights/GetDestinationPrices",
+      "/api/v1/flights/GetLowestPrices",
       FlightDestinationRequest {
         "budget": Budget {
           "max": 1000,
