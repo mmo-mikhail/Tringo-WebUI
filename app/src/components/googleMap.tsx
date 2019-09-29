@@ -281,9 +281,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
-        const maxDiffLat = 8 / zoomLevel;
-        const maxDiffLlg = 16 / zoomLevel;
-
+        const maxDiffLat = 10 / zoomLevel;
+        const maxDiffLlg = 20 / zoomLevel;
+        if (zoomLevel > 8) {
+            return d1.lat === d2.lat && d1.lng === d2.lng;
+        }
         return Math.abs(d1.lat - d2.lat) < maxDiffLat && Math.abs(d1.lng - d2.lng) < maxDiffLlg;
     }
 
@@ -397,6 +399,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         },
                         gestureHandling: 'cooperative',
                         maxZoom: this.state.mapProps.defaultZoom * 3,
+
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
                         // disableDefaultUI: true,
