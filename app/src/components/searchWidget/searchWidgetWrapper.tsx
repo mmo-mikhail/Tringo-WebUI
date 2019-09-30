@@ -102,12 +102,15 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                             <div className={'date'}>{this.state.dateLabel}</div>
                             <div className={'price'}>{this.state.budgetLabel}</div>
                         </div>
-                        <span
-                            className={classnames(
-                                'wj-icon',
-                                this.state.mobilePanelOpenState ? 'wj-caret-up' : 'wj-caret-down'
-                            )}
-                        />
+                        <div className="btn-standard">
+                            <div>Edit&nbsp;Search</div>
+                            <span
+                                className={classnames(
+                                    'wj-icon',
+                                    this.state.mobilePanelOpenState ? 'wj-caret-up' : 'wj-caret-down'
+                                )}
+                            />
+                        </div>
                     </div>
                     <div
                         className={classnames(
