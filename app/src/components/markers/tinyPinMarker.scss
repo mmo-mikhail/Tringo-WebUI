@@ -3,22 +3,22 @@
 $markerSize: 12px;
 $markerSizehovered: 22px;
 .tiny-marker {
-	width: $markerSize;
-	height: $markerSize;
-	border-radius: 100%;
-	background: $lightBlue;
-	margin-top: -8px;
-	margin-left: -8px;
-	border: 2px solid $lighterGrey;
+    width: $markerSize;
+    height: $markerSize;
+    border-radius: 100%;
+    background: $lightBlue;
+    margin-top: -8px;
+    margin-left: -8px;
+    border: 2px solid $lighterGrey;
 
-	&:hover {
-		width: $markerSizehovered;
-		height: $markerSizehovered;
-		margin-top: -14px;
-		margin-left: -14px;
-	}
+    &:hover {
+        width: $markerSizehovered;
+        height: $markerSizehovered;
+        margin-top: -14px;
+        margin-left: -14px;
+    }
 
-	&.disabled {
-		background: $lightDarkGrey;
-	}
+    &.disabled {
+        background: $lightMildGrey;
+    }
 }
