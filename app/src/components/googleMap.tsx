@@ -161,17 +161,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             return '';
         }
         const noPriceDests = dests.filter(d => d.price === -1);
-        const hasPriceDests = dests.filter(d => d.price !== -1).sort((a: IDestination, b: IDestination) => {
-            // sorting by descending
-            if (a.personalPriorityIdx < b.personalPriorityIdx) {
-                return 1;
-            }
-            if (a.personalPriorityIdx > b.personalPriorityIdx) {
-                return -1;
-            }
-            return 0;
-        });
-		const groupedDests = this.groupDestinations(hasPriceDests);
+        const hasPriceDests = dests
+            .filter(d => d.price !== -1)
+            .sort((a: IDestination, b: IDestination) => {
+                // sorting by descending
+                if (a.personalPriorityIdx < b.personalPriorityIdx) {
+                    return 1;
+                }
+                if (a.personalPriorityIdx > b.personalPriorityIdx) {
+                    return -1;
+                }
+                return 0;
+            });
+        const groupedDests = this.groupDestinations(hasPriceDests);
         return groupedDests
             .map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
                 const record = group.key;
@@ -195,12 +197,14 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         fromCode={this.state.destinationsRequestModel.departureAirportId}
                         fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
                         onMouseEnter={() => {
-                            this.drawPolyLine(record.lat, record.lng);
+                            setTimeout(() => {
+                                this.drawPolyLine(record.lat, record.lng);
+                            }, 50);
                         }}
                         onMouseLeave={this.cleanupPolyLines}
                     />
                 );
-				if (hasPriceDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+                if (hasPriceDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
                     const hidableMarkerProps = { ...priceTagMarkerEl.props };
                     const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
                     const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
@@ -281,16 +285,16 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
-		if (zoomLevel > 7) {
-			return d1.lat === d2.lat && d1.lng === d2.lng;
-		}
-		const dist = pixelDistance(d1.lat, d1.lng, d2.lat, d2.lng, zoomLevel);
-		return dist < 70;
+        if (zoomLevel > 7) {
+            return d1.lat === d2.lat && d1.lng === d2.lng;
+        }
+        const dist = pixelDistance(d1.lat, d1.lng, d2.lat, d2.lng, zoomLevel);
+        return dist < 70;
     }
 
     groupDestinations(dests: IDestination[]): IDestinationGroup[] {
-		const self = this;
-		const group = dests.reduce(function (storage: IDestinationGroup[], item: IDestination) {
+        const self = this;
+        const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
             // get the first instance of the key by which we're grouping
             const existingStorageItem = storage.find(g => self.areDestinationsCloseEnough(g.key, item));
             if (existingStorageItem) {
