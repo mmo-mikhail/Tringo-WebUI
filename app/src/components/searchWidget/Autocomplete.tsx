@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { Async as AsyncSelect, components } from 'react-select';
 import './styles/widget.scss';
 import { ValueType } from 'react-select/lib/types';
 import Highlighter from 'react-highlight-words';
 import { useMediaQuery } from '@material-ui/core';
+import { fetchLocationData } from 'services/dataService';
 
 // AsyncSelect custom components below
 const LoadingIndicator = () => <span className="loader alt" />;
@@ -23,7 +24,6 @@ export interface AutoCompleteProps {
     minValueLength: number;
     noOptionsMessage: string;
     placeholder: string;
-    fetchOptions: (args: string, callback: () => {}) => unknown;
     disabled: boolean;
 }
 
@@ -51,7 +51,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
         </components.Option>
     );
     const isMobileVIew = useMediaQuery('(max-width: 767px)');
-    const [willResetField, setWillResetField] = React.useState<boolean>(false);
+    const [willResetField, setWillResetField] = useState<boolean>(false);
     const [highlight, setHighlight] = React.useState('');
     const [currentValue, setCurrentValue] = React.useState<OptionType | null>({
         label: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
@@ -67,7 +67,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
     const loadOptionsHandler = (inputValue: string, callback: any) => {
         // Start loading options after minimum length of typed value
         if (inputValue.length >= props.minValueLength) {
-            props.fetchOptions(inputValue, callback);
+            fetchLocationData(inputValue, callback);
         } else {
             callback();
         }
@@ -106,6 +106,10 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             setWillResetField(false);
         }
     };
+
+    useEffect(() => {
+        setCurrentValue(nonEmptyValue);
+    }, [nonEmptyValue]);
 
     return (
         <AsyncSelect
