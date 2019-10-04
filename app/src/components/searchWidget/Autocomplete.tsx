@@ -50,7 +50,7 @@ const Autocomplete: FC<{ props: AutoCompleteProps }> = ({ props }) => {
             </div>
         </components.Option>
     );
-    const isMobileVIew = useMediaQuery('(max-width: 767px)');
+    const isMobileVIew = useMediaQuery(`(max-width: ${process.env.REACT_APP_MOBILE_WIDTH}px)`);
     const [willResetField, setWillResetField] = useState<boolean>(false);
     const [highlight, setHighlight] = React.useState('');
     const [currentValue, setCurrentValue] = React.useState<OptionType | null>({

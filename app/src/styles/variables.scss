@@ -99,12 +99,9 @@ $starRating: #feb42b;
 $widget__border-radius: 3px;
 
 // Media Queries
-$smallMobilePortrait: 'only screen and (max-width: 374px)';
-$mobilePortrait: 'only screen and (max-width: 567px)';
-$mobile: 'only screen and (max-width: 767px)';
-$not-mobile: 'only screen and (min-width: 768px)';
-$tablet: 'only screen and (min-width: 768px) and (max-width: 991px)';
-$mobileAndTablet: 'only screen and (max-width: 991px)';
-$desktop: 'only screen and (min-width: 992px) and (max-width: 1199px)';
-$desktopAndWideDesktop: 'only screen and (min-width: 992px)';
-$wideDesktop: 'only screen and (min-width: 1200px)';
+$mobilePortrait: 'only screen and (max-width: 600px)';
+$mobile: 'only screen and (max-width: 960px)';
+$not-mobile: 'only screen and (min-width: 960px)';
+$tablet: 'only screen and (min-width: 960px) and (max-width: 1280px)';
+$mobileAndTablet: 'only screen and (max-width: 1280px)';
+$desktop: 'only screen and (min-width: 1280px) and (max-width: 1920px)';
