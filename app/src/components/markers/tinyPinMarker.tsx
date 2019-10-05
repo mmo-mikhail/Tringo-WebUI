@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './tinyPinMarker.scss';
+import './styles/tinyPinMarker.scss';
 import { GoogleMapRequiredProps } from './priceTagMarker';
 import classnames from 'classnames';
 
@@ -14,12 +14,16 @@ const TinyPinMarker: React.FC<TinyMakrerProps> = props => {
         <div
             className={classnames('tiny-marker', { disabled: props.disabled })}
             onMouseEnter={() => {
-                if (props.onHover) props.onHover();
+                if (props.onHover) {
+                    props.onHover();
+                }
             }}
             onMouseOut={() => {
-                if (props.onLeave) props.onLeave();
+                if (props.onLeave) {
+                    props.onLeave();
+                }
             }}
-        ></div>
+        />
     );
 };
 
