@@ -22,6 +22,9 @@ interface MarkerProps extends GoogleMapRequiredProps {
     destinations: DestinationProp[];
     onMouseEnter: () => void;
     onMouseLeave: () => void;
+    customOnClick?: () => void;
+    forbidExpand?: boolean;
+    showAirportName?: boolean;
 }
 
 interface MarkerState {
@@ -61,6 +64,11 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     showModal() {
+        if (this.props.customOnClick && this.props.forbidExpand) {
+            this.props.customOnClick();
+            return;
+        }
+
         if (!this.state.hoveredDestination) {
             return;
         }
@@ -84,10 +92,12 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     onHoverExpandable() {
-        this.setState({
-            expanded: true,
-            hoveredDestination: this.props.destinations[0]
-        });
+        if (!this.props.forbidExpand) {
+            this.setState({
+                expanded: true,
+                hoveredDestination: this.props.destinations[0]
+            });
+        }
     }
 
     onSpecificDestinationLeave() {
@@ -120,7 +130,12 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onClick={this.showModal}
                 onKeyDown={this.showModal}
             >
-                <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
+                <a
+                    role="button"
+                    className="price-marker"
+                    href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
+                    data-toggle="modal"
+                >
                     <div className="city-text">{destination.destination}</div>
                     <div className="price-text-wrapper">
                         <div className="price-text">
