@@ -9,6 +9,7 @@ export interface GoogleMapRequiredProps {
 
 export interface DestinationProp {
     destination: string;
+    airportName?: string;
     destinationCode: string;
     priority: number;
     dateOut: Date;
@@ -22,6 +23,9 @@ interface MarkerProps extends GoogleMapRequiredProps {
     destinations: DestinationProp[];
     onMouseEnter: () => void;
     onMouseLeave: () => void;
+    customOnClick?: () => void;
+    forbidExpand?: boolean;
+    showAirportName?: boolean;
 }
 
 interface MarkerState {
@@ -61,6 +65,11 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     showModal() {
+        if (this.props.customOnClick && this.props.forbidExpand) {
+            this.props.customOnClick();
+            return;
+        }
+
         if (!this.state.hoveredDestination) {
             return;
         }
@@ -84,10 +93,12 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     onHoverExpandable() {
-        this.setState({
-            expanded: true,
-            hoveredDestination: this.props.destinations[0]
-        });
+        if (!this.props.forbidExpand) {
+            this.setState({
+                expanded: true,
+                hoveredDestination: this.props.destinations[0]
+            });
+        }
     }
 
     onSpecificDestinationLeave() {
@@ -120,15 +131,37 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onClick={this.showModal}
                 onKeyDown={this.showModal}
             >
-                <a role="button" className="price-marker" href="#searchWidgetModal" data-toggle="modal">
+                <a
+                    role="button"
+                    className={'price-marker ' + (destination.price === -1 ? 'no-price' : '')}
+                    href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
+                    data-toggle="modal"
+                >
                     <div className="city-text">{destination.destination}</div>
-                    <div className="price-text-wrapper">
-                        <div className="price-text">
-                            <span className="from-text">from </span>$
-                            {Number(destination.price.toFixed(1)).toLocaleString()}*
+                    {destination.price === -1 && ( // if no price available:
+                        <div>
+                            <div className="price-text-wrapper">
+                                <div className="price-text no-price">
+                                    <span>No Price Found</span>
+                                </div>
+                            </div>
+                            <div className="more-text">Click to search</div>
                         </div>
-                    </div>
-                    {moreText && <div className="more-text">{moreText}</div>}
+                    )}
+                    {destination.price !== -1 && ( // else (price present):
+                        <div>
+                            {this.props.showAirportName && destination.airportName && (
+                                <div className="airprot-name-text">{destination.airportName}</div>
+                            )}
+                            <div className="price-text-wrapper">
+                                <div className="price-text">
+                                    <span className="from-text">from </span>$
+                                    {Number(destination.price.toFixed(1)).toLocaleString()}*
+                                </div>
+                            </div>
+                            {moreText && <div className="more-text">{moreText}</div>}
+                        </div>
+                    )}
                 </a>
             </span>
         );
