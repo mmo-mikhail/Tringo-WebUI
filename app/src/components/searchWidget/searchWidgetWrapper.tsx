@@ -6,7 +6,6 @@ import './styles/widget.scss';
 import classnames from 'classnames';
 import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
-import { fetchLocationData } from 'services/dataService';
 import MonthSelect, { DateNumberOptionHelper } from './date-input/monthselect';
 import googleMap from '../googleMap';
 
@@ -129,7 +128,6 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                                     disabled: false,
                                     minValueLength: 3,
                                     noOptionsMessage: noOptionsMessage,
-                                    fetchOptions: fetchLocationData,
                                     onChange: this.onDepartureChanged,
                                     className: 'departure-panel'
                                 }}

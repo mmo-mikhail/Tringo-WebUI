@@ -1,4 +1,4 @@
-@import '../../styles/utilities';
+@import '../../../styles/utilities';
 
 .departure-marker {
     position: absolute;
@@ -11,5 +11,4 @@
     padding: 0px;
     margin: 0px;
     max-width: none;
-    z-index: 1;
 }
