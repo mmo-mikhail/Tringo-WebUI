@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import './priceTagMarker.scss';
+import './styles/priceTagMarker.scss';
 
 export interface GoogleMapRequiredProps {
     lat: number;

@@ -6,9 +6,7 @@ import './styles/widget.scss';
 import classnames from 'classnames';
 import { Budget, FlightDestinationRequest } from 'models/request/flightDestinationRequest';
 import { DatesInput } from 'models/request/dateInput';
-import { fetchLocationData } from 'services/dataService';
 import MonthSelect, { DateNumberOptionHelper } from './date-input/monthselect';
-import googleMap from '../googleMap';
 
 interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
@@ -85,7 +83,6 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
 
     render() {
         const noOptionsMessage = 'No cities or airports were found. Australian airports only.';
-        const isMobile = googleMap.IsMobile();
 
         return (
             <div className="overlaid-content-wrapper">
@@ -113,11 +110,9 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                         </div>
                     </div>
                     <div
-                        className={classnames(
-                            'widget-row',
-                            'widget-controls',
-                            isMobile && { hidden: !this.state.mobilePanelOpenState }
-                        )}
+                        className={classnames('widget-row', 'widget-controls', {
+                            'hidden-panel': !this.state.mobilePanelOpenState
+                        })}
                     >
                         <div className="search-cell">
                             <span className="filter-title">Departing from</span>
@@ -129,7 +124,6 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                                     disabled: false,
                                     minValueLength: 3,
                                     noOptionsMessage: noOptionsMessage,
-                                    fetchOptions: fetchLocationData,
                                     onChange: this.onDepartureChanged,
                                     className: 'departure-panel'
                                 }}
@@ -153,7 +147,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                 </div>
                 <div
                     tabIndex={-1}
-                    className={classnames('background', { hidden: !this.state.mobilePanelOpenState })}
+                    className={classnames('background', { 'hidden-panel': !this.state.mobilePanelOpenState })}
                     onClick={this.mobileFilterViewToggle}
                     onKeyDown={this.mobileFilterViewToggle}
                     role={'button'}

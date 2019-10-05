@@ -218,7 +218,7 @@
 
     // end cut & paste from wj mobile-css
 
-    .hidden {
+    .hidden-panel {
         display: none !important;
     }
 
@@ -261,6 +261,12 @@
             .budget-panel {
                 margin-top: 3%;
             }
+        }
+    }
+
+    @media #{$mobileLandscape} {
+        .modal-open .modal.in.center {
+            display: block !important;
         }
     }
 }
