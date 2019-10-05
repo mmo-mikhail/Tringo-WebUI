@@ -1,36 +1,5 @@
 @import '../../../styles/utilities';
 
-@media #{$not-mobile} {
-    .widget-container {
-        .background {
-            display: none;
-        }
-
-        background-color: rgba(0, 0, 0, 0.75);
-
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            transition: background-color ease 0.15s;
-        }
-
-        .widget-row {
-            align-items: stretch;
-
-            .date-panel {
-                margin-left: 1%;
-            }
-
-            .budget-panel {
-                margin-left: 1%;
-            }
-        }
-
-        .widget-summary {
-            display: none !important;
-        }
-    }
-}
-
 .widget-container {
     text-transform: capitalize;
     padding: 10px;
@@ -174,6 +143,39 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@media #{$not-mobile} {
+    .overlaid-content-wrapper {
+        .widget-container {
+            .background {
+                display: none;
+            }
+
+            background-color: rgba(0, 0, 0, 0.75);
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.8);
+                transition: background-color ease 0.15s;
+            }
+
+            .widget-row {
+                align-items: stretch;
+
+                .date-panel {
+                    margin-left: 1%;
+                }
+
+                .budget-panel {
+                    margin-left: 1%;
+                }
+            }
+
+            .widget-summary {
+                display: none !important;
             }
         }
     }
