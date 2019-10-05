@@ -9,6 +9,7 @@ export interface GoogleMapRequiredProps {
 
 export interface DestinationProp {
     destination: string;
+    airportName?: string;
     destinationCode: string;
     priority: number;
     dateOut: Date;
@@ -149,6 +150,9 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                     )}
                     {destination.price !== -1 && ( // else (price present):
                         <div>
+                            {this.props.showAirportName && destination.airportName && (
+                                <div className="airprot-name-text">{destination.airportName}</div>
+                            )}
                             <div className="price-text-wrapper">
                                 <div className="price-text">
                                     <span className="from-text">from </span>$

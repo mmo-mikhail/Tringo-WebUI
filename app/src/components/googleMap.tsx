@@ -74,6 +74,7 @@ const convertDestination = function(record: IDestination): DestinationProp {
     return {
         destination: record.cityName,
         destinationCode: record.destAirportCode,
+        airportName: record.airportName,
         priority: record.personalPriorityIdx,
         dateOut: record.flightDates.departureDate,
         dateBack: record.flightDates.returnDate,
