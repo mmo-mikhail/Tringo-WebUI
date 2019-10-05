@@ -151,7 +151,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 }
             }
         }
-        
         if (!this.state.isFullScreen) {
             this.setState({
                 isFullScreen: true
