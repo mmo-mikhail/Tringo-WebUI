@@ -163,21 +163,21 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }
         if (mainFooter) {
             if (mainFooter.style.display === 'none') {
-                mainFooter.style.display = 'block';
+                mainFooter.style.display = '';
             } else {
                 mainFooter.style.display = 'none';
             }
         }
         if (nav) {
             if (nav.style.display === 'none') {
-                nav.style.display = 'block';
+                nav.style.display = '';
             } else {
                 nav.style.display = 'none';
             }
         }
         if (navItem) {
             if (navItem.style.display === 'none') {
-                navItem.style.display = 'block';
+                navItem.style.display = '';
             } else {
                 navItem.style.display = 'none';
             }
