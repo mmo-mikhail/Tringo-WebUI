@@ -132,18 +132,32 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             >
                 <a
                     role="button"
-                    className="price-marker"
+                    className={'price-marker ' + (destination.price === -1 ? 'no-price' : '')}
                     href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
                     data-toggle="modal"
                 >
                     <div className="city-text">{destination.destination}</div>
-                    <div className="price-text-wrapper">
-                        <div className="price-text">
-                            <span className="from-text">from </span>$
-                            {Number(destination.price.toFixed(1)).toLocaleString()}*
+                    {destination.price === -1 && ( // if no price available:
+                        <div>
+                            <div className="price-text-wrapper">
+                                <div className="price-text no-price">
+                                    <span>No Price Found</span>
+                                </div>
+                            </div>
+                            <div className="more-text">Click to search</div>
                         </div>
-                    </div>
-                    {moreText && <div className="more-text">{moreText}</div>}
+                    )}
+                    {destination.price !== -1 && ( // else (price present):
+                        <div>
+                            <div className="price-text-wrapper">
+                                <div className="price-text">
+                                    <span className="from-text">from </span>$
+                                    {Number(destination.price.toFixed(1)).toLocaleString()}*
+                                </div>
+                            </div>
+                            {moreText && <div className="more-text">{moreText}</div>}
+                        </div>
+                    )}
                 </a>
             </span>
         );

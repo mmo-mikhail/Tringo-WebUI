@@ -243,7 +243,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     performLoadDestinations(dests: IDestination[]) {
         const noPriceDests = dests.filter(d => d.price === -1);
         const hasPriceDests = dests.filter(d => d.price !== -1).sort(sortDestinationsDesc);
-        //const self = this;
         const markersObj = hasPriceDests.map((d: IDestination) => {
             const m: GoogleMarkerIntf = new this.googleMaps!.maps.Marker({
                 position: { lat: d.lat, lng: d.lng }
@@ -275,6 +274,79 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             (markerCluster: GoogleMarkerClustererInf) => {
                 // The idea is to find clusters to render,
                 // then specific markers to render that may be either price tag marker or pin - marker
+
+                const generatePriceTagMarker = (
+                    key: number,
+                    record: IDestination,
+                    cluster?: GoogleClusterIntf,
+                    sameCity: boolean = false
+                ): JSX.Element => (
+                    <PriceTagMarker
+                        key={key}
+                        lat={record.lat} // to be consumed only by Maps API
+                        lng={record.lng} // to be consumed only by Maps API
+                        // properties used by marker component properties:
+                        destinations={[convertDestination(record)]}
+                        showAirportName={showAirportName}
+                        forbidExpand={!sameCity}
+                        fromCode={this.state.destinationsRequestModel.departureAirportId}
+                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                        onMouseEnter={() => {
+                            setTimeout(() => {
+                                this.drawPolyLine(record.lat, record.lng);
+                            }, 50);
+                        }}
+                        customOnClick={!sameCity && cluster ? () => this.handleClusterClick(cluster) : undefined}
+                        onMouseLeave={this.cleanupPolyLines}
+                    />
+                );
+                const self = this;
+                const generatePinMarker = (
+                    key: number,
+                    priceTagMarkerEl: JSX.Element,
+                    record: IDestination,
+                    disabled: boolean
+                ): JSX.Element => {
+                    const hidableMarkerProps = { ...priceTagMarkerEl.props };
+                    const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
+                    const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
+
+                    hidableMarkerProps.onMouseLeave = () => {
+                        onLeaveOriginal();
+                        self.toogleOnPinPriceMarker();
+                        self.priceHovered = false;
+                    };
+                    hidableMarkerProps.onMouseEnter = () => {
+                        onHoverOriginal();
+                        self.priceHovered = true;
+                    };
+                    const hidableMarker = React.cloneElement(priceTagMarkerEl, hidableMarkerProps);
+                    return (
+                        <TinyPinMarker
+                            key={key}
+                            lat={record.lat} // to be consumed only by Maps API
+                            lng={record.lng} // to be consumed only by Maps API
+                            // properties used by marker component properties:
+                            disabled={disabled}
+                            onHover={() => {
+                                self.drawPolyLine(record.lat, record.lng);
+                                self.toogleOnPinPriceMarker(hidableMarker);
+                            }}
+                            onLeave={() =>
+                                setTimeout(() => {
+                                    if (!self.priceHovered) {
+                                        // if price tag marker was hovered, no need to close it
+                                        self.toogleOnPinPriceMarker();
+                                    }
+                                    if (!self.priceHovered) {
+                                        self.cleanupPolyLines();
+                                    }
+                                }, 100)
+                            } // add small timeout to let it detect hover on price tag mareker
+                        />
+                    );
+                };
+
                 const clustersToRender = markerCluster.clusters_
                     .filter(
                         (c: GoogleClusterIntf) =>
@@ -332,75 +404,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 const showAirportName = anySimilarDestinations(sortedDests);
 
                 const singleMarkersToRender = sortedDests.map((record: IDestination, idx: number) => {
-                    const priceTagMarkerEl = (
-                        <PriceTagMarker
-                            key={clustersToRender.length + idx}
-                            lat={record.lat} // to be consumed only by Maps API
-                            lng={record.lng} // to be consumed only by Maps API
-                            // properties used by marker component properties:
-                            destinations={[convertDestination(record)]}
-                            showAirportName={showAirportName}
-                            fromCode={this.state.destinationsRequestModel.departureAirportId}
-                            fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
-                            onMouseEnter={() => {
-                                setTimeout(() => {
-                                    this.drawPolyLine(record.lat, record.lng);
-                                }, 50);
-                            }}
-                            onMouseLeave={this.cleanupPolyLines}
-                        />
-                    );
+                    const priceTagMarkerEl = generatePriceTagMarker(clustersToRender.length + idx, record);
+
                     // now show tiny markers. notice, that clusters No is counted
                     if (this.props.maxNumberOfConcurrentPriceMarkers <= clustersToRender.length + idx) {
-                        const hidableMarkerProps = { ...priceTagMarkerEl.props };
-                        const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
-                        const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
-
-                        hidableMarkerProps.onMouseLeave = () => {
-                            onLeaveOriginal();
-                            this.toogleOnPinPriceMarker();
-                            this.priceHovered = false;
-                        };
-                        hidableMarkerProps.onMouseEnter = () => {
-                            onHoverOriginal();
-                            this.priceHovered = true;
-                        };
-                        const hidableMarker = React.cloneElement(priceTagMarkerEl, hidableMarkerProps);
-                        return (
-                            <TinyPinMarker
-                                key={clustersToRender.length + idx}
-                                lat={record.lat} // to be consumed only by Maps API
-                                lng={record.lng} // to be consumed only by Maps API
-                                // properties used by marker component properties:
-                                onHover={() => {
-                                    this.drawPolyLine(record.lat, record.lng);
-                                    this.toogleOnPinPriceMarker(hidableMarker);
-                                }}
-                                onLeave={() =>
-                                    setTimeout(() => {
-                                        if (!this.priceHovered) {
-                                            // if price tag marker was hovered, no need to close it
-                                            this.toogleOnPinPriceMarker();
-                                        }
-                                        if (!this.priceHovered) {
-                                            this.cleanupPolyLines();
-                                        }
-                                    }, 100)
-                                } // add small timeout to let it detect hover on price tag mareker
-                            />
-                        );
+                        return generatePinMarker(clustersToRender.length + idx, priceTagMarkerEl, record, false);
                     }
                     return priceTagMarkerEl;
                 });
                 return clustersToRender.concat(singleMarkersToRender).concat(
-                    noPriceDests.map((d: IDestination, idx: number) => (
-                        <TinyPinMarker
-                            key={clustersToRender.length + singleMarkersToRender.length + idx}
-                            lat={d.lat} // to be consumed only by Maps API
-                            lng={d.lng} // to be consumed only by Maps API
-                            disabled={true}
-                        />
-                    ))
+                    noPriceDests.map((dest: IDestination, idx: number) => {
+                        dest.flightDates.departureDate = new Date();
+                        dest.flightDates.returnDate = new Date(dest.flightDates.departureDate);
+                        dest.flightDates.returnDate.setDate(dest.flightDates.returnDate.getDate() + 7);
+                        const marker = generatePriceTagMarker(clustersToRender.length + idx, dest);
+                        return generatePinMarker(
+                            clustersToRender.length + singleMarkersToRender.length + idx,
+                            marker,
+                            dest,
+                            true
+                        );
+                    })
                 );
             }
         );

@@ -59,6 +59,7 @@ iframe {
 
     .price-text-wrapper {
         display: flex;
+
         .from-text {
             font-weight: normal;
             color: grey;
@@ -70,10 +71,19 @@ iframe {
         font-weight: 700;
         font-size: 15px;
         color: $darkGrey;
+
+        &.no-price {
+            font-size: 14px;
+        }
     }
+
     // web jet search widget overrides
     .zsl-btn-group-flight {
         display: none;
+    }
+
+    &.no-price {
+        margin-top: -73px;
     }
 }
 
