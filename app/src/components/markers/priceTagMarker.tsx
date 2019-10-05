@@ -110,6 +110,29 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     }
 
     PriceMarker(destination: DestinationProp, onHover: () => void, moreText?: string, key?: number) {
+        if (destination.price === -1) {
+            return (
+                <span
+                    role={'button'}
+                    tabIndex={-1}
+                    key={key}
+                    onMouseEnter={onHover}
+                    onMouseLeave={this.onSpecificDestinationLeave}
+                    onClick={this.showModal}
+                    onKeyDown={this.showModal}
+                >
+                    <a role="button" className="price-marker no-price" href="#searchWidgetModal" data-toggle="modal">
+                        <div className="city-text">{destination.destination}</div>
+                        <div className="price-text-wrapper">
+                            <div className="price-text no-price">
+                                <span>No Price Found</span>
+                            </div>
+                        </div>
+                        <div className="more-text">Click to search</div>
+                    </a>
+                </span>
+            );
+        }
         return (
             <span
                 role={'button'}

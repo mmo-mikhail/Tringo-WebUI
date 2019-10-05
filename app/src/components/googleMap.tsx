@@ -72,27 +72,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     public static IsMobile(): boolean {
         return window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '');
     }
-    
+
     private static mapInitProp = (): MapInitProps =>
         SimpleMap.IsMobile()
             ? {
-                defaultZoom: gMapConf.defaultMobileZoom as number,
-                zoomControl: false,
-                scrollwheel: false,
-                gestureHandling: 'cooperative'
-            }
+                  defaultZoom: gMapConf.defaultMobileZoom as number,
+                  zoomControl: false,
+                  scrollwheel: false,
+                  gestureHandling: 'cooperative'
+              }
             : {
-                defaultZoom: gMapConf.defaultDesktopZoom as number,
-                zoomControl: true,
-                scrollwheel: true,
-                gestureHandling: 'auto'
-            };
-    
+                  defaultZoom: gMapConf.defaultDesktopZoom as number,
+                  zoomControl: true,
+                  scrollwheel: true,
+                  gestureHandling: 'auto'
+              };
+
     private googleMaps?: GoogleMapObj;
     private flightPathPolyLine: any;
-    
+
     private priceHovered?: boolean; // helps to avoid closing price-marker when hover price-marker leaving pin-marker
-    
+
     constructor(props: any) {
         super(props);
         // no matters what MapArea at this point at all,
@@ -110,7 +110,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
             departureCoordinate: new Coordinates(0, 0)
         };
-        
+
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
@@ -121,20 +121,20 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.toogleOnPinPriceMarker = this.toogleOnPinPriceMarker.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
     }
-    
+
     componentDidMount(): void {
         fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
     }
-    
+
     onGoogleApiLoaded(maps: GoogleMapObj) {
         this.googleMaps = maps;
     }
-    
+
     drawPolyLine(destLat: number, destLng: number): void {
         if (!this.googleMaps) {
             return;
         }
-        
+
         if (this.flightPathPolyLine && this.flightPathPolyLine.map) {
             return;
         }
@@ -148,128 +148,136 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         });
         this.flightPathPolyLine.setMap(this.googleMaps.map);
     }
-    
+
     cleanupPolyLines(): void {
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
     }
-    
+
     renderDestinations() {
         const dests = this.props.destinations;
         if (!dests) {
             return '';
         }
-        const noPriceDests = dests.filter(d => d.price === -1);
-        const hasPriceDests = dests
-            .filter(d => d.price !== -1)
-            .sort((a: IDestination, b: IDestination) => {
-                // sorting by descending
-                if (a.personalPriorityIdx < b.personalPriorityIdx) {
-                    return 1;
-                }
-                if (a.personalPriorityIdx > b.personalPriorityIdx) {
-                    return -1;
-                }
-                return 0;
-            });
-        const groupedDests = this.groupDestinations(hasPriceDests);
-        return groupedDests
-            .map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
-                const record = group.key;
-                if (
-                    record.lat === undefined ||
-                    record.lng === undefined ||
-                    record.price === undefined ||
-                    record.personalPriorityIdx === undefined ||
-                    record.cityName === undefined
-                ) {
-                    return '';
-                }
-                
-                const priceTagMarkerEl = (
-                    <PriceTagMarker
+        const allDests = dests.sort((a: IDestination, b: IDestination) => {
+            // sorting by descending
+            if (a.personalPriorityIdx < b.personalPriorityIdx) {
+                return 1;
+            }
+            if (a.personalPriorityIdx > b.personalPriorityIdx) {
+                return -1;
+            }
+            return 0;
+        });
+        const groupedDests = this.groupDestinations(allDests);
+        return groupedDests.map((group: { key: IDestination; values: DestinationProp[] }, idx: number) => {
+            const record = group.key;
+            if (
+                record.lat === undefined ||
+                record.lng === undefined ||
+                record.price === undefined ||
+                record.personalPriorityIdx === undefined ||
+                record.cityName === undefined
+            ) {
+                return '';
+            }
+
+            const priceTagMarkerEl = (
+                <PriceTagMarker
+                    key={idx}
+                    lat={record.lat} // to be consumed only by Maps API
+                    lng={record.lng} // to be consumed only by Maps API
+                    // properties used by marker component properties:
+                    destinations={group.values}
+                    fromCode={this.state.destinationsRequestModel.departureAirportId}
+                    fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                    onMouseEnter={() => {
+                        setTimeout(() => {
+                            this.drawPolyLine(record.lat, record.lng);
+                        }, 50);
+                    }}
+                    onMouseLeave={this.cleanupPolyLines}
+                />
+            );
+            const hidableMarkerProps = { ...priceTagMarkerEl.props };
+            const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
+            const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
+            hidableMarkerProps.onMouseLeave = () => {
+                onLeaveOriginal();
+                this.toogleOnPinPriceMarker();
+                this.priceHovered = false;
+            };
+            hidableMarkerProps.onMouseEnter = () => {
+                onHoverOriginal();
+                this.priceHovered = true;
+            };
+            const hidableMarker = React.cloneElement(priceTagMarkerEl, hidableMarkerProps);
+            if (record.price === -1) {
+                return (
+                    <TinyPinMarker
                         key={idx}
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
                         // properties used by marker component properties:
-                        destinations={group.values}
-                        fromCode={this.state.destinationsRequestModel.departureAirportId}
-                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
-                        onMouseEnter={() => {
-                            setTimeout(() => {
-                                this.drawPolyLine(record.lat, record.lng);
-                            }, 50);
+                        disabled={true}
+                        onHover={() => {
+                            this.drawPolyLine(record.lat, record.lng);
+                            this.toogleOnPinPriceMarker(hidableMarker);
                         }}
-                        onMouseLeave={this.cleanupPolyLines}
+                        onLeave={() =>
+                            setTimeout(() => {
+                                if (!this.priceHovered)
+                                    // if price tag marker was hovered, no need to close it
+                                    this.toogleOnPinPriceMarker();
+                                if (!this.priceHovered) {
+                                    this.cleanupPolyLines();
+                                }
+                            }, 100)
+                        } // add small timeout to let it detect hover on price tag mareker
                     />
                 );
-                if (hasPriceDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
-                    const hidableMarkerProps = { ...priceTagMarkerEl.props };
-                    const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
-                    const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
-                    
-                    hidableMarkerProps.onMouseLeave = () => {
-                        onLeaveOriginal();
-                        this.toogleOnPinPriceMarker();
-                        this.priceHovered = false;
-                    };
-                    hidableMarkerProps.onMouseEnter = () => {
-                        onHoverOriginal();
-                        this.priceHovered = true;
-                    };
-                    const hidableMarker = React.cloneElement(priceTagMarkerEl, hidableMarkerProps);
-                    return (
-                        <TinyPinMarker
-                            key={idx}
-                            lat={record.lat} // to be consumed only by Maps API
-                            lng={record.lng} // to be consumed only by Maps API
-                            // properties used by marker component properties:
-                            onHover={() => {
-                                this.drawPolyLine(record.lat, record.lng);
-                                this.toogleOnPinPriceMarker(hidableMarker);
-                            }}
-                            onLeave={() =>
-                                setTimeout(() => {
-                                    if (!this.priceHovered)
-                                    // if price tag marker was hovered, no need to close it
-                                    {
-                                        this.toogleOnPinPriceMarker();
-                                    }
-                                    if (!this.priceHovered) {
-                                        this.cleanupPolyLines();
-                                    }
-                                }, 100)
-                            } // add small timeout to let it detect hover on price tag mareker
-                        />
-                    );
-                }
-                return priceTagMarkerEl;
-            })
-            .concat(
-                noPriceDests.map((d: IDestination, idx: number) => (
+            } else if (allDests.indexOf(record) > this.props.maxNumberOfConcurrentPriceMarkers) {
+                return (
                     <TinyPinMarker
-                        key={groupedDests.length + idx}
-                        lat={d.lat} // to be consumed only by Maps API
-                        lng={d.lng} // to be consumed only by Maps API
-                        disabled={true}
+                        key={idx}
+                        lat={record.lat} // to be consumed only by Maps API
+                        lng={record.lng} // to be consumed only by Maps API
+                        // properties used by marker component properties:
+                        onHover={() => {
+                            this.drawPolyLine(record.lat, record.lng);
+                            this.toogleOnPinPriceMarker(hidableMarker);
+                        }}
+                        onLeave={() =>
+                            setTimeout(() => {
+                                if (!this.priceHovered) {
+                                    // if price tag marker was hovered, no need to close it
+                                    this.toogleOnPinPriceMarker();
+                                }
+                                if (!this.priceHovered) {
+                                    this.cleanupPolyLines();
+                                }
+                            }, 100)
+                        } // add small timeout to let it detect hover on price tag mareker
                     />
-                ))
-            );
+                );
+            }
+            return priceTagMarkerEl;
+        });
     }
-    
+
     toogleOnPinPriceMarker(element?: JSX.Element) {
         this.setState({
             onPinHoverElement: element
         });
     }
-    
+
     setDepartureCoordinates(values: Coordinates) {
         this.setState({
             departureCoordinate: values
         });
     }
-    
+
     renderDepartureAirport() {
         return (
             <DepartureMarker
@@ -279,21 +287,24 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             />
         );
     }
-    
+
     areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
         if (!this.googleMaps) {
             return d1.lat === d2.lat && d1.lng === d2.lng;
         } //if something is wrong, just don't show clusterization
-        
+
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
         if (zoomLevel > 7) {
             return d1.lat === d2.lat && d1.lng === d2.lng;
         }
+        if (d1.price === -1 || d2.price === -1) {
+            return d1.lat === d2.lat && d1.lng === d2.lng;
+        }
         const dist = pixelDistance(d1.lat, d1.lng, d2.lat, d2.lng, zoomLevel);
         return dist < 70;
     }
-    
+
     groupDestinations(dests: IDestination[]): IDestinationGroup[] {
         const self = this;
         const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
@@ -329,7 +340,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }, []);
         return group;
     }
-    
+
     updateDepartureAirport(departureAirportCode: string) {
         if (this.state.departureAirportId !== departureAirportCode) {
             this.setState(
@@ -342,27 +353,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
         }
     }
-    
+
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-        
+
         this.setState({
             selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
         });
-        
+
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
-    
+
     // mapChanged. Get fired on: drag end/zoom/on initial load
     mapChanged(changeEvent: ChangeEventValue) {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
-        
+
         // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
         if (currentMode.searchArea.nw.lng > 180) {
             currentMode.searchArea.nw.lng -= 360;
@@ -376,13 +387,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         if (currentMode.searchArea.se.lng < -180) {
             currentMode.searchArea.se.lng += 360;
         }
-        
+
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
     }
-    
+
     render() {
         return (
             <div>
@@ -404,7 +415,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         },
                         gestureHandling: 'cooperative',
                         maxZoom: this.state.mapProps.defaultZoom * 3,
-                        
+
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
                         // disableDefaultUI: true,
@@ -424,7 +435,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 />
                 {this.props.isLoading && (
                     <div className="loader-container">
-                        <ColorLinearProgress/>
+                        <ColorLinearProgress />
                     </div>
                 )}
             </div>

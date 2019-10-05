@@ -71,10 +71,19 @@ iframe {
         font-size: 15px;
         color: $darkGrey;
     }
+
+    .price-text.no-price {
+        font-size: 14px;
+    }
+
     // web jet search widget overrides
     .zsl-btn-group-flight {
         display: none;
     }
+}
+
+.price-marker.no-price {
+    bottom: 14px;
 }
 
 .expandable-marker-container {
