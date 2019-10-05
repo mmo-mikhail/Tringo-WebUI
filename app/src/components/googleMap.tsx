@@ -14,8 +14,8 @@ import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
 import { pixelDistance } from 'components/markers/Clusterer';
-
 import './googleMap.scss';
+
 
 interface MapProp {
     error?: string;
@@ -40,6 +40,7 @@ interface MapState {
     departureAirportId: string;
     departureCoordinate: Coordinates;
     onPinHoverElement?: JSX.Element;
+    isFullScreen?: boolean;
 }
 
 interface MapInitProps {
@@ -72,27 +73,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     public static IsMobile(): boolean {
         return window.screen.width < parseInt(process.env.REACT_APP_MOBILE_WIDTH || '');
     }
-
+    
     private static mapInitProp = (): MapInitProps =>
         SimpleMap.IsMobile()
             ? {
-                  defaultZoom: gMapConf.defaultMobileZoom as number,
-                  zoomControl: false,
-                  scrollwheel: false,
-                  gestureHandling: 'cooperative'
-              }
+                defaultZoom: gMapConf.defaultMobileZoom as number,
+                zoomControl: false,
+                scrollwheel: false,
+                gestureHandling: 'cooperative'
+            }
             : {
-                  defaultZoom: gMapConf.defaultDesktopZoom as number,
-                  zoomControl: true,
-                  scrollwheel: true,
-                  gestureHandling: 'auto'
-              };
-
+                defaultZoom: gMapConf.defaultDesktopZoom as number,
+                zoomControl: true,
+                scrollwheel: true,
+                gestureHandling: 'auto'
+            };
+    
     private googleMaps?: GoogleMapObj;
     private flightPathPolyLine: any;
-
+    
     private priceHovered?: boolean; // helps to avoid closing price-marker when hover price-marker leaving pin-marker
-
+    
     constructor(props: any) {
         super(props);
         // no matters what MapArea at this point at all,
@@ -108,9 +109,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             ),
             selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
-            departureCoordinate: new Coordinates(0, 0)
+            departureCoordinate: new Coordinates(0, 0),
+            isFullScreen: false
         };
-
+        
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
         this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
@@ -119,22 +121,93 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.updateDepartureAirport = this.updateDepartureAirport.bind(this);
         this.setDepartureCoordinates = this.setDepartureCoordinates.bind(this);
         this.toogleOnPinPriceMarker = this.toogleOnPinPriceMarker.bind(this);
+        this.fullScreenClick = this.fullScreenClick.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
     }
-
+    
     componentDidMount(): void {
         fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
     }
-
+    
     onGoogleApiLoaded(maps: GoogleMapObj) {
         this.googleMaps = maps;
     }
-
+    
+    fullScreenClick() {
+        let mainFooter = document.getElementById('mainfooter');
+        let nav = document.getElementById('main-nav');
+        let navItem = document.getElementById('nav-items');
+        let widgetContainer = document.getElementById('wrapperContainer');
+        let mainContainer = document.getElementById('main-container');
+        let text = document.getElementsByClassName('filter-title');
+        
+        if (text.length !== 0) {
+            for (let i = 0; i < text.length; i++) {
+                
+                if ((text.item(i) as HTMLElement).style.color !== 'rgb(0, 0, 0)') {
+                    (text.item(i) as HTMLElement).style.color = 'rgb(0, 0, 0)';
+                } else {
+                    (text.item(i) as HTMLElement).style.color = '#dfdfdf';
+                }
+            }
+        }
+        
+        if (!this.state.isFullScreen) {
+            this.setState({
+                isFullScreen: true
+            });
+        } else {
+            this.setState({
+                isFullScreen: false
+            });
+        }
+        if (mainFooter) {
+            if (mainFooter.style.display === 'none') {
+                mainFooter.style.display = 'block';
+            } else {
+                mainFooter.style.display = 'none';
+            }
+        }
+        if (nav) {
+            if (nav.style.display === 'none') {
+                nav.style.display = 'block';
+            } else {
+                nav.style.display = 'none';
+            }
+        }
+        if (navItem) {
+            if (navItem.style.display === 'none') {
+                navItem.style.display = 'block';
+            } else {
+                navItem.style.display = 'none';
+            }
+        }
+        if (widgetContainer) {
+            if (widgetContainer.style.backgroundColor !== 'transparent') {
+                widgetContainer.style.backgroundColor = 'transparent';
+            } else {
+                widgetContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            }
+        }
+        if (mainContainer) {
+            if (mainContainer.style.marginLeft === '-1%') {
+                mainContainer.style.marginLeft = '0';
+            } else {
+                mainContainer.style.marginLeft = '-1%';
+            }
+            if (mainContainer.style.marginRight === '-1%') {
+                mainContainer.style.marginRight = '0';
+            } else {
+                mainContainer.style.marginRight = '-1%';
+            }
+        }
+    }
+    
     drawPolyLine(destLat: number, destLng: number): void {
         if (!this.googleMaps) {
             return;
         }
-
+        
         if (this.flightPathPolyLine && this.flightPathPolyLine.map) {
             return;
         }
@@ -148,13 +221,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         });
         this.flightPathPolyLine.setMap(this.googleMaps.map);
     }
-
+    
     cleanupPolyLines(): void {
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
     }
-
+    
     renderDestinations() {
         const dests = this.props.destinations;
         if (!dests) {
@@ -186,7 +259,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 ) {
                     return '';
                 }
-
+                
                 const priceTagMarkerEl = (
                     <PriceTagMarker
                         key={idx}
@@ -208,7 +281,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     const hidableMarkerProps = { ...priceTagMarkerEl.props };
                     const onLeaveOriginal = hidableMarkerProps.onMouseLeave.bind({});
                     const onHoverOriginal = hidableMarkerProps.onMouseEnter.bind({});
-
+                    
                     hidableMarkerProps.onMouseLeave = () => {
                         onLeaveOriginal();
                         this.toogleOnPinPriceMarker();
@@ -232,8 +305,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             onLeave={() =>
                                 setTimeout(() => {
                                     if (!this.priceHovered)
-                                        // if price tag marker was hovered, no need to close it
+                                    // if price tag marker was hovered, no need to close it
+                                    {
                                         this.toogleOnPinPriceMarker();
+                                    }
                                     if (!this.priceHovered) {
                                         this.cleanupPolyLines();
                                     }
@@ -255,19 +330,19 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 ))
             );
     }
-
+    
     toogleOnPinPriceMarker(element?: JSX.Element) {
         this.setState({
             onPinHoverElement: element
         });
     }
-
+    
     setDepartureCoordinates(values: Coordinates) {
         this.setState({
             departureCoordinate: values
         });
     }
-
+    
     renderDepartureAirport() {
         return (
             <DepartureMarker
@@ -277,12 +352,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             />
         );
     }
-
+    
     areDestinationsCloseEnough(d1: IDestination, d2: IDestination): boolean {
         if (!this.googleMaps) {
             return d1.lat === d2.lat && d1.lng === d2.lng;
         } //if something is wrong, just don't show clusterization
-
+        
         // TODO: use advanced clusterization algorithm. while 4/zl should be ok for the beginning
         const zoomLevel = this.googleMaps.map.zoom; // int numbers, for instance: 7 (close), 6, 5, 4, 3 (far away)
         if (zoomLevel > 7) {
@@ -291,7 +366,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const dist = pixelDistance(d1.lat, d1.lng, d2.lat, d2.lng, zoomLevel);
         return dist < 70;
     }
-
+    
     groupDestinations(dests: IDestination[]): IDestinationGroup[] {
         const self = this;
         const group = dests.reduce(function(storage: IDestinationGroup[], item: IDestination) {
@@ -327,7 +402,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }, []);
         return group;
     }
-
+    
     updateDepartureAirport(departureAirportCode: string) {
         if (this.state.departureAirportId !== departureAirportCode) {
             this.setState(
@@ -340,27 +415,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             );
         }
     }
-
+    
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
         this.setState({
             destinationsRequestModel: model,
             isLoading: model.departureAirportId != null
         });
-
+        
         this.setState({
             selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
         });
-
+        
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
-
+    
     // mapChanged. Get fired on: drag end/zoom/on initial load
     mapChanged(changeEvent: ChangeEventValue) {
         const currentMode = this.state.destinationsRequestModel;
         currentMode.searchArea.nw = changeEvent.marginBounds.nw;
         currentMode.searchArea.se = changeEvent.marginBounds.se;
-
+        
         // google-map-react does not reset Lng when moving accross pacific ocean. So let's do it manually
         if (currentMode.searchArea.nw.lng > 180) {
             currentMode.searchArea.nw.lng -= 360;
@@ -374,16 +449,17 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         if (currentMode.searchArea.se.lng < -180) {
             currentMode.searchArea.se.lng += 360;
         }
-
+        
         this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
     }
-
+    
     render() {
         return (
             <div>
+                
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs',
@@ -396,13 +472,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
-                        fullscreenControl: true,
-                        fullscreenControlOptions: {
-                            position: 6
-                        },
+                        fullscreenControl: false,
                         gestureHandling: 'cooperative',
                         maxZoom: this.state.mapProps.defaultZoom * 3,
-
+                        
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
                         // disableDefaultUI: true,
@@ -420,11 +493,21 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     initialModel={this.state.destinationsRequestModel}
                     updateDepartureAirport={this.updateDepartureAirport}
                 />
-                {this.props.isLoading && (
-                    <div className="loader-container">
-                        <ColorLinearProgress />
+                {this.props.isLoading && !this.state.isFullScreen && (
+                    <div className="loader-container" id="color-linear-progress">
+                        <ColorLinearProgress/>
                     </div>
                 )}
+                
+                {!SimpleMap.IsMobile() && (
+                    <div>
+                        <button className="btn-standard my-btn"
+                                onClick={this.fullScreenClick}
+                        >{!this.state.isFullScreen ? 'Full screen' : 'Back'}</button>
+                    </div>
+                )}
+            
+            
             </div>
         );
     }

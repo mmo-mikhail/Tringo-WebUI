@@ -1,52 +1,75 @@
 @import 'tringo.mobile';
 
 .App {
-    text-align: center;
-    min-height: 768px;
+  text-align: center;
+  min-height: 768px;
 }
 
 .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-    height: 40vmin;
-    pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 .App-header {
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
+
+//for full scream button
+.nav-items {
+  display: block;
+}
+
+#main-nav {
+  display: block;
+}
+
+.footer {
+  display: block;
+}
+
+.my-btn {
+  z-index: 2;
+  position: absolute;
+  bottom: 5%;
+  left: 2%;
+}
+
+//
 .footer-disclaimer {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 // search widget overrides  begin
 
 .zsl-tab-btn-group-container {
-    .zsl-btn-group-justified {
-        .zsl-btn-group:last-child {
-            display: none !important;
-        }
-
-        .zsl-btn-group:nth-child(2) {
-            border-radius: 3px !important;
-            .zsl-btn {
-                border-top-right-radius: 3px !important;
-                border-bottom-right-radius: 3px !important;
-            }
-        }
+  .zsl-btn-group-justified {
+    .zsl-btn-group:last-child {
+      display: none !important;
     }
+
+    .zsl-btn-group:nth-child(2) {
+      border-radius: 3px !important;
+
+      .zsl-btn {
+        border-top-right-radius: 3px !important;
+        border-bottom-right-radius: 3px !important;
+      }
+    }
+  }
 }
 
 .ui-zsl-date-picker-current-day {
-    i {
-        display: none !important;
-    }
+  i {
+    display: none !important;
+  }
 }
 
 // search widget overrides  end
