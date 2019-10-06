@@ -179,10 +179,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     fullScreenClick() {
-        let mainFooter = document.getElementById('footer-for-full-screen');
-        let nav = document.getElementById('main-nav');
-        let navItem = document.getElementById('nav-items');
-        let mainContainer = document.getElementById('main-container');
+        let container = document.getElementById('main-container');
         let text = document.getElementsByClassName('filter-title');
         this.setState({
             isFullScreen: !this.state.isFullScreen
@@ -191,17 +188,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             for (let i = 0; i < text.length; i++) {
                 this.fullScreenClickHelper((text.item(i) as HTMLElement), 'hide');
             }
-            if (mainFooter) {
-                this.fullScreenClickHelper(mainFooter, 'hide');
-            }
-            if (nav) {
-                this.fullScreenClickHelper(nav, 'hide');
-            }
-            if (navItem) {
-                this.fullScreenClickHelper(navItem, 'hide');
-            }
-            if (mainContainer) {
-                this.fullScreenClickHelper(mainContainer, 'change-margin');
+            if (container) {
+                this.fullScreenClickHelper(container, 'full-screen');
             }
         }
     }
