@@ -7,7 +7,7 @@ import SimpleMap from './components/googleMap';
  */
 const Tringo: React.FC = () => {
     return (
-        <div className="App" >
+        <div className="App">
             <SimpleMap
                 maxNumberOfConcurrentPriceMarkers={parseInt(
                     process.env.REACT_APP_MAX_NU_CONCURRENT_PRICE_MARKERS || ''
