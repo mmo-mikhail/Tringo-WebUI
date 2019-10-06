@@ -86,7 +86,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
 
         return (
             <div className="overlaid-content-wrapper">
-                <div className="widget-container" id="wrapperContainer">
+                <div className="widget-container" id="wrapper-container">
                     <div
                         role={'button'}
                         tabIndex={0}

@@ -137,7 +137,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         let mainFooter = document.getElementById('mainfooter');
         let nav = document.getElementById('main-nav');
         let navItem = document.getElementById('nav-items');
-        let widgetContainer = document.getElementById('wrapperContainer');
+        let widgetContainer = document.getElementById('wrapper-container');
         let mainContainer = document.getElementById('main-container');
         let text = document.getElementsByClassName('filter-title');
         
@@ -151,15 +151,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 }
             }
         }
-        if (!this.state.isFullScreen) {
-            this.setState({
-                isFullScreen: true
-            });
-        } else {
-            this.setState({
-                isFullScreen: false
-            });
-        }
+        this.setState({
+            isFullScreen: !this.state.isFullScreen
+        });
         if (mainFooter) {
             if (mainFooter.style.display === 'none') {
                 mainFooter.style.display = '';
