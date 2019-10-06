@@ -179,7 +179,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
     
     fullScreenClick() {
-        let mainFooter = document.getElementById('main-footer');
+        let mainFooter = document.getElementById('footer-for-full-screen');
         let nav = document.getElementById('main-nav');
         let navItem = document.getElementById('nav-items');
         let mainContainer = document.getElementById('main-container');
@@ -598,9 +598,14 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 
                 {!SimpleMap.IsMobile() && (
                     <div>
-                        <button className="btn-standard my-btn"
+                        <button className="my-btn"
                                 onClick={this.fullScreenClick}
-                        >{!this.state.isFullScreen ? 'Full screen' : 'Back'}</button>
+                        >
+                            {!this.state.isFullScreen ?
+                                <img alt='' src={process.env.REACT_APP_FULLSCREEN_ICON1}/>
+                                :
+                                <img alt='' src={process.env.REACT_APP_FULLSCREEN_ICON2}/>}
+                        </button>
                     </div>
                 )}
             
