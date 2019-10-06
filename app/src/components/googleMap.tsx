@@ -189,9 +189,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             for (let i = 0; i < text.length; i++) {
                 this.fullScreenClickHelper((text.item(i) as HTMLElement), 'hide');
             }
-            if (container) {
-                this.fullScreenClickHelper(container, 'full-screen');
-            }
+        }
+        if (container) {
+            this.fullScreenClickHelper(container, 'full-screen');
         }
     }
     

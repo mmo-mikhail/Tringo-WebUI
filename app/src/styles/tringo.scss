@@ -24,7 +24,6 @@
 
 
 //for full screen button
-
 .my-btn {
     z-index: 2;
     position: absolute;
@@ -44,9 +43,9 @@
 .full-screen {
     position: fixed !important;
     left: 0;
+    top:98px;
     right: 0;
     bottom: 0;
-    top: 15%;
     z-index: 3;
 }
 
