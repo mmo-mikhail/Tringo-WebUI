@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
@@ -478,10 +479,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             isLoading: model.departureAirportId != null
         });
 
-        this.setState({
-            selectedAirportlabel: selectedAirportLabel ? selectedAirportLabel : ''
-        });
-
+        if (selectedAirportLabel) {
+            this.setState({
+                selectedAirportlabel: selectedAirportLabel
+            });
+        }
         // initiate fetching destinations here
         this.props.fetchDestinations(this.state.destinationsRequestModel);
     }
@@ -518,7 +520,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             <div>
                 <GoogleMapReact
                     bootstrapURLKeys={{
-                        key: 'AIzaSyCYHeC_ETn53YOfjFKM7jSh6-diOCPTEGs',
+                        key: process.env.REACT_APP_GMAP_API_KEY || '',
                         language: 'en'
                     }}
                     defaultCenter={this.state.center}

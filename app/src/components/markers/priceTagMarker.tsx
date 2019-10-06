@@ -133,7 +133,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             >
                 <a
                     role="button"
-                    className={'price-marker ' + (destination.price === -1 ? 'no-price' : '')}
+                    className={`price-marker ${destination.price === -1 ? 'no-price' : ''}`}
                     href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
                     data-toggle="modal"
                 >
