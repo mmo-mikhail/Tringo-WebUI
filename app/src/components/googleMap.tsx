@@ -403,6 +403,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                                 key={idx}
                                 lat={topMarker.lat}
                                 lng={topMarker.lng}
+                                //lat={cluster.getCenter().lat()}
+                                //lng={cluster.getCenter().lng()}
                                 // to display it in the middle of cluster
                                 // (onMouseEnter should also be updated then)
                                 // properties used by marker component properties:
