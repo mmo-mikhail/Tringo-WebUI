@@ -90,7 +90,6 @@ const sortDestinationsDesc = (a: IDestination, b: IDestination) => {
     if (a.personalPriorityIdx < b.personalPriorityIdx) {
         return 1;
     }
-    destinationsActions;
     if (a.personalPriorityIdx > b.personalPriorityIdx) {
         return -1;
     }
