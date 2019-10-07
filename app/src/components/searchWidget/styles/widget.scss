@@ -4,13 +4,11 @@
     text-transform: capitalize;
     padding: 10px;
     z-index: 1;
-
     transition: background-color linear 0.15s;
     text-align: left;
 
     .widget-row {
         display: flex;
-
         .wj-rc-select {
             width: auto !important;
         }
@@ -26,7 +24,6 @@
             height: 52px;
             flex-grow: 2;
             min-width: 350px;
-
             .rc-autocomplete__option {
                 text-transform: none;
 
@@ -75,13 +72,11 @@
         }
 
         .budget-panel {
-            flex-grow: 3;
-
+            flex-grow: 1;
             .range-slider {
                 background-color: white;
                 border-radius: 3px;
             }
-
             .widget-row-fill {
                 display: flex;
                 align-items: stretch;
@@ -164,8 +159,8 @@
             }
 
             .widget-row {
-                align-items: stretch;
-
+                flex-flow: row nowrap;
+                align-items: flex-start;
                 .date-panel {
                     margin-left: 1%;
                 }
