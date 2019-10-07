@@ -8,12 +8,12 @@ describe('map LocationData', () => {
     beforeAll(() => {
         data = [
             {
-                TsaAirportCode: 'MELALL',
+                TsaAirportCode: 'MEL',
                 City: 'Melbourne',
                 Airport: 'Tullamarine',
                 AirportCode: 'MEL',
                 Country: 'Australia',
-                IsMetro: true,
+                IsMetro: false,
                 HasMetro: false,
                 NearKeyword: 'Blah',
                 CityAirportName: 'Blah Blah'

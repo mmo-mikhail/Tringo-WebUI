@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './styles/priceTagMarker.scss';
+import { flightSearchParameters } from 'services/searchWidgetModalService';
 
 export interface GoogleMapRequiredProps {
+    key: number;
     lat: number;
     lng: number;
 }
@@ -21,6 +23,7 @@ interface MarkerProps extends GoogleMapRequiredProps {
     fromCode: string;
     fromLabel: string;
     destinations: DestinationProp[];
+    showModal: (params: flightSearchParameters) => void;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
     customOnClick?: () => void;
@@ -31,22 +34,6 @@ interface MarkerProps extends GoogleMapRequiredProps {
 interface MarkerState {
     expanded: boolean;
     hoveredDestination: DestinationProp | null;
-}
-
-declare global {
-    interface Window {
-        populateFlight(param: flightSearchParameters): void;
-    }
-}
-
-interface flightSearchParameters {
-    from: string;
-    fromCity: string;
-    to: string;
-    toCity: string;
-    tripType: string;
-    dateOut: string;
-    dateBack: string;
 }
 
 export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
@@ -75,15 +62,13 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }
 
         const param: flightSearchParameters = {
-            from: this.props.fromCode,
-            fromCity: this.props.fromLabel,
             to: this.state.hoveredDestination.destinationCode,
             toCity: this.state.hoveredDestination.destination,
             tripType: 'Return',
             dateOut: this.formatDate(this.state.hoveredDestination.dateOut),
             dateBack: this.formatDate(this.state.hoveredDestination.dateBack)
         };
-        window.populateFlight(param);
+        this.props.showModal(param);
     }
 
     onHover(selectedIdx: number) {
@@ -132,6 +117,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onKeyDown={this.showModal}
             >
                 <a
+                    style={{ zIndex: destination.priority }}
                     role="button"
                     className={`price-marker ${destination.price === -1 ? 'no-price' : ''}`}
                     href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
