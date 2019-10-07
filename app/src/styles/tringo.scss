@@ -40,6 +40,18 @@
     outline: 0;
 }
 
+.my-btn img:last-child {
+    display: none;
+}
+
+.my-btn:hover img:first-child {
+    display: none;
+}
+
+.my-btn:hover img:last-child {
+    display: inline;
+}
+
 .full-screen {
     position: fixed !important;
     left: 0;
