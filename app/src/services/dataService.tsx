@@ -49,12 +49,12 @@ export function fetchDepartureAirport(inputValue: string, callback: (arg: Coordi
 export function mapLocationData(data: airportLocation[], inputValue: string) {
     return data
         .filter(d => d.Country.toUpperCase() === process.env.REACT_APP_DEFULT_COUNTRY)
+        .filter(d => !d.IsMetro)
         .map((location: airportLocation) => {
             return {
                 city: location.City,
                 hasMetro: location.HasMetro,
-                value: location.AirportCode,
-                // eslint-disable-next-line max-len
+                value: location.TsaAirportCode,
                 label: `${location.City}, ${location.Country} - ${location.Airport} (${
                     location.IsMetro ? location.AirportCode : location.TsaAirportCode
                 })`,
