@@ -475,7 +475,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             return;
         }
         // zoom in
-        this.googleMaps.map.fitBounds(cluster.bounds_);
+        this.googleMaps.map.fitBounds(cluster.getBounds());
     }
 
     toogleOnPinPriceMarker(element?: JSX.Element) {
