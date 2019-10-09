@@ -45,10 +45,13 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             hoveredDestination: null
         };
 
-        this.showModal = this.showModal.bind(this);
         this.onHoverExpandable = this.onHoverExpandable.bind(this);
         this.onSpecificDestinationLeave = this.onSpecificDestinationLeave.bind(this);
         this.delayedLeave = this.delayedLeave.bind(this);
+    }
+
+    componentDidMount(): void {
+        this.showModal = this.showModal.bind(this);
     }
 
     showModal() {
@@ -65,8 +68,8 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             to: this.state.hoveredDestination.destinationCode,
             toCity: this.state.hoveredDestination.destination,
             tripType: 'Return',
-            dateOut: this.formatDate(this.state.hoveredDestination.dateOut),
-            dateBack: this.formatDate(this.state.hoveredDestination.dateBack)
+            dateOut: PriceTagMarker.formatDate(this.state.hoveredDestination.dateOut),
+            dateBack: PriceTagMarker.formatDate(this.state.hoveredDestination.dateBack)
         };
         this.props.showModal(param);
     }
@@ -196,7 +199,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         );
     };
 
-    private formatDate(d: Date): string {
+    private static formatDate(d: Date): string {
         d = new Date(d); // actually needed
         // month + 1 to send month correctly to WebJet's modal popup
         const date = d.getFullYear() + `0${d.getMonth() + 1}`.slice(-2) + `0${d.getDate()}`.slice(-2);

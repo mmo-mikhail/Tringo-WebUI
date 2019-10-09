@@ -398,10 +398,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             .sort(sortDestinationsDesc); // make sure they're sored. who knows whether google API keep markers sorted
 
                         const sameCity = false;
-                        //const sameCity = destsInCluster
-                        //    .map((d: IDestination) => d.cityName)
-                        //    .filter((value: string, index: number, self: string[]) => self.indexOf(value) === index)
-                        //    .length === 1;
 
                         const topMarker = destsInCluster[0];
 
