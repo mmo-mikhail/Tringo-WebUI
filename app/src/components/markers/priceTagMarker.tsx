@@ -1,7 +1,23 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './styles/priceTagMarker.scss';
-import { flightSearchParameters } from 'services/searchWidgetModalService';
+import { findDOMNode } from 'react-dom';
+
+declare global {
+    interface Window {
+        populateFlight(param: flightSearchParameters): void;
+    }
+}
+
+export interface flightSearchParameters {
+    from: string;
+    fromCity: string;
+    to: string;
+    toCity: string;
+    tripType: string;
+    dateOut: string;
+    dateBack: string;
+}
 
 export interface GoogleMapRequiredProps {
     key: number;
@@ -23,7 +39,6 @@ interface MarkerProps extends GoogleMapRequiredProps {
     fromCode: string;
     fromLabel: string;
     destinations: DestinationProp[];
-    showModal: (params: flightSearchParameters) => void;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
     customOnClick?: () => void;
@@ -32,74 +47,90 @@ interface MarkerProps extends GoogleMapRequiredProps {
 }
 
 interface MarkerState {
+    markerDestination: flightSearchParameters | null;
     expanded: boolean;
-    hoveredDestination: DestinationProp | null;
 }
 
 export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     constructor(props: MarkerProps) {
         super(props);
 
+        let param: flightSearchParameters | null = null;
+
+        if (this.props.destinations && this.props.destinations.length > 0) {
+            const destination = this.props.destinations[0];
+            param = {
+                from: this.props.fromCode,
+                fromCity: this.props.fromLabel,
+                to: destination.destinationCode,
+                toCity: destination.destination,
+                tripType: 'Return',
+                dateOut: PriceTagMarker.formatDate(destination.dateOut),
+                dateBack: PriceTagMarker.formatDate(destination.dateBack)
+            };
+        }
+
         this.state = {
             expanded: false,
-            hoveredDestination: null
+            markerDestination: param
         };
 
-        this.onHoverExpandable = this.onHoverExpandable.bind(this);
-        this.onSpecificDestinationLeave = this.onSpecificDestinationLeave.bind(this);
         this.delayedLeave = this.delayedLeave.bind(this);
+        this.zoomIn = this.zoomIn.bind(this);
     }
 
     componentDidMount(): void {
-        this.showModal = this.showModal.bind(this);
-    }
-
-    showModal() {
-        if (this.props.customOnClick && this.props.forbidExpand) {
-            this.props.customOnClick();
-            return;
-        }
-
-        if (!this.state.hoveredDestination) {
-            return;
-        }
-
-        const param: flightSearchParameters = {
-            to: this.state.hoveredDestination.destinationCode,
-            toCity: this.state.hoveredDestination.destination,
+        const destination = this.props.destinations[0];
+        let param: flightSearchParameters = {
+            from: this.props.fromCode,
+            fromCity: this.props.fromLabel,
+            to: destination.destinationCode,
+            toCity: destination.destination,
             tripType: 'Return',
-            dateOut: PriceTagMarker.formatDate(this.state.hoveredDestination.dateOut),
-            dateBack: PriceTagMarker.formatDate(this.state.hoveredDestination.dateBack)
+            dateOut: PriceTagMarker.formatDate(destination.dateOut),
+            dateBack: PriceTagMarker.formatDate(destination.dateBack)
         };
-        this.props.showModal(param);
-    }
 
-    onHover(selectedIdx: number) {
         this.setState({
-            hoveredDestination: this.props.destinations[selectedIdx]
+            markerDestination: param
         });
+        //don't change this, this is how we bind react and external jQuery component
+        this.injectClickListenerForParamJQurry();
     }
 
-    onHoverExpandable() {
-        if (!this.props.forbidExpand) {
+    //don't change this, this is how we bind react and external jQuery component
+    injectClickListenerForParamJQurry() {
+        let tag = findDOMNode(this) as Node;
+        tag.removeEventListener('click', () => {});
+        tag.addEventListener('click', () =>
+            window.populateFlight(this.state.markerDestination as flightSearchParameters)
+        );
+    }
+
+    componentDidUpdate(prevProps: Readonly<MarkerProps>): void {
+        const destination = this.props.destinations[0];
+        if (this.props.fromLabel !== prevProps.fromLabel || destination !== prevProps.destinations[0]) {
+            let param: flightSearchParameters = {
+                from: this.props.fromCode,
+                fromCity: this.props.fromLabel,
+                to: destination.destinationCode,
+                toCity: destination.destination,
+                tripType: 'Return',
+                dateOut: PriceTagMarker.formatDate(destination.dateOut),
+                dateBack: PriceTagMarker.formatDate(destination.dateBack)
+            };
+
             this.setState({
-                expanded: true,
-                hoveredDestination: this.props.destinations[0]
+                markerDestination: param
             });
         }
     }
 
-    onSpecificDestinationLeave() {
-        this.setState({
-            hoveredDestination: null
-        });
-        setTimeout(() => {
-            if (!this.state.hoveredDestination) {
-                this.setState({
-                    expanded: false
-                });
-            } // else it was moved to other destination from 'more' option
-        }, 50); // add tiny delay to let it detect mouse move over other destinations from sub-list for multiple-destinations case
+    zoomIn() {
+        if (this.props.customOnClick && this.props.forbidExpand) {
+            this.props.customOnClick();
+            return;
+        }
     }
 
     delayedLeave() {
@@ -108,17 +139,9 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         }, 50);
     }
 
-    PriceMarker(destination: DestinationProp, onHover: () => void, moreText?: string, key?: number) {
+    PriceMarker(destination: DestinationProp, moreText?: string, key?: number) {
         return (
-            <span
-                role={'button'}
-                tabIndex={-1}
-                key={key}
-                onMouseEnter={onHover}
-                onMouseLeave={this.onSpecificDestinationLeave}
-                onClick={this.showModal}
-                onKeyDown={this.showModal}
-            >
+            <span role={'button'} tabIndex={-1} key={key} onClick={this.zoomIn} onKeyDown={this.zoomIn}>
                 <a
                     style={{ zIndex: destination.priority }}
                     role="button"
@@ -166,7 +189,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
             // Simple price tag marker
             return (
                 <div onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.delayedLeave}>
-                    {this.PriceMarker(destination, () => this.onHover(0))}
+                    {this.PriceMarker(destination)}
                 </div>
             );
         }
@@ -177,21 +200,13 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.delayedLeave}
             >
-                <div>
-                    {this.PriceMarker(
-                        destination,
-                        () => this.onHoverExpandable(),
-                        `${(destinations.length - 1).toString()} more`
-                    )}
-                </div>
+                <div>{this.PriceMarker(destination, `${(destinations.length - 1).toString()} more`)}</div>
                 {this.state.expanded && (
                     <div className="expandable-markers">
                         {destinations
                             .filter((_, idx: number) => idx !== 0)
                             .map((destination: DestinationProp, idx: number) => (
-                                <div>
-                                    {this.PriceMarker(destination, () => this.onHover(idx + 1), undefined, idx + 1)}
-                                </div>
+                                <div>{this.PriceMarker(destination, undefined, idx + 1)}</div>
                             ))}
                     </div>
                 )}
