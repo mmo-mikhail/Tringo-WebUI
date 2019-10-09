@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './styles/priceTagMarker.scss';
-import { findDOMNode } from 'react-dom';
 
 declare global {
     interface Window {
@@ -94,17 +93,6 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         this.setState({
             markerDestination: param
         });
-        //don't change this, this is how we bind react and external jQuery component
-        this.injectClickListenerForParamJQurry();
-    }
-
-    //don't change this, this is how we bind react and external jQuery component
-    injectClickListenerForParamJQurry() {
-        let tag = findDOMNode(this) as Node;
-        tag.removeEventListener('click', () => {});
-        tag.addEventListener('click', () =>
-            window.populateFlight(this.state.markerDestination as flightSearchParameters)
-        );
     }
 
     componentDidUpdate(prevProps: Readonly<MarkerProps>): void {
@@ -148,6 +136,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
                     className={`price-marker ${destination.price === -1 ? 'no-price' : ''}`}
                     href={this.props.customOnClick && this.props.forbidExpand ? '_blank' : '#searchWidgetModal'}
                     data-toggle="modal"
+                    onClick={() => window.populateFlight(this.state.markerDestination as flightSearchParameters)}
                 >
                     <div className="city-text">{destination.destination}</div>
                     {destination.price === -1 && ( // if no price available:
