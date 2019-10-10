@@ -23,7 +23,12 @@ describe('Destinaton Actions', () => {
                 lng: 5436.789,
                 price: 5432.21,
                 cityName: 'CityNameTest',
-                personalPriorityIdx: 6
+                personalPriorityIdx: 6,
+                destAirportCode: 'CDE',
+                flightDates: {
+                    departureDate: new Date(),
+                    returnDate: new Date()
+                }
             }
         ];
 

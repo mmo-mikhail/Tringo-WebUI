@@ -1,0 +1,14 @@
+@import '../../../styles/utilities';
+
+.departure-marker {
+    position: absolute;
+    top: -19px;
+    left: -9px;
+    user-select: none;
+    width: 19px;
+    height: 27px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    max-width: none;
+}

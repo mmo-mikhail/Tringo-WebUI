@@ -1,4 +1,4 @@
-@import '../../styles/utilities';
+@import '../../../styles/utilities';
 
 iframe {
     border: 0;
@@ -42,7 +42,8 @@ iframe {
 
     .city-text,
     .price-text,
-    .more-text {
+    .more-text,
+    .airprot-name-text {
         max-width: 120px;
         padding: 0 8px;
         text-overflow: ellipsis;
@@ -59,6 +60,7 @@ iframe {
 
     .price-text-wrapper {
         display: flex;
+
         .from-text {
             font-weight: normal;
             color: grey;
@@ -70,10 +72,19 @@ iframe {
         font-weight: 700;
         font-size: 15px;
         color: $darkGrey;
+
+        &.no-price {
+            font-size: 14px;
+        }
     }
+
     // web jet search widget overrides
     .zsl-btn-group-flight {
         display: none;
+    }
+
+    &.no-price {
+        margin-top: -73px;
     }
 }
 

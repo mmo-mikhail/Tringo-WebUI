@@ -1,22 +1,24 @@
-@import '../../styles/utilities';
+@import '../../../styles/utilities';
 
 $markerSize: 12px;
-$markerSizehovered: 18px;
+$markerSizehovered: 22px;
 .tiny-marker {
     width: $markerSize;
     height: $markerSize;
     border-radius: 100%;
     background: $lightBlue;
-    margin-top: -2px;
-    margin-left: -6px;
+    margin-top: -8px;
+    margin-left: -8px;
     border: 2px solid $lighterGrey;
 
     &:hover {
         width: $markerSizehovered;
         height: $markerSizehovered;
+        margin-top: -14px;
+        margin-left: -14px;
     }
 
     &.disabled {
-        background: $lightDarkGrey;
+        background: $lightMildGrey;
     }
 }
