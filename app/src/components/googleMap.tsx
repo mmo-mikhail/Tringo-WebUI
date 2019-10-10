@@ -590,6 +590,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     onChange={this.requestDestinationsUpdate}
                     initialModel={this.state.destinationsRequestModel}
                     updateDepartureAirport={this.updateDepartureAirport}
+                    isFullScreen={!!this.state.isFullScreen}
                 />
                 {this.props.isLoading && !this.state.isFullScreen && (
                     <div className="loader-container" id="color-linear-progress">

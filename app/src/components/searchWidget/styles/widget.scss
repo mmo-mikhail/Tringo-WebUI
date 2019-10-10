@@ -9,6 +9,7 @@
 
     .widget-row {
         display: flex;
+
         .wj-rc-select {
             width: auto !important;
         }
@@ -19,11 +20,20 @@
             color: $mildWhite;
         }
 
+        .logo-in-widget {
+            margin: 0 30px;
+
+            img {
+                height: 52px;
+            }
+        }
+
         .departure-panel {
             text-align: left;
             height: 52px;
             flex-grow: 2;
             min-width: 350px;
+
             .rc-autocomplete__option {
                 text-transform: none;
 
@@ -73,10 +83,12 @@
 
         .budget-panel {
             flex-grow: 1;
+
             .range-slider {
                 background-color: white;
                 border-radius: 3px;
             }
+
             .widget-row-fill {
                 display: flex;
                 align-items: stretch;
@@ -129,7 +141,6 @@
                         width: calc(100% - #{$text-width} - 20px);
                         margin-right: 20px;
                         padding-top: 1px;
-
                         display: flex;
                         align-items: center;
                         justify-content: center;
