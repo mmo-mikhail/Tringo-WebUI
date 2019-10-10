@@ -1,14 +1,4 @@
-@import '../styles/utilities';
-
-.overlaid-content-wrapper {
-    display: flex;
-    flex-direction: column;
-
-    .loader-container {
-        margin-top: 1px;
-        width: 100%;
-    }
-}
+@import 'googleMap.mobile';
 
 .my-btn {
     z-index: 2;
@@ -27,8 +17,23 @@
     &:hover {
         color: $darkGrey;
     }
+
     &:focus {
         outline: 0;
+    }
+}
+
+@media #{$not-mobile} {
+    .footer-disclaimer {
+        margin-bottom: 0.5rem;
+    }
+
+    .full-screen-map-toggle {
+        height: 100vh !important;
+        position: inherit;
+        .overlaid-content-wrapper {
+            top: 0;
+        }
     }
 }
 

@@ -136,33 +136,47 @@
             </div>
         </div>
     </div>
-    <footer >
-        <div class="footer-disclaimer" >
-            <div class="ts-cs">
-                <style>.fees-linked-text {
-                    color: #0060BB !important;
-                    text-decoration: none !important;
-                    margin-left: 0;
-                }</style>
-                *Recent <i>return flight</i> prices (per adult) found in the last 15 days.
-                <div style="margin-top: 0.5em">Prices on this page are subject to change without notice, perform a search to view live
-                pricing. Prices
-                are inclusive of taxes and airline surcharges. <b>Webjet fees per flight booking:</b> <a
-                    class="fees-linked-text" target="_blank"
-                    href="https://www.webjet.com.au/standalone/webjet-servicing-fee">
+    <footer>
 
-                Webjet Servicing Fee</a>: Domestic $21.95,
-                NZ/Pacific $24.95, International $32.95.
-                <a class="fees-linked-text" target="_blank"
-                   href="https://www.webjet.com.au/standalone/booking-price-guarantee/">
-                    Booking
-                    Price Guarantee</a>: Domestic $12.95, NZ/Pacific $14.95, International $21.95. Varying <a
-                    class="fees-linked-text" target="_blank" href="https://www.webjet.com.au/standalone/payment-fee/">
-                payment fees</a> are included in the price
-                breakdown on Webjet’s checkout page, once your payment method has been selected.</div>
+        <div class="mobile-footer-disclaimer">
+            <div class="ts-cs footer-disclaimer-message">
+                *Recent <i>return flight</i> prices (per adult) found in the last 15 days. View details for notes on
+                fees.
+            </div>
+
+            <div class="footer-disclaimer-button">
+                <a class="fees-linked-text"
+                   role="button"
+                   href="#center-modal"
+                   data-toggle="modal">view&nbsp;details</a>
+            </div>
+
+        </div>
+
+        <div style="display: none" class="footer-disclaimer">
+            <div class="ts-cs">
+                *Recent <i>return flight</i> prices (per adult) found in the last 15 days.
+                <div style="margin-top: 0.5em">Prices on this page are subject to change without notice, perform a
+                    search to view live
+                    pricing. Prices
+                    are inclusive of taxes and airline surcharges. <b>Webjet fees per flight booking:</b> <a
+                            class="fees-linked-text" target="_blank"
+                            href="https://www.webjet.com.au/standalone/webjet-servicing-fee">
+
+                        Webjet Servicing Fee</a>: Domestic $21.95,
+                    NZ/Pacific $24.95, International $32.95.
+                    <a class="fees-linked-text" target="_blank"
+                       href="https://www.webjet.com.au/standalone/booking-price-guarantee/">
+                        Booking
+                        Price Guarantee</a>: Domestic $12.95, NZ/Pacific $14.95, International $21.95. Varying <a
+                            class="fees-linked-text" target="_blank"
+                            href="https://www.webjet.com.au/standalone/payment-fee/">
+                        payment fees</a> are included in the price
+                    breakdown on Webjet’s checkout page, once your payment method has been selected.
+                </div>
             </div>
         </div>
-        <ul id="footer">
+        <ul style="display: none" id="footer">
             <li class="col col-s-12">
                 <a href="#" class="footer-header"><span class="wj-icon wj-s-caret-right col-m-0 col-l-0"></span>More
                     Info</a>
@@ -253,6 +267,45 @@
         </div>
     </div>
 </div>
+<div id="center-modal" data-backdrop="static" tabindex="-1" class="modal center">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h1>Flight price details note</h1>
+            <a aria-hidden="true" data-dismiss="modal" class="wj-icon wj-cross close" href="#"></a>
+        </div>
+        <div class="modal-body">
+            <p>
+                *Recent <i>return flight</i> prices (per adult) found in the last 15 days.
+            </p>
+            <p>
+                Prices on this page are subject to change without notice, perform a search to view live
+                pricing. Prices
+                are inclusive of taxes and airline surcharges.
+            </p>
+            <p><b>Fees per flight booking:</b> <br>
+            <a class="fees-linked-text" target="_blank"
+               href="https://www.webjet.com.au/standalone/webjet-servicing-fee">
+                Webjet Servicing Fee:</a><br>
+                Domestic $21.95,
+                NZ/Pacific $24.95, International $32.95.</p>
+            <p>
+            <a class="fees-linked-text" target="_blank"
+               href="https://www.webjet.com.au/standalone/booking-price-guarantee/">
+                Booking
+                Price Guarantee:</a><br> Domestic $12.95, NZ/Pacific $14.95, International $21.95.
+            </p>
+            <p>Varying <a
+                class="fees-linked-text" target="_blank" href="https://www.webjet.com.au/standalone/payment-fee/">
+            payment fees</a> are included in the price
+            breakdown on Webjet’s checkout page, once your payment method has been selected.
+            </p>
+            <div class="action-panel">
+                <button class="btn-standard" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
