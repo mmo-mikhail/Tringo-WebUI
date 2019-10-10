@@ -21,7 +21,7 @@ import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 
 interface MapProp {
     error?: string;
-    isLoading?: boolean;
+    isLoading: boolean;
     maxNumberOfConcurrentPriceMarkers: number;
     destinations: IDestination[];
     fetchDestinations: (arg: FlightDestinationRequest) => {};
@@ -30,16 +30,10 @@ interface MapProp {
 type DrawerSide = 'cooperative' | 'auto';
 
 interface MapState {
-    center: {
-        lat: number;
-        lng: number;
-    };
-    mapProps: MapInitProps;
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
     selectedAirportLabel: string; //label and Id is not the same thing
-    departureAirportId: string;
     departureCoordinate: Coordinates;
     onPinHoverElement?: JSX.Element;
     isFullScreen?: boolean;
@@ -130,13 +124,18 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     private previousDestinations?: IDestination[];
     private markerClusterer?: GoogleMarkerClustererInf;
 
+    private lastRequestTimeMs: number;
+    private minLoaderShowMs: number;
+
+    private defaultCenter: Coordinates;
+    private mapProps: MapInitProps;
+    private departureAirportId: string;
+
     constructor(props: any) {
         super(props);
         // no matters what MapArea at this point at all,
         // we set lat/lng and zoom for component directly and it will be overridden
         this.state = {
-            mapProps: SimpleMap.mapInitProp(),
-            center: gMapConf.defaultCentre,
             destinationsRequestModel: new FlightDestinationRequest(
                 process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
                 MapArea.createRandom(),
@@ -144,10 +143,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 new DatesInput(-1)
             ),
             selectedAirportLabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
-            departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
             departureCoordinate: new Coordinates(0, 0),
             isFullScreen: false
         };
+        this.departureAirportId = process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '';
+        this.defaultCenter = gMapConf.defaultCentre;
+        this.mapProps = SimpleMap.mapInitProp();
 
         this.requestDestinationsUpdate = this.requestDestinationsUpdate.bind(this);
         this.mapChanged = this.mapChanged.bind(this);
@@ -160,10 +161,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.fullScreenToggle = this.fullScreenToggle.bind(this);
         this.fullScreenClickHelper = this.fullScreenClickHelper.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
+
+        this.lastRequestTimeMs = Date.now();
+        this.minLoaderShowMs = parseInt(process.env.REACT_APP_LOADER_SHOW_MIN_TIME_MS || '');
     }
 
     componentDidMount(): void {
-        fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
+        fetchDepartureAirport(this.departureAirportId, this.setDepartureCoordinates);
 
         const script = document.createElement('script');
         script.src =
@@ -485,31 +489,25 @@ class SimpleMap extends React.Component<MapProp, MapState> {
     }
 
     updateDepartureAirport(departureAirportCode: string) {
-        if (this.state.departureAirportId !== departureAirportCode) {
-            this.setState(
-                {
-                    departureAirportId: departureAirportCode ? departureAirportCode : ''
-                },
-                () => {
-                    fetchDepartureAirport(this.state.departureAirportId, this.setDepartureCoordinates);
-                }
-            );
+        if (this.departureAirportId !== departureAirportCode) {
+            this.departureAirportId = departureAirportCode ? departureAirportCode : '';
+            fetchDepartureAirport(this.departureAirportId, this.setDepartureCoordinates);
         }
     }
 
     requestDestinationsUpdate(model: FlightDestinationRequest, selectedAirportLabel: string | null) {
-        this.setState({
-            destinationsRequestModel: model,
-            isLoading: model.departureAirportId != null
-        });
+        this.lastRequestTimeMs = Date.now();
 
-        if (selectedAirportLabel) {
-            this.setState({
-                selectedAirportLabel: selectedAirportLabel
-            });
-        }
-        // initiate fetching destinations here
-        this.props.fetchDestinations(this.state.destinationsRequestModel);
+        this.setState(
+            {
+                destinationsRequestModel: model,
+                selectedAirportLabel: selectedAirportLabel ? selectedAirportLabel : this.state.selectedAirportLabel
+            },
+            () => {
+                // initiate fetching destinations here
+                this.props.fetchDestinations(this.state.destinationsRequestModel);
+            }
+        );
     }
 
     // mapChanged. Get fired on: drag end/zoom/on initial load
@@ -538,7 +536,23 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         }
     }
 
+    getDelayedLoader(): boolean {
+        const diff = Date.now() - this.lastRequestTimeMs;
+        if (diff < this.minLoaderShowMs && !this.props.isLoading) {
+            setTimeout(() => {
+                //this.loading = false;
+                this.forceUpdate();
+            }, this.minLoaderShowMs);
+            return true;
+        }
+        if (diff < this.minLoaderShowMs && this.props.isLoading) {
+            return true;
+        }
+        return this.props.isLoading;
+    }
+
     render() {
+        const isLoading = this.getDelayedLoader();
         this.loadDestinations();
         return (
             <div>
@@ -547,8 +561,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         key: process.env.REACT_APP_GMAP_API_KEY || '',
                         language: 'en'
                     }}
-                    defaultCenter={this.state.center}
-                    defaultZoom={this.state.mapProps.defaultZoom}
+                    defaultCenter={this.defaultCenter}
+                    defaultZoom={this.mapProps.defaultZoom}
                     style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
@@ -556,12 +570,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     options={{
                         fullscreenControl: false,
                         gestureHandling: 'cooperative',
-                        maxZoom: this.state.mapProps.defaultZoom * 3,
+                        maxZoom: this.mapProps.defaultZoom * 3,
 
-                        minZoom: this.state.mapProps.defaultZoom * 0.8,
+                        minZoom: this.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
-                        zoomControl: this.state.mapProps.zoomControl,
-                        scrollwheel: this.state.mapProps.scrollwheel,
+                        zoomControl: this.mapProps.zoomControl,
+                        scrollwheel: this.mapProps.scrollwheel,
                         styles: gMapConf.styles as MapTypeStyle[]
                     }}
                 >
@@ -575,7 +589,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     updateDepartureAirport={this.updateDepartureAirport}
                     isFullScreen={!!this.state.isFullScreen}
                 />
-                {this.props.isLoading && !this.state.isFullScreen && (
+                {isLoading && (
                     <div className="loader-container" id="color-linear-progress">
                         <ColorLinearProgress />
                     </div>
