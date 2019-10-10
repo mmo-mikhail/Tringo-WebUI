@@ -58,15 +58,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
 
         if (this.props.destinations && this.props.destinations.length > 0) {
             const destination = this.props.destinations[0];
-            param = {
-                from: this.props.fromCode,
-                fromCity: this.props.fromLabel,
-                to: destination.destinationCode,
-                toCity: destination.destination,
-                tripType: 'Return',
-                dateOut: PriceTagMarker.formatDate(destination.dateOut),
-                dateBack: PriceTagMarker.formatDate(destination.dateBack)
-            };
+            param = this.buildDestinationProp(destination);
         }
 
         this.state = {
@@ -76,20 +68,25 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
 
         this.delayedLeave = this.delayedLeave.bind(this);
         this.zoomIn = this.zoomIn.bind(this);
+        this.buildDestinationProp = this.buildDestinationProp.bind(this);
     }
 
-    componentDidMount(): void {
-        const destination = this.props.destinations[0];
+    buildDestinationProp(destination: DestinationProp): flightSearchParameters {
         let param: flightSearchParameters = {
             from: this.props.fromCode,
             fromCity: this.props.fromLabel,
             to: destination.destinationCode,
-            toCity: destination.destination,
+            toCity: `${destination.destination} - ${destination.airportName} (${destination.destinationCode})`,
             tripType: 'Return',
             dateOut: PriceTagMarker.formatDate(destination.dateOut),
             dateBack: PriceTagMarker.formatDate(destination.dateBack)
         };
+        return param;
+    }
 
+    componentDidMount(): void {
+        const destination = this.props.destinations[0];
+        let param: flightSearchParameters = this.buildDestinationProp(destination);
         this.setState({
             markerDestination: param
         });
@@ -98,16 +95,7 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
     componentDidUpdate(prevProps: Readonly<MarkerProps>): void {
         const destination = this.props.destinations[0];
         if (this.props.fromLabel !== prevProps.fromLabel || destination !== prevProps.destinations[0]) {
-            let param: flightSearchParameters = {
-                from: this.props.fromCode,
-                fromCity: this.props.fromLabel,
-                to: destination.destinationCode,
-                toCity: destination.destination,
-                tripType: 'Return',
-                dateOut: PriceTagMarker.formatDate(destination.dateOut),
-                dateBack: PriceTagMarker.formatDate(destination.dateBack)
-            };
-
+            let param: flightSearchParameters = this.buildDestinationProp(destination);
             this.setState({
                 markerDestination: param
             });

@@ -218,12 +218,13 @@
 
     // end cut & paste from wj mobile-css
 
-    .hidden-panel {
-        display: none !important;
+    .app-wrapper {
+        height: calc(100vh - 180px);
+        top: 60px;
     }
 
-    .App {
-        min-height: calc(100vh - 58px) !important;
+    .hidden-panel {
+        display: none !important;
     }
 
     .modal-dialog {
@@ -235,17 +236,6 @@
         font-size: 12px;
         margin: 0;
         padding: 4px;
-    }
-
-    .background {
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        display: flex;
-        background-color: rgba(0, 0, 0, 0.38);
-        touch-action: none;
-        position: absolute;
     }
 
     .MuiPaper-root {
@@ -264,9 +254,42 @@
         }
     }
 
-    @media #{$mobileLandscape} {
-        .modal-open .modal.in.center {
-            display: block !important;
+    #footer,
+    .footer-disclaimer {
+        display: none;
+    }
+
+    footer {
+        padding: 0 12px 0 12px !important;
+        position: absolute;
+        bottom: 44px;
+    }
+
+    .mobile-footer-disclaimer {
+        margin-bottom: 10px;
+        line-height: 1.5em;
+        display: flex;
+
+        .footer-disclaimer-message {
+            flex-grow: 3;
         }
+
+        .footer-disclaimer-button {
+            flex-grow: 1;
+            margin-left: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .modal-body {
+        font-size: 0.9em !important;
+    }
+}
+
+@media #{$mobileLandscape} {
+    .modal-open .modal.in.center {
+        display: block !important;
     }
 }

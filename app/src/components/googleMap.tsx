@@ -14,10 +14,11 @@ import gMapConf from './gMapConf.json';
 import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
-import './googleMap.scss';
+import './styles/googleMap.scss';
 import { GoogleClusterIntf, GoogleMarkerClustererInf, GoogleMarkerIntf } from './clusteringHelpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
 
 interface MapProp {
     error?: string;
@@ -170,6 +171,8 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         fetchDepartureAirport(this.departureAirportId, this.setDepartureCoordinates);
 
         const script = document.createElement('script');
+
+        // comment out but let' keep it here for now
         script.src =
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
         script.async = true;
@@ -555,7 +558,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         const isLoading = this.getDelayedLoader();
         this.loadDestinations();
         return (
-            <div>
+            <div className={classnames('app-wrapper', { 'full-screen-map-toggle': this.state.isFullScreen })}>
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: process.env.REACT_APP_GMAP_API_KEY || '',
@@ -563,13 +566,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     }}
                     defaultCenter={this.defaultCenter}
                     defaultZoom={this.mapProps.defaultZoom}
-                    style={{ height: '100%', width: '100%' }}
                     onChange={this.mapChanged}
                     onGoogleApiLoaded={this.onGoogleApiLoaded}
                     yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
                     options={{
                         fullscreenControl: false,
-                        gestureHandling: 'cooperative',
+                        gestureHandling: 'greedy',
                         maxZoom: this.mapProps.defaultZoom * 3,
 
                         minZoom: this.mapProps.defaultZoom * 0.8,
@@ -598,11 +600,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 {!SimpleMap.IsMobile() && (
                     <div>
                         {this.state.isFullScreen ? (
-                            <button className="my-btn" onClick={this.fullScreenToggle}>
+                            <button className="full-screen-switcher" onClick={this.fullScreenToggle}>
                                 <FontAwesomeIcon icon={faCompress} />
                             </button>
                         ) : (
-                            <button className="my-btn" onClick={this.fullScreenToggle}>
+                            <button className="full-screen-switcher" onClick={this.fullScreenToggle}>
                                 <FontAwesomeIcon icon={faExpand} />
                             </button>
                         )}
