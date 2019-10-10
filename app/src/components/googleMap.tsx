@@ -600,11 +600,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 {!SimpleMap.IsMobile() && (
                     <div>
                         {this.state.isFullScreen ? (
-                            <button className="my-btn" onClick={this.fullScreenToggle}>
+                            <button className="full-screen-switcher" onClick={this.fullScreenToggle}>
                                 <FontAwesomeIcon icon={faCompress} />
                             </button>
                         ) : (
-                            <button className="my-btn" onClick={this.fullScreenToggle}>
+                            <button className="full-screen-switcher" onClick={this.fullScreenToggle}>
                                 <FontAwesomeIcon icon={faExpand} />
                             </button>
                         )}
