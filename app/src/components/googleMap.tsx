@@ -16,7 +16,8 @@ import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
 import './googleMap.scss';
 import { GoogleClusterIntf, GoogleMarkerClustererInf, GoogleMarkerIntf } from './clusteringHelpers';
-import { flightSearchParameters, showModalWidget } from 'services/searchWidgetModalService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 
 interface MapProp {
     error?: string;
@@ -37,7 +38,7 @@ interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
     isLoading?: boolean;
     error?: string;
-    selectedAirportlabel: string; //label and Id is not the same thing
+    selectedAirportLabel: string; //label and Id is not the same thing
     departureAirportId: string;
     departureCoordinate: Coordinates;
     onPinHoverElement?: JSX.Element;
@@ -142,7 +143,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                 null,
                 new DatesInput(-1)
             ),
-            selectedAirportlabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
+            selectedAirportLabel: process.env.REACT_APP_DEFAULT_DEPARTURE_LABEL || '',
             departureAirportId: process.env.REACT_APP_DEFAULT_DEPARTURE_ID || '',
             departureCoordinate: new Coordinates(0, 0),
             isFullScreen: false
@@ -155,10 +156,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.cleanupPolyLines = this.cleanupPolyLines.bind(this);
         this.updateDepartureAirport = this.updateDepartureAirport.bind(this);
         this.setDepartureCoordinates = this.setDepartureCoordinates.bind(this);
-        this.toogleOnPinPriceMarker = this.toogleOnPinPriceMarker.bind(this);
+        this.toggleOnPinPriceMarker = this.toggleOnPinPriceMarker.bind(this);
         this.fullScreenToggle = this.fullScreenToggle.bind(this);
         this.fullScreenClickHelper = this.fullScreenClickHelper.bind(this);
-        this.showModal = this.showModal.bind(this);
         SimpleMap.IsMobile = SimpleMap.IsMobile.bind(this);
     }
 
@@ -177,12 +177,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
         this.googleMaps = maps;
-    }
-
-    showModal(params: flightSearchParameters) {
-        params.fromCity = this.state.selectedAirportlabel;
-        params.from = this.state.destinationsRequestModel.departureAirportId;
-        showModalWidget(params);
     }
 
     fullScreenToggle() {
@@ -271,7 +265,9 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             }
 
             if (this.previousDestinations === dests) {
-                return; // prevent recursion: performLoadDestinations will udpate state in callback eventually which will fire loadDestinations again
+                // prevent recursion: performLoadDestinations will update
+                // state in callback eventually which will fire loadDestinations again
+                return;
             }
             this.previousDestinations = dests;
             this.performLoadDestinations(dests);
@@ -323,13 +319,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                         key={key}
                         lat={record.lat} // to be consumed only by Maps API
                         lng={record.lng} // to be consumed only by Maps API
-                        showModal={this.showModal}
                         // properties used by marker component properties:
                         destinations={[convertDestination(record)]}
                         showAirportName={showAirportName}
                         forbidExpand={!sameCity}
                         fromCode={this.state.destinationsRequestModel.departureAirportId}
-                        fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                        fromLabel={this.state.selectedAirportLabel ? this.state.selectedAirportLabel : ''}
                         onMouseEnter={() => {
                             setTimeout(() => {
                                 this.drawPolyLine(record.lat, record.lng);
@@ -352,7 +347,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
                     hidableMarkerProps.onMouseLeave = () => {
                         onLeaveOriginal();
-                        self.toogleOnPinPriceMarker();
+                        self.toggleOnPinPriceMarker();
                         self.priceHovered = false;
                     };
                     hidableMarkerProps.onMouseEnter = () => {
@@ -369,13 +364,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             disabled={disabled}
                             onHover={() => {
                                 self.drawPolyLine(record.lat, record.lng);
-                                self.toogleOnPinPriceMarker(hidableMarker);
+                                self.toggleOnPinPriceMarker(hidableMarker);
                             }}
                             onLeave={() =>
                                 setTimeout(() => {
                                     if (!self.priceHovered) {
                                         // if price tag marker was hovered, no need to close it
-                                        self.toogleOnPinPriceMarker();
+                                        self.toggleOnPinPriceMarker();
                                     }
                                     if (!self.priceHovered) {
                                         self.cleanupPolyLines();
@@ -398,10 +393,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                             .sort(sortDestinationsDesc); // make sure they're sored. who knows whether google API keep markers sorted
 
                         const sameCity = false;
-                        //const sameCity = destsInCluster
-                        //    .map((d: IDestination) => d.cityName)
-                        //    .filter((value: string, index: number, self: string[]) => self.indexOf(value) === index)
-                        //    .length === 1;
 
                         const topMarker = destsInCluster[0];
 
@@ -410,19 +401,12 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                                 key={idx}
                                 lat={topMarker.lat}
                                 lng={topMarker.lng}
-                                showModal={this.showModal}
-                                //lat={cluster.getCenter().lat()}
-                                //lng={cluster.getCenter().lng()}
-                                // to display it in the middle of cluster
-                                // (onMouseEnter should also be updated then)
-                                // properties used by marker component properties:
                                 destinations={destsInCluster.map((record: IDestination) => convertDestination(record))}
                                 forbidExpand={!sameCity}
                                 fromCode={this.state.destinationsRequestModel.departureAirportId}
-                                fromLabel={this.state.selectedAirportlabel ? this.state.selectedAirportlabel : ''}
+                                fromLabel={this.state.selectedAirportLabel ? this.state.selectedAirportLabel : ''}
                                 onMouseEnter={() => {
                                     setTimeout(() => {
-                                        //this.drawPolyLine(cluster.getCenter().lat(), cluster.getCenter().lng());
                                         this.drawPolyLine(topMarker.lat, topMarker.lng);
                                     }, 50);
                                 }}
@@ -478,7 +462,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.googleMaps.map.fitBounds(cluster.getBounds());
     }
 
-    toogleOnPinPriceMarker(element?: JSX.Element) {
+    toggleOnPinPriceMarker(element?: JSX.Element) {
         this.setState({
             onPinHoverElement: element
         });
@@ -521,7 +505,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         if (selectedAirportLabel) {
             this.setState({
-                selectedAirportlabel: selectedAirportLabel
+                selectedAirportLabel: selectedAirportLabel
             });
         }
         // initiate fetching destinations here
@@ -548,7 +532,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
             currentMode.searchArea.se.lng += 360;
         }
 
-        this.requestDestinationsUpdate(currentMode, this.state.selectedAirportlabel);
+        this.requestDestinationsUpdate(currentMode, this.state.selectedAirportLabel);
         if (this.flightPathPolyLine) {
             this.flightPathPolyLine.setMap(null);
         }
@@ -576,7 +560,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
                         minZoom: this.state.mapProps.defaultZoom * 0.8,
                         minZoomOverride: true,
-                        // disableDefaultUI: true,
                         zoomControl: this.state.mapProps.zoomControl,
                         scrollwheel: this.state.mapProps.scrollwheel,
                         styles: gMapConf.styles as MapTypeStyle[]
@@ -602,25 +585,11 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                     <div>
                         {this.state.isFullScreen ? (
                             <button className="my-btn" onClick={this.fullScreenToggle}>
-                                <img
-                                    alt=""
-                                    src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20d%3D%22M4%2C4H0v2h6V0H4V4z%20M14%2C4V0h-2v6h6V4H14z%20M12%2C18h2v-4h4v-2h-6V18z%20M0%2C14h4v4h2v-6H0V14z%22%2F%3E%0A%3C%2Fsvg%3E%0A"
-                                />
-                                <img
-                                    alt=""
-                                    src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23111%22%20d%3D%22M4%2C4H0v2h6V0H4V4z%20M14%2C4V0h-2v6h6V4H14z%20M12%2C18h2v-4h4v-2h-6V18z%20M0%2C14h4v4h2v-6H0V14z%22%2F%3E%0A%3C%2Fsvg%3E%0A"
-                                />
+                                <FontAwesomeIcon icon={faCompress} />
                             </button>
                         ) : (
                             <button className="my-btn" onClick={this.fullScreenToggle}>
-                                <img
-                                    alt=""
-                                    src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%20018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20d%3D%22M0%2C0v2v4h2V2h4V0H2H0z%20M16%2C0h-4v2h4v4h2V2V0H16z%20M16%2C16h-4v2h4h2v-2v-4h-2V16z%20M2%2C12H0v4v2h2h4v-2H2V12z%22%2F%3E%0A%3C%2Fsvg%3E%0A"
-                                />
-                                <img
-                                    alt=""
-                                    src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23111%22%20d%3D%22M0%2C0v2v4h2V2h4V0H2H0z%20M16%2C0h-4v2h4v4h2V2V0H16z%20M16%2C16h-4v2h4h2v-2v-4h-2V16z%20M2%2C12H0v4v2h2h4v-2H2V12z%22%2F%3E%0A%3C%2Fsvg%3E%0A"
-                                />
+                                <FontAwesomeIcon icon={faExpand} />
                             </button>
                         )}
                     </div>
