@@ -48,12 +48,13 @@ async function tryGetFromCache(
     lifetimeSec: number,
     factory: (req: BaseFlightDestinationRequest) => Promise<ResposneIntf>
 ): Promise<ResposneIntf> {
-    if (!window.sessionStorage) {
+    const storage = sessionStorage || window.sessionStorage;
+    if (!storage) {
         return factory(req);
     }
     const key = `${req.departureAirportId}_${req.dates.monthidx}`;
 
-    const value = window.sessionStorage.getItem(key);
+    const value = storage.getItem(key);
     if (value) {
         const keyItem: StorageDataIntf = JSON.parse(value);
         if (keyItem && Date.now() < keyItem.expiresAt) {
@@ -67,7 +68,7 @@ async function tryGetFromCache(
             response: result,
             expiresAt: Date.now() + lifetimeSec * 1000
         };
-        window.sessionStorage.setItem(key, JSON.stringify(valueObj));
+        storage.setItem(key, JSON.stringify(valueObj));
     });
     return promise;
 }
