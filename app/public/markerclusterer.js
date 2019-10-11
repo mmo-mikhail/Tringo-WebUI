@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @name MarkerClusterer for Google Maps v3
  * @version version 1.0.1
