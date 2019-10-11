@@ -168,6 +168,10 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.minLoaderShowMs = parseInt(process.env.REACT_APP_LOADER_SHOW_MIN_TIME_MS || '');
     }
 
+    componentDidMount(): void {
+        fetchDepartureAirport(this.departureAirportId, this.setDepartureCoordinates);
+    }
+
     onGoogleApiLoaded(maps: GoogleMapObj) {
         this.googleMaps = maps;
     }
