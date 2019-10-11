@@ -1,3 +1,14 @@
 @import '../../styles/utilities';
 @media #{$mobile} {
+    .filter-widget-wrapper {
+        max-height: $filterPanelHeight__mobile;
+    }
+    .loader-container {
+        top: $filterPanelHeight__mobile;
+        z-index: 4;
+    }
+
+    .app-wrapper {
+        min-height: 70vh;
+    }
 }

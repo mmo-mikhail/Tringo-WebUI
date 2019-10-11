@@ -28,6 +28,7 @@ export interface DestinationProp {
     destination: string;
     airportName?: string;
     destinationCode: string;
+    destinationCountryName: string;
     priority: number;
     dateOut: Date;
     dateBack: Date;
@@ -71,18 +72,16 @@ export class PriceTagMarker extends Component<MarkerProps, MarkerState> {
         this.buildDestinationProp = this.buildDestinationProp.bind(this);
     }
 
-    buildDestinationProp(destination: DestinationProp): flightSearchParameters {
-        let param: flightSearchParameters = {
-            from: this.props.fromCode,
-            fromCity: this.props.fromLabel,
-            to: destination.destinationCode,
-            toCity: `${destination.destination} - ${destination.airportName} (${destination.destinationCode})`,
-            tripType: 'Return',
-            dateOut: PriceTagMarker.formatDate(destination.dateOut),
-            dateBack: PriceTagMarker.formatDate(destination.dateBack)
-        };
-        return param;
-    }
+    buildDestinationProp = (destination: DestinationProp): flightSearchParameters => ({
+        from: this.props.fromCode,
+        fromCity: this.props.fromLabel,
+        to: destination.destinationCode,
+        // eslint-disable-next-line max-len
+        toCity: `${destination.destination}, ${destination.destinationCountryName} - ${destination.airportName} (${destination.destinationCode})`,
+        tripType: 'Return',
+        dateOut: PriceTagMarker.formatDate(destination.dateOut),
+        dateBack: PriceTagMarker.formatDate(destination.dateBack)
+    });
 
     componentDidMount(): void {
         const destination = this.props.destinations[0];

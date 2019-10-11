@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,max-len */
 import * as React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact, { ChangeEventValue, MapTypeStyle } from 'google-map-react';
@@ -28,7 +28,7 @@ interface MapProp {
     fetchDestinations: (arg: FlightDestinationRequest) => {};
 }
 
-type DrawerSide = 'cooperative' | 'auto';
+type MapHandling = 'cooperative' | 'auto' | 'greedy';
 
 interface MapState {
     destinationsRequestModel: FlightDestinationRequest;
@@ -45,7 +45,7 @@ interface MapInitProps {
     defaultZoom: number;
     zoomControl: boolean;
     scrollwheel: boolean;
-    gestureHandling: DrawerSide;
+    gestureHandling: MapHandling;
 }
 
 interface GoogleMapObj {
@@ -73,6 +73,7 @@ const convertDestination = function(record: IDestination): DestinationProp {
     return {
         destination: record.cityName,
         destinationCode: record.destAirportCode,
+        destinationCountryName: record.countryName,
         airportName: record.airportName,
         priority: record.personalPriorityIdx,
         dateOut: record.flightDates.departureDate,
@@ -108,13 +109,13 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                   defaultZoom: gMapConf.defaultMobileZoom as number,
                   zoomControl: false,
                   scrollwheel: false,
-                  gestureHandling: 'cooperative'
+                  gestureHandling: 'greedy'
               }
             : {
                   defaultZoom: gMapConf.defaultDesktopZoom as number,
                   zoomControl: true,
                   scrollwheel: true,
-                  gestureHandling: 'auto'
+                  gestureHandling: 'greedy'
               };
 
     private googleMaps?: GoogleMapObj;
@@ -165,21 +166,6 @@ class SimpleMap extends React.Component<MapProp, MapState> {
 
         this.lastRequestTimeMs = Date.now();
         this.minLoaderShowMs = parseInt(process.env.REACT_APP_LOADER_SHOW_MIN_TIME_MS || '');
-    }
-
-    componentDidMount(): void {
-        fetchDepartureAirport(this.departureAirportId, this.setDepartureCoordinates);
-
-        const script = document.createElement('script');
-
-        // comment out but let' keep it here for now
-        script.src =
-            'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
-        script.async = true;
-        script.onload = (_: Event) => {
-            window.ClusterIcon.prototype.show = () => {}; // trick to ensure clusters are hidden
-        };
-        document.body.appendChild(script);
     }
 
     onGoogleApiLoaded(maps: GoogleMapObj) {
@@ -559,40 +545,47 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         this.loadDestinations();
         return (
             <div className={classnames('app-wrapper', { 'full-screen-map-toggle': this.state.isFullScreen })}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{
-                        key: process.env.REACT_APP_GMAP_API_KEY || '',
-                        language: 'en'
-                    }}
-                    defaultCenter={this.defaultCenter}
-                    defaultZoom={this.mapProps.defaultZoom}
-                    onChange={this.mapChanged}
-                    onGoogleApiLoaded={this.onGoogleApiLoaded}
-                    yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
-                    options={{
-                        fullscreenControl: false,
-                        gestureHandling: 'greedy',
-                        maxZoom: this.mapProps.defaultZoom * 3,
+                <div className={'filter-widget-wrapper'}>
+                    <SearchWidgetWrapper
+                        onChange={this.requestDestinationsUpdate}
+                        initialModel={this.state.destinationsRequestModel}
+                        updateDepartureAirport={this.updateDepartureAirport}
+                        isFullScreen={!!this.state.isFullScreen}
+                    />
+                </div>
+                <div className={'map-wrapper-container'}>
+                    <div className={'map-row-wrapper'}>
+                        <GoogleMapReact
+                            bootstrapURLKeys={{
+                                key: process.env.REACT_APP_GMAP_API_KEY || '',
+                                language: 'en'
+                            }}
+                            defaultCenter={this.defaultCenter}
+                            defaultZoom={this.mapProps.defaultZoom}
+                            onChange={this.mapChanged}
+                            onGoogleApiLoaded={this.onGoogleApiLoaded}
+                            yesIWantToUseGoogleMapApiInternals={true} // because we want to access PolyLine
+                            options={{
+                                fullscreenControl: false,
+                                gestureHandling: this.mapProps.gestureHandling,
+                                maxZoom: this.mapProps.defaultZoom * 3,
 
-                        minZoom: this.mapProps.defaultZoom * 0.8,
-                        minZoomOverride: true,
-                        zoomControl: this.mapProps.zoomControl,
-                        scrollwheel: this.mapProps.scrollwheel,
-                        styles: gMapConf.styles as MapTypeStyle[]
-                    }}
-                >
-                    {this.state.markers}
-                    {this.renderDepartureAirport()}
-                    {this.state.onPinHoverElement}
-                </GoogleMapReact>
-                <SearchWidgetWrapper
-                    onChange={this.requestDestinationsUpdate}
-                    initialModel={this.state.destinationsRequestModel}
-                    updateDepartureAirport={this.updateDepartureAirport}
-                    isFullScreen={!!this.state.isFullScreen}
-                />
+                                minZoom: this.mapProps.defaultZoom * 0.8,
+                                minZoomOverride: true,
+                                zoomControl: this.mapProps.zoomControl,
+                                scrollwheel: this.mapProps.scrollwheel,
+                                styles: gMapConf.styles as MapTypeStyle[]
+                            }}
+                        >
+                            {this.state.markers}
+                            {this.renderDepartureAirport()}
+                            {this.state.onPinHoverElement}
+                        </GoogleMapReact>
+                    </div>
+                </div>
+
                 {isLoading && (
-                    <div className="loader-container" id="color-linear-progress">
+                    <div className="loader-container">
                         <ColorLinearProgress />
                     </div>
                 )}

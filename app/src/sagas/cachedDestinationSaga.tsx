@@ -48,7 +48,7 @@ async function tryGetFromCache(
     lifetimeSec: number,
     factory: (req: BaseFlightDestinationRequest) => Promise<ResposneIntf>
 ): Promise<ResposneIntf> {
-    const storage = localStorage || window.localStorage;
+    const storage = sessionStorage || window.sessionStorage;
     if (!storage) {
         return factory(req);
     }
@@ -63,7 +63,7 @@ async function tryGetFromCache(
     }
 
     const promise = factory(req);
-    promise.then((result: ResposneIntf) => {
+    await promise.then((result: ResposneIntf) => {
         const valueObj: StorageDataIntf = {
             response: result,
             expiresAt: Date.now() + lifetimeSec * 1000
@@ -86,7 +86,7 @@ export function* fetchDestinationsSaga(action: IFlightsRequestAction) {
             axios.post('/api/v1/flights/GetAllLowestPrices', reqObj)
         );
 
-        var filteredData = filterData(action.model, response.data);
+        const filteredData = filterData(action.model, response.data);
 
         yield put(destinationAction.fetchDestinationsSuccess(filteredData));
     } catch (error) {

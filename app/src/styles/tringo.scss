@@ -11,17 +11,7 @@
     margin-left: 0;
 }
 
-.app-wrapper {
-    position: absolute;
-    width: 100%;
-}
-
 @media #{$not-mobile} {
-    .app-wrapper {
-        height: calc(100vh - 634px);
-        top: 91px;
-    }
-
     .mobile-footer-disclaimer {
         display: none;
     }

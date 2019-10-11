@@ -164,9 +164,8 @@
 
 @media #{$not-mobile} {
     .overlaid-content-wrapper {
-        top: -91px;
-
         .widget-container {
+            height: 92px;
             .background {
                 display: none;
             }
@@ -200,8 +199,6 @@
 
 @media #{$mobile} {
     .overlaid-content-wrapper {
-        top: -60px;
-
         .widget-container {
             background-color: #646464;
             box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2), 0 16px 24px 2px rgba(0, 0, 0, 0.14),
