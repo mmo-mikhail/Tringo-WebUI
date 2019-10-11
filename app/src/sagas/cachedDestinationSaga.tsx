@@ -48,7 +48,7 @@ async function tryGetFromCache(
     lifetimeSec: number,
     factory: (req: BaseFlightDestinationRequest) => Promise<ResposneIntf>
 ): Promise<ResposneIntf> {
-    const storage = sessionStorage || window.sessionStorage;
+    const storage = localStorage || window.localStorage;
     if (!storage) {
         return factory(req);
     }
