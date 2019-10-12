@@ -15,7 +15,13 @@ import { DestinationsState } from 'models/response/destinations';
 import { LinearProgress, withStyles } from '@material-ui/core';
 import { fetchDepartureAirport } from 'services/dataService';
 import './styles/googleMap.scss';
-import { GoogleClusterIntf, GoogleMarkerClustererInf, GoogleMarkerIntf } from './clusteringHelpers';
+import {
+    GoogleClusterIntf,
+    GoogleMarkerClustererInf,
+    GoogleMarkerIntf,
+    GoogleLatLng,
+    GoogleLatLngBounds
+} from './clusteringHelpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 import classnames from 'classnames';
@@ -49,8 +55,14 @@ interface MapInitProps {
 }
 
 interface GoogleMapObj {
-    map: { zoom: number; fitBounds: (bounds: any) => void };
-    maps: { Polyline: any; Marker: any; event: any };
+    map: { zoom: number; fitBounds: (bounds: any, padding?: number) => void };
+    maps: {
+        Polyline: any;
+        LatLng: GoogleLatLng;
+        LatLngBounds: GoogleLatLngBounds;
+        Marker: any;
+        event: any;
+    };
 }
 
 declare global {
@@ -327,7 +339,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                                 this.drawPolyLine(record.lat, record.lng);
                             }, 50);
                         }}
-                        customOnClick={!sameCity && cluster ? () => this.handleClusterClick(cluster) : undefined}
+                        customOnClick={!sameCity && cluster ? () => this.zoomIn(cluster) : undefined}
                         onMouseLeave={this.cleanupPolyLines}
                     />
                 );
@@ -407,7 +419,7 @@ class SimpleMap extends React.Component<MapProp, MapState> {
                                         this.drawPolyLine(topMarker.lat, topMarker.lng);
                                     }, 50);
                                 }}
-                                customOnClick={!sameCity ? () => this.handleClusterClick(cluster) : undefined}
+                                customOnClick={!sameCity ? () => this.zoomIn(cluster) : undefined}
                                 onMouseLeave={this.cleanupPolyLines}
                             />
                         );
@@ -451,12 +463,27 @@ class SimpleMap extends React.Component<MapProp, MapState> {
         );
     }
 
-    handleClusterClick(cluster: GoogleClusterIntf) {
-        if (!this.googleMaps) {
+    zoomIn(cluster: GoogleClusterIntf) {
+        if (!this.googleMaps || !cluster.markers_) {
             return;
         }
         // zoom in
-        this.googleMaps.map.fitBounds(cluster.getBounds());
+        const prevZoom = this.googleMaps.map.zoom;
+        const bounds = cluster.getBounds();
+        this.googleMaps.map.fitBounds(bounds, 20);
+        if (this.googleMaps.map.zoom === prevZoom) {
+            // only on some mobiles in landscape mode zoom may not work properly, no manually reduce bounds:
+            const strength = 1.1;
+            var newne = new this.googleMaps.maps.LatLng(
+                bounds.getNorthEast().lat() - strength,
+                bounds.getNorthEast().lng() - strength
+            );
+            var newsw = new this.googleMaps.maps.LatLng(
+                bounds.getSouthWest().lat() + strength,
+                bounds.getSouthWest().lng() + strength
+            );
+            this.googleMaps.map.fitBounds(new this.googleMaps.maps.LatLngBounds(newsw, newne));
+        }
     }
 
     toggleOnPinPriceMarker(element?: JSX.Element) {
