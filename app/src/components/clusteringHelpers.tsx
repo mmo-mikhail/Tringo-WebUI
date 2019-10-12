@@ -12,8 +12,7 @@ export interface GoogleMarkerIntf {
 }
 
 export interface GoogleClusterIntf {
-    bounds_: Position;
-    getBounds: () => Position;
+    getBounds: () => GoogleLatLngBounds;
     getCenter: () => Position;
     markers_: GoogleMarkerIntf[];
     getMarkers: () => GoogleMarkerIntf[];
@@ -31,4 +30,18 @@ export interface GoogleMarkerClustererInf {
     ready_: boolean;
     setMap: (v: any) => void;
     clearMarkers: () => void;
+}
+
+export interface GoogleLatLng {
+    new (lat: number, lng: number): GoogleLatLng;
+
+    lat: () => number;
+    lng: () => number;
+}
+
+export interface GoogleLatLngBounds {
+    new (sw: GoogleLatLng, nw: GoogleLatLng): GoogleLatLngBounds;
+
+    getNorthEast: () => GoogleLatLng;
+    getSouthWest: () => GoogleLatLng;
 }
