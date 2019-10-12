@@ -14,6 +14,7 @@
     body {
         margin: 0;
     }
+
     article,
     aside,
     details,
@@ -218,11 +219,6 @@
 
     // end cut & paste from wj mobile-css
 
-    .app-wrapper {
-        height: calc(100vh - 180px);
-        top: 60px;
-    }
-
     .hidden-panel {
         display: none !important;
     }
@@ -254,15 +250,46 @@
         }
     }
 
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    body {
+        position: relative;
+    }
+
+    header {
+        //position: fixed!important;
+        //width: 100%;
+    }
+    #content-wrapper {
+        position: fixed;
+        width: 100%;
+    }
+
+    #main-container {
+        flex: inherit !important;
+        width: 100%;
+        height: 100vh;
+    }
+
     #footer,
     .footer-disclaimer {
         display: none;
     }
 
+    .App {
+        //height: calc(100vh - 220px);
+    }
+
     footer {
+        position: fixed;
+        bottom: 0;
         padding: 0 12px 0 12px !important;
-        position: absolute;
-        bottom: 44px;
+        min-height: 44px;
+        width: 100%;
+        font-size: smaller;
     }
 
     .mobile-footer-disclaimer {
@@ -275,8 +302,9 @@
         }
 
         .footer-disclaimer-button {
+            font-size: larger;
             flex-grow: 1;
-            margin-left: 5px;
+            margin-left: 2rem;
             display: flex;
             justify-content: center;
             align-items: center;

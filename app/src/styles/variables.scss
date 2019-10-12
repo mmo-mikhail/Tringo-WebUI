@@ -106,3 +106,8 @@ $not-mobile: 'only screen and (min-width: 960px)';
 $tablet: 'only screen and (min-width: 960px) and (max-width: 1280px)';
 $mobileAndTablet: 'only screen and (max-width: 1280px)';
 $desktop: 'only screen and (min-width: 1280px) and (max-width: 1920px)';
+
+// Filter-Panel
+$filterPanelHeight__desktop: 92px;
+$filterPanelHeight__mobile: 60px;
+$filterPanelHeight__desktop__fullscreen: 72px;

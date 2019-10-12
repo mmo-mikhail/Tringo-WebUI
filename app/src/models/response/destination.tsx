@@ -3,6 +3,7 @@ export interface IDestination {
     lng: number;
     price: number;
     cityName: string;
+    countryName: string;
     airportName?: string;
     destAirportCode: string;
     personalPriorityIdx: number;
