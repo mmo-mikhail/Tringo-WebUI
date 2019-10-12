@@ -101,3 +101,7 @@
         max-height: $filterPanelHeight__desktop__fullscreen;
     }
 }
+
+.gm-style-iw-a {
+    display: none !important; // hide info-window popup on marker click
+}
