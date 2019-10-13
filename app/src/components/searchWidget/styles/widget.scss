@@ -1,14 +1,22 @@
 @import '../../../styles/utilities';
 
+.overlaid-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+}
+
 .widget-container {
     text-transform: capitalize;
     padding: 10px;
-    z-index: 1;
+    z-index: 3;
     transition: background-color linear 0.15s;
     text-align: left;
 
     .widget-row {
         display: flex;
+
         .wj-rc-select {
             width: auto !important;
         }
@@ -19,11 +27,20 @@
             color: $mildWhite;
         }
 
+        .logo-in-widget {
+            margin: 0 30px;
+
+            img {
+                height: 52px;
+            }
+        }
+
         .departure-panel {
             text-align: left;
             height: 52px;
             flex-grow: 2;
             min-width: 350px;
+
             .rc-autocomplete__option {
                 text-transform: none;
 
@@ -73,10 +90,12 @@
 
         .budget-panel {
             flex-grow: 1;
+
             .range-slider {
                 background-color: white;
                 border-radius: 3px;
             }
+
             .widget-row-fill {
                 display: flex;
                 align-items: stretch;
@@ -129,7 +148,6 @@
                         width: calc(100% - #{$text-width} - 20px);
                         margin-right: 20px;
                         padding-top: 1px;
-
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -147,6 +165,7 @@
 @media #{$not-mobile} {
     .overlaid-content-wrapper {
         .widget-container {
+            height: 92px;
             .background {
                 display: none;
             }
@@ -161,6 +180,7 @@
             .widget-row {
                 flex-flow: row nowrap;
                 align-items: flex-start;
+
                 .date-panel {
                     margin-left: 1%;
                 }
@@ -183,9 +203,11 @@
             background-color: #646464;
             box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2), 0 16px 24px 2px rgba(0, 0, 0, 0.14),
                 0 6px 30px 5px rgba(0, 0, 0, 0.12);
+            z-index: 3;
 
             .widget-row {
                 justify-content: right;
+
                 .btn-standard {
                     display: flex;
                     justify-content: stretch;
@@ -200,6 +222,7 @@
                         margin-left: 1em;
                         display: flex;
                         justify-content: right;
+
                         &::after {
                             margin-left: auto;
                         }
@@ -253,6 +276,18 @@
                     margin-top: 5px;
                 }
             }
+        }
+
+        .background {
+            z-index: 1;
+            top: 60px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.38);
+            touch-action: none;
+            position: fixed;
         }
     }
 }

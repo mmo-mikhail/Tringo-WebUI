@@ -14,6 +14,7 @@
     body {
         margin: 0;
     }
+
     article,
     aside,
     details,
@@ -222,10 +223,6 @@
         display: none !important;
     }
 
-    .App {
-        min-height: calc(100vh - 58px) !important;
-    }
-
     .modal-dialog {
         overflow: visible;
     }
@@ -235,17 +232,6 @@
         font-size: 12px;
         margin: 0;
         padding: 4px;
-    }
-
-    .background {
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        display: flex;
-        background-color: rgba(0, 0, 0, 0.38);
-        touch-action: none;
-        position: absolute;
     }
 
     .MuiPaper-root {
@@ -264,9 +250,87 @@
         }
     }
 
-    @media #{$mobileLandscape} {
-        .modal-open .modal.in.center {
-            display: block !important;
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    body {
+        position: relative;
+    }
+
+    header {
+        //position: fixed!important;
+        //width: 100%;
+    }
+    #content-wrapper {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        min-height: inherit !important;
+    }
+
+    #main-container {
+        flex: inherit !important;
+        width: 100%;
+        height: 100vh;
+    }
+
+    #footer,
+    .footer-disclaimer {
+        display: none;
+    }
+
+    #root {
+        height: 100%;
+
+        .App {
+            height: 100%;
         }
+
+        .app-wrapper {
+            height: 100%;
+        }
+    }
+
+    footer {
+        padding: 0 12px 0 12px !important;
+        min-height: 20px;
+        width: 100%;
+        font-size: smaller;
+    }
+
+    .mobile-footer-disclaimer {
+        margin: 8px 0;
+        line-height: 1.5em;
+        display: flex;
+
+        .footer-disclaimer-message {
+            flex-grow: 3;
+            font-size: 0.9rem;
+        }
+
+        .footer-disclaimer-button {
+            font-size: larger;
+            flex-grow: 1;
+            margin-left: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .modal-body {
+        font-size: 0.9em !important;
+    }
+
+    .footer_copyright {
+        display: none;
+    }
+}
+
+@media #{$mobileLandscape} {
+    .modal-open .modal.in.center {
+        display: block !important;
     }
 }

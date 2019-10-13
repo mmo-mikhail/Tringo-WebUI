@@ -3,27 +3,22 @@
 
 .App {
     text-align: center;
-    min-height: 768px;
 }
 
-.App-logo {
-    animation: App-logo-spin infinite 20s linear;
-    height: 40vmin;
-    pointer-events: none;
+.fees-linked-text {
+    color: #0060bb !important;
+    text-decoration: none !important;
+    margin-left: 0;
 }
 
-.App-header {
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.footer-disclaimer {
-    margin-bottom: 0.5rem;
+@media #{$not-mobile} {
+    .mobile-footer-disclaimer {
+        display: none;
+    }
+    #footer,
+    .footer-disclaimer {
+        display: inherit !important;
+    }
 }
 
 // search widget overrides  begin

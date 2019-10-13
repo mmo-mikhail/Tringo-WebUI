@@ -12,6 +12,7 @@ interface SearchWidgetWrapperProps {
     onChange: (model: FlightDestinationRequest, selectedAirportLabel: string | null) => void;
     updateDepartureAirport: (departureAirportCode: string) => void;
     initialModel: FlightDestinationRequest;
+    isFullScreen: boolean;
 }
 
 interface SearchWidgetWrapperState {
@@ -86,7 +87,7 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
 
         return (
             <div className="overlaid-content-wrapper">
-                <div className="widget-container" >
+                <div className="widget-container">
                     <div
                         role={'button'}
                         tabIndex={0}
@@ -114,6 +115,16 @@ class SearchWidgetWrapper extends Component<SearchWidgetWrapperProps, SearchWidg
                             'hidden-panel': !this.state.mobilePanelOpenState
                         })}
                     >
+                        {this.props.isFullScreen && (
+                            <div className="logo-in-widget">
+                                <a href="//www.webjet.com.au" title="Webjet">
+                                    <img
+                                        src="https://www.webjet.com.au/wj-assets/images/webjet-flights-logo.png"
+                                        alt="Webjet logo"
+                                    />
+                                </a>
+                            </div>
+                        )}
                         <div className="search-cell">
                             <span className="filter-title">Departing from</span>
                             <Autocomplete
