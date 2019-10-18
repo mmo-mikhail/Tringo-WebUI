@@ -10,20 +10,25 @@ describe('marker Resposne', () => {
         key: 1,
         lat: 2,
         lng: 3,
-        onMouseEnter: () => {},
-        onMouseLeave: () => {},
+        fromCode: 'mel',
+        fromLabel: 'Melbourne',
         destinations: [
             {
                 destination: 'Lon',
+                airportName:'London Airport',
                 destinationCode: 'London',
+                destinationCountryName:'UK',
                 priority: 2,
                 dateOut: new Date(2019, 10, 1),
                 dateBack: new Date(2019, 10, 16),
                 price: 100
             }
         ],
-        fromCode: 'mel',
-        fromLabel: 'Melbourne'
+        onMouseEnter: () => {},
+        onMouseLeave: () => {},
+        customOnClick: () => {},
+        forbidExpand: true,
+        showAirportName: true
     };
 
     it('should not be null', () => {
