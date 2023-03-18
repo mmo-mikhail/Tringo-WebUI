@@ -44,7 +44,7 @@
     "react-highlight-words": "^0.16.0",
     "react-iframe": "^1.8.0",
     "react-redux": "^7.1.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-select": "^2.4.4",
     "redux": "^4.0.4",
     "redux-immutable": "^4.0.0",
